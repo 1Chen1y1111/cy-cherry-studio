@@ -16,8 +16,7 @@ const Conversations: FC<Props> = ({ conversations, activeConversation, onSelectC
           <Conversation
             key={conversation.id}
             className={conversation.id === activeConversation?.id ? 'active' : ''}
-            onClick={() => onSelectConversation(conversation)}
-          >
+            onClick={() => onSelectConversation(conversation)}>
             <ConversationTime>{conversation.lastMessageAt}</ConversationTime>
             <ConversationName>{conversation.name}</ConversationName>
             <ConversationLastMessage>{conversation.lastMessage}</ConversationLastMessage>

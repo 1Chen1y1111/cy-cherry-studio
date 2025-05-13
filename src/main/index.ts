@@ -1,15 +1,22 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
+import windowStateKeeper from 'electron-window-state'
 import { join } from 'path'
 
 import icon from '../../resources/icon.png?asset'
-import { initStore } from './store'
 
 function createWindow(): void {
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: 900,
+    defaultHeight: 670
+  })
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     minWidth: 800,
     minHeight: 500,
     show: false,
@@ -57,8 +64,6 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
-
-  initStore()
 
   createWindow()
 
