@@ -21,7 +21,6 @@ const Container = styled.div`
   left: var(--sidebar-width);
   right: 0;
   background-color: #0b0a09;
-  color: #fff;
 `
 
 const StatusbarLeft = styled.div`

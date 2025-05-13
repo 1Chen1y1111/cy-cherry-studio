@@ -17,18 +17,24 @@ const Sidebar: FC = () => {
       <MainMenus>
         <Menus>
           <StyledLink to="/">
-            <Icon className={isRoute('/')}>D</Icon>
+            <Icon className={isRoute('/')}>
+              <i className="iconfont icon-chat"></i>
+            </Icon>
           </StyledLink>
 
           <StyledLink to="/apps">
-            <Icon className={isRoute('/apps')}>A</Icon>
+            <Icon className={isRoute('/apps')}>
+              <i className="iconfont icon-appstore"></i>
+            </Icon>
           </StyledLink>
         </Menus>
       </MainMenus>
 
       <Menus>
         <StyledLink to="/settings">
-          <Icon className={pathname.startsWith('/settings') ? 'active' : ''}>S</Icon>
+          <Icon className={pathname.startsWith('/settings') ? 'active' : ''}>
+            <i className="iconfont icon-setting"></i>
+          </Icon>
         </StyledLink>
       </Menus>
     </Container>
@@ -84,14 +90,14 @@ const Icon = styled.div`
     text-decoration: none;
   }
   &:hover {
-    background-color: pink;
+    background-color: #ffffff20;
     cursor: pointer;
     .iconfont {
       color: var(--color-icon-white);
     }
   }
   &.active {
-    background-color: #1472ff;
+    background-color: #ffffff30;
     .iconfont {
       color: var(--color-icon-white);
     }

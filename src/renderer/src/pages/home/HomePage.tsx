@@ -1,49 +1,88 @@
 import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
+import useConversations from '@renderer/hooks/useConversations'
 import { FC } from 'react'
 import styled from 'styled-components'
 
+import Chat from './components/Chat'
+import Conversations from './components/Conversations'
+
 const HomePage: FC = () => {
+  const { conversations, activeConversation, setActiveConversation, addConversation } = useConversations()
+
+  const onCreateConversation = () => {
+    const _conversation = {
+      id: Math.random().toString(),
+      name: 'New Conversation',
+      avatar: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+      lastMessage: 'message',
+      lastMessageAt: 'now'
+    }
+    addConversation(_conversation)
+    setActiveConversation(_conversation)
+  }
+
   return (
-    <MainContainer>
+    <Container>
       <Navbar>
-        <NavbarLeft />
+        <NavbarLeft style={{ justifyContent: 'flex-end' }}>
+          <NewButton onClick={onCreateConversation}>
+            <i className="iconfont icon-a-addchat"></i>
+          </NewButton>
+        </NavbarLeft>
+
         <NavbarCenter>Cy-Cherry AI</NavbarCenter>
+
         <NavbarRight />
       </Navbar>
 
       <ContentContainer>
-        <Conversations />
-        <Chat />
+        <Conversations
+          conversations={conversations}
+          activeConversation={activeConversation}
+          onSelectConversation={setActiveConversation}
+        />
+
+        <Chat activeConversation={activeConversation} />
+
         <Settings />
       </ContentContainer>
-    </MainContainer>
+    </Container>
   )
 }
 
-const MainContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  height: 100%;
 `
 
 const ContentContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-`
-
-const Conversations = styled.div`
-  display: flex;
-  min-width: var(--conversations-width);
-  border-right: 1px solid #ffffff20;
   height: 100%;
 `
 
-const Chat = styled.div`
+const NewButton = styled.div`
+  -webkit-app-region: none;
+  border-radius: 4px;
+  width: 34px;
+  height: 34px;
   display: flex;
-  height: 100%;
-  flex: 1;
-  border-right: 1px solid #ffffff20;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  color: var(--color-icon);
+  .iconfont {
+    font-size: 22px;
+  }
+  &:hover {
+    background-color: var(--color-background-soft);
+    cursor: pointer;
+    color: var(--color-icon-white);
+  }
 `
 
 const Settings = styled.div`

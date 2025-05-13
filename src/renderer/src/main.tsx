@@ -1,3 +1,6 @@
+import './init'
+import './assets/css/base.css'
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 

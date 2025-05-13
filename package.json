@@ -27,7 +27,8 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource/inter": "^5.2.5",
     "electron-updater": "^6.3.9",
-    "electron-window-state": "^5.0.3"
+    "electron-window-state": "^5.0.3",
+    "localforage": "^1.10.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
