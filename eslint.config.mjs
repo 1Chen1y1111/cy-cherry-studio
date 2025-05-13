@@ -1,31 +1,68 @@
+import electronConfigPrettier from '@electron-toolkit/eslint-config-prettier'
 import tseslint from '@electron-toolkit/eslint-config-ts'
-import eslintConfigPrettier from '@electron-toolkit/eslint-config-prettier'
-import eslintPluginReact from 'eslint-plugin-react'
-import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
-import eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
+import eslint from '@eslint/js'
+import eslintReact from '@eslint-react/eslint-plugin'
+import { defineConfig } from 'eslint/config'
+import reactHooks from 'eslint-plugin-react-hooks'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import unusedImports from 'eslint-plugin-unused-imports'
 
-export default tseslint.config(
-  { ignores: ['**/node_modules', '**/dist', '**/out'] },
+export default defineConfig([
+  eslint.configs.recommended,
   tseslint.configs.recommended,
-  eslintPluginReact.configs.flat.recommended,
-  eslintPluginReact.configs.flat['jsx-runtime'],
+  electronConfigPrettier,
+  eslintReact.configs['recommended-typescript'],
+  reactHooks.configs['recommended-latest'],
   {
-    settings: {
-      react: {
-        version: 'detect'
-      }
-    }
-  },
-  {
-    files: ['**/*.{ts,tsx}'],
     plugins: {
-      'react-hooks': eslintPluginReactHooks,
-      'react-refresh': eslintPluginReactRefresh
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports
     },
     rules: {
-      ...eslintPluginReactHooks.configs.recommended.rules,
-      ...eslintPluginReactRefresh.configs.vite.rules
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      'unused-imports/no-unused-imports': 'error',
+      '@eslint-react/no-prop-types': 'error',
+      'prettier/prettier': ['error', { endOfLine: 'auto' }]
     }
   },
-  eslintConfigPrettier
-)
+  // Configuration for ensuring compatibility with the original ESLint(8.x) rules
+  ...[
+    {
+      rules: {
+        '@typescript-eslint/no-require-imports': 'off',
+        '@typescript-eslint/no-unused-vars': ['error', { caughtErrors: 'none' }],
+        '@typescript-eslint/no-unused-expressions': 'off',
+        '@typescript-eslint/no-empty-object-type': 'off',
+        '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
+        '@eslint-react/web-api/no-leaked-event-listener': 'off',
+        '@eslint-react/web-api/no-leaked-timeout': 'off',
+        '@eslint-react/no-unknown-property': 'off',
+        '@eslint-react/no-nested-component-definitions': 'off',
+        '@eslint-react/dom/no-dangerously-set-innerhtml': 'off',
+        '@eslint-react/no-array-index-key': 'off',
+        '@eslint-react/no-unstable-default-props': 'off',
+        '@eslint-react/no-unstable-context-value': 'off',
+        '@eslint-react/hooks-extra/prefer-use-state-lazy-initialization': 'off',
+        '@eslint-react/hooks-extra/no-unnecessary-use-prefix': 'off',
+        '@eslint-react/no-children-to-array': 'off'
+      }
+    }
+  ],
+  {
+    ignores: [
+      'node_modules/**',
+      'build/**',
+      'dist/**',
+      'out/**',
+      'local/**',
+      '.yarn/**',
+      '.gitignore',
+      'scripts/cloudflare-worker.js',
+      'src/main/integration/nutstore/sso/lib/**'
+    ]
+  }
+])

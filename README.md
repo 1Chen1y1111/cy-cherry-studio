@@ -1,4 +1,4 @@
-# cherry-studio
+# cy-cherry-studio-clone
 
 An Electron application with React and TypeScript
 
