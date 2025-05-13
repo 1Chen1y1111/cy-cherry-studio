@@ -1,24 +1,24 @@
 import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
-import useConversations from '@renderer/hooks/useConversations'
+import useThreads from '@renderer/hooks/useThreads'
 import { FC } from 'react'
 import styled from 'styled-components'
 
 import Chat from './components/Chat'
-import Conversations from './components/Conversations'
+import Threads from './components/Threads'
 
 const HomePage: FC = () => {
-  const { conversations, activeConversation, setActiveConversation, addConversation } = useConversations()
+  const { threads, activeThread, setActiveThread, addThread } = useThreads()
 
   const onCreateConversation = () => {
-    const _conversation = {
+    const _thread = {
       id: Math.random().toString(),
-      name: 'New Conversation',
+      name: 'New Thread',
       avatar: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
       lastMessage: 'message',
       lastMessageAt: 'now'
     }
-    addConversation(_conversation)
-    setActiveConversation(_conversation)
+    addThread(_thread)
+    setActiveThread(_thread)
   }
 
   return (
@@ -36,13 +36,9 @@ const HomePage: FC = () => {
       </Navbar>
 
       <ContentContainer>
-        <Conversations
-          conversations={conversations}
-          activeConversation={activeConversation}
-          onSelectConversation={setActiveConversation}
-        />
+        <Threads threads={threads} activeThread={activeThread} setActiveThread={setActiveThread} />
 
-        <Chat activeConversation={activeConversation} />
+        <Chat activeThread={activeThread} />
 
         <Settings />
       </ContentContainer>

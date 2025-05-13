@@ -4,10 +4,12 @@ import { Thread } from '@renderer/types'
 
 interface ThreadState {
   threads: Thread[]
+  activeThread: Thread | null
 }
 
 const initialState: ThreadState = {
-  threads: []
+  threads: [],
+  activeThread: null
 }
 
 const threadSlice = createSlice({
@@ -22,10 +24,13 @@ const threadSlice = createSlice({
     },
     updateThread: (state, action: PayloadAction<Thread>) => {
       state.threads = state.threads.map((c) => (c.id === action.payload.id ? action.payload : c))
+    },
+    setActiveThread: (state, action: PayloadAction<Thread>) => {
+      state.activeThread = action.payload
     }
   }
 })
 
-export const { addThread, removeThread, updateThread } = threadSlice.actions
+export const { addThread, removeThread, updateThread, setActiveThread } = threadSlice.actions
 
 export default threadSlice.reducer

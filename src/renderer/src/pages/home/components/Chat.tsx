@@ -3,11 +3,11 @@ import { FC } from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  activeConversation: Conversation | null
+  activeThread: Conversation | null
 }
 
-const Chat: FC<Props> = ({ activeConversation }) => {
-  return <Container>{activeConversation?.id}</Container>
+const Chat: FC<Props> = ({ activeThread }) => {
+  return <Container>{activeThread?.id}</Container>
 }
 
 const Container = styled.div`
