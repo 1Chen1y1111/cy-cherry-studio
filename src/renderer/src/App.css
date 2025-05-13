@@ -29,8 +29,6 @@
   --conversations-width: 240px;
   --settings-width: 320px;
   --status-bar-height: 48px;
-
-  --main-color: #1472ff;
 }
 
 :root {
@@ -116,4 +114,21 @@ body,
   display: flex;
   flex-direction: row;
   flex: 1;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #292f34;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #444c51;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #444c51;
 }
