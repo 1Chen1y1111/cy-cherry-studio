@@ -1,6 +1,4 @@
 import Logo from '@renderer/assets/images/logo.png'
-import AppIcon from '@renderer/assets/images/sidebar_app_active.png'
-import MessageIcon from '@renderer/assets/images/sidebar_message_active.png'
 import { FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
@@ -16,17 +14,22 @@ const Sidebar: FC = () => {
         <AvatarImg src={Logo} />
       </Avatar>
 
+      <MainMenus>
+        <Menus>
+          <StyledLink to="/">
+            <Icon className={isRoute('/')}>D</Icon>
+          </StyledLink>
+
+          <StyledLink to="/apps">
+            <Icon className={isRoute('/apps')}>A</Icon>
+          </StyledLink>
+        </Menus>
+      </MainMenus>
+
       <Menus>
-        <Link to="/">
-          <Icon className={isRoute('/')}>
-            <IconImage src={MessageIcon} />
-          </Icon>
-        </Link>
-        <Link to="/apps">
-          <Icon className={isRoute('/apps')}>
-            <IconImage src={AppIcon} />
-          </Icon>
-        </Link>
+        <StyledLink to="/settings">
+          <Icon className={isRoute('/settings')}>S</Icon>
+        </StyledLink>
       </Menus>
     </Container>
   )
@@ -39,19 +42,26 @@ const Container = styled.div`
   padding: 16px 0;
   min-width: var(--sidebar-width);
   min-height: 100%;
-  border-top: 1px solid #1472ff;
-  border-right: 1px solid #1472ff;
+  border-top: 1px solid #ffffff20;
+  border-right: 1px solid #ffffff20;
   margin-top: 47px;
+  padding-bottom: 52px;
 `
 
 const Avatar = styled.div``
+
 const AvatarImg = styled.img`
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background-color: var(--color-background-soft);
   margin: 5px 0;
 `
+const MainMenus = styled.div`
+  display: flex;
+  flex: 1;
+`
+
 const Menus = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,34 +69,37 @@ const Menus = styled.div`
 `
 
 const Icon = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 5px;
   transition: background-color 0.2s ease;
+  .iconfont {
+    color: var(--color-icon);
+    font-size: 22px;
+    transition: color 0.2s ease;
+    text-decoration: none;
+  }
   &:hover {
-    background-color: #1472ff;
+    background-color: pink;
     cursor: pointer;
-    .icon-img {
-      filter: invert(1);
+    .iconfont {
+      color: var(--color-icon-white);
     }
   }
   &.active {
     background-color: #1472ff;
-    .icon-img {
-      filter: invert(1);
+    .iconfont {
+      color: var(--color-icon-white);
     }
   }
 `
 
-const IconImage = styled.img`
-  width: 20px;
-  height: 20px;
-  filter: invert(0.6);
-  transition: filter 0.2s ease;
+const StyledLink = styled(Link)`
+  text-decoration: none;
 `
 
 export default Sidebar
