@@ -1,35 +1,32 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import styled from 'styled-components'
+
+import Sidebar from './components/app/Sidebar'
+import Statusbar from './components/app/Statusbar'
+import AppsPage from './pages/apps/AppsPage'
+import HomePage from './pages/home/HomePage'
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
-
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
+    <BrowserRouter>
+      <MainContainer>
+        <Sidebar />
+
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/apps" element={<AppsPage />} />
+        </Routes>
+
+        <Statusbar />
+      </MainContainer>
+    </BrowserRouter>
   )
 }
+
+const MainContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
 
 export default App
