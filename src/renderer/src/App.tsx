@@ -18,7 +18,7 @@ function App(): React.JSX.Element {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/apps" element={<AppsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/settings/*" element={<SettingsPage />} />
         </Routes>
 
         <Statusbar />

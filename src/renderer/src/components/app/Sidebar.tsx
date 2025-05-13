@@ -28,7 +28,7 @@ const Sidebar: FC = () => {
 
       <Menus>
         <StyledLink to="/settings">
-          <Icon className={isRoute('/settings')}>S</Icon>
+          <Icon className={pathname.startsWith('/settings') ? 'active' : ''}>S</Icon>
         </StyledLink>
       </Menus>
     </Container>
