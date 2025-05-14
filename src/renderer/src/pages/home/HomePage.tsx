@@ -9,11 +9,11 @@ import Chat from './components/Chat'
 import Threads from './components/Threads'
 
 const HomePage: FC = () => {
-  const { threads, activeThread, setActiveThread, addThread } = useThreads()
+  const { thread, threads, setThread, addThread } = useThreads()
 
   useEffect(() => {
-    !activeThread && setActiveThread(threads[0])
-  }, [activeThread, threads, setActiveThread])
+    !thread && threads[0] && setThread(threads[0])
+  }, [thread, threads, setThread])
 
   const onCreateThread = () => {
     const _thread: Thread = {
@@ -26,7 +26,7 @@ const HomePage: FC = () => {
     }
 
     addThread(_thread)
-    setActiveThread(_thread)
+    setThread(_thread)
   }
 
   return (
@@ -38,7 +38,7 @@ const HomePage: FC = () => {
           </NewButton>
         </NavbarLeft>
 
-        <NavbarCenter style={{ border: 'none' }}>{activeThread?.name}</NavbarCenter>
+        <NavbarCenter style={{ border: 'none' }}>{thread?.name}</NavbarCenter>
 
         <NavbarRight style={{ justifyContent: 'flex-end', padding: 5 }}>
           <NewButton>
@@ -50,7 +50,7 @@ const HomePage: FC = () => {
       <ContentContainer>
         <Threads />
 
-        <Chat />
+        {thread && <Chat thread={thread} />}
       </ContentContainer>
     </Container>
   )

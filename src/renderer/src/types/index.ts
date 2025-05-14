@@ -17,6 +17,11 @@ export type Message = {
 
 export type Conversation = {
   id: string
+  messages: Message[]
+}
+
+export type User = {
+  id: string
   name: string
   avatar: string
   email: string

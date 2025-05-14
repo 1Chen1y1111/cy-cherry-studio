@@ -5,16 +5,16 @@ import { FC } from 'react'
 import styled from 'styled-components'
 
 const Threads: FC = () => {
-  const { threads, activeThread, setActiveThread, removeThread } = useThreads()
+  const { thread, threads, setThread, removeThread } = useThreads()
 
   return (
     <Container>
-      {threads.map((thread) => {
+      {threads.map((_thread) => {
         return (
           <ThreadItem
-            key={thread.id}
-            className={thread.id === activeThread?.id ? 'active' : ''}
-            onClick={() => setActiveThread(thread)}>
+            key={_thread.id}
+            className={_thread.id === thread?.id ? 'active' : ''}
+            onClick={() => setThread(_thread)}>
             <Dropdown
               trigger="click"
               stopPropagation
@@ -25,9 +25,9 @@ const Threads: FC = () => {
               }>
               <IconMore style={{ position: 'absolute', right: 12, top: 12 }} />
             </Dropdown>
-            <ThreadName>{thread.name}</ThreadName>
-            <ThreadLastMessage>{thread.lastMessage}</ThreadLastMessage>
-            <ThreadTime>{thread.lastMessageAt}</ThreadTime>
+            <ThreadName>{_thread.name}</ThreadName>
+            <ThreadLastMessage>{_thread.lastMessage}</ThreadLastMessage>
+            <ThreadTime>{_thread.lastMessageAt}</ThreadTime>
           </ThreadItem>
         )
       })}
