@@ -1,11 +1,24 @@
+import { Message, Thread } from '@renderer/types'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 
-const InputBar: FC = () => {
+interface Props {
+  activeThread: Thread
+  onSendMessage: (message: Message) => void
+}
+
+const InputBar: FC<Props> = ({ activeThread, onSendMessage }) => {
   const [text, setText] = useState('')
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter') {
+      const message: Message = {
+        id: Math.random().toString(),
+        content: text,
+        threadId: activeThread.id,
+        createdAt: 'noe'
+      }
+      onSendMessage(message)
       setText('')
     }
   }
