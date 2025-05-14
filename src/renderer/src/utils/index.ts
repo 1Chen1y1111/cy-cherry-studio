@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 /**
  * 运行异步函数
  * @param fn 异步函数
@@ -53,3 +55,9 @@ export const waitAsyncFunction = (fn: () => Promise<any>, interval = 200, stopTi
     }
   })()
 }
+
+/**
+ * 生成 uuid
+ * @returns uuid
+ */
+export const uuid = (): string => uuidv4()

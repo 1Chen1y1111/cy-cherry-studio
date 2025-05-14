@@ -41,6 +41,7 @@
     "innerhtml",
     "nutstore",
     "persistor",
-    "showsidebarhoriz"
+    "showsidebarhoriz",
+    "uuidv"
   ]
 }

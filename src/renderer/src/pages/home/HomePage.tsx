@@ -1,5 +1,7 @@
 import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
 import useThreads from '@renderer/hooks/useThreads'
+import { Thread } from '@renderer/types'
+import { uuid } from '@renderer/utils'
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 
@@ -14,13 +16,15 @@ const HomePage: FC = () => {
   }, [activeThread, threads, setActiveThread])
 
   const onCreateThread = () => {
-    const _thread = {
-      id: Math.random().toString(),
+    const _thread: Thread = {
+      id: uuid(),
       name: 'New Thread',
       avatar: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
       lastMessage: 'message',
-      lastMessageAt: 'now'
+      lastMessageAt: 'now',
+      conversations: []
     }
+
     addThread(_thread)
     setActiveThread(_thread)
   }
@@ -34,7 +38,7 @@ const HomePage: FC = () => {
           </NewButton>
         </NavbarLeft>
 
-        <NavbarCenter style={{ border: 'none' }}>{activeThread.name}</NavbarCenter>
+        <NavbarCenter style={{ border: 'none' }}>{activeThread?.name}</NavbarCenter>
 
         <NavbarRight style={{ justifyContent: 'flex-end', padding: 5 }}>
           <NewButton>

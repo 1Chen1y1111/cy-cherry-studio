@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
+import { getDefaultThread } from '@renderer/services/thread'
 import { Thread } from '@renderer/types'
 
 interface ThreadState {
@@ -8,8 +9,8 @@ interface ThreadState {
 }
 
 const initialState: ThreadState = {
-  threads: [],
-  activeThread: null
+  threads: [getDefaultThread()],
+  activeThread: getDefaultThread()
 }
 
 const threadSlice = createSlice({
@@ -28,10 +29,31 @@ const threadSlice = createSlice({
     },
     setActiveThread: (state, action: PayloadAction<Thread>) => {
       state.activeThread = action.payload
+    },
+    addConversationToThread: (state, action: PayloadAction<{ threadId: string; conversationId: string }>) => {
+      state.threads = state.threads.map((c) => {
+        return c.id === action.payload.threadId
+          ? { ...c, conversations: [...c.conversations, action.payload.conversationId] }
+          : c
+      })
+    },
+    removeConversationFromThread: (state, action: PayloadAction<{ threadId: string; conversationId: string }>) => {
+      state.threads = state.threads.map((c) => {
+        return c.id === action.payload.threadId
+          ? { ...c, conversations: c.conversations.filter((id) => id !== action.payload.conversationId) }
+          : c
+      })
     }
   }
 })
 
-export const { addThread, removeThread, updateThread, setActiveThread } = threadSlice.actions
+export const {
+  addThread,
+  removeThread,
+  updateThread,
+  setActiveThread,
+  addConversationToThread,
+  removeConversationFromThread
+} = threadSlice.actions
 
 export default threadSlice.reducer

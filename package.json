@@ -31,8 +31,10 @@
     "electron-updater": "^6.3.9",
     "electron-window-state": "^5.0.3",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
@@ -40,6 +42,7 @@
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@eslint-react/eslint-plugin": "^1.49.0",
     "@eslint/js": "^9.26.0",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.1",
     "@types/react-dom": "^19.1.2",
