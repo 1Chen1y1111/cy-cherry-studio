@@ -1,6 +1,6 @@
 import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
 import useThreads from '@renderer/hooks/useThreads'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 
 import Chat from './components/Chat'
@@ -9,7 +9,13 @@ import Threads from './components/Threads'
 const HomePage: FC = () => {
   const { threads, activeThread, setActiveThread, addThread } = useThreads()
 
-  const onCreateConversation = () => {
+  useEffect(() => {
+    if (!activeThread) {
+      setActiveThread(threads[0])
+    }
+  }, [activeThread, threads, setActiveThread])
+
+  const onCreateThread = () => {
     const _thread = {
       id: Math.random().toString(),
       name: 'New Thread',
@@ -25,22 +31,24 @@ const HomePage: FC = () => {
     <Container>
       <Navbar>
         <NavbarLeft style={{ justifyContent: 'flex-end' }}>
-          <NewButton onClick={onCreateConversation}>
+          <NewButton onClick={onCreateThread}>
             <i className="iconfont icon-a-addchat"></i>
           </NewButton>
         </NavbarLeft>
 
-        <NavbarCenter>Cy-Cherry AI</NavbarCenter>
+        <NavbarCenter style={{ border: 'none' }}>{activeThread.name}</NavbarCenter>
 
-        <NavbarRight />
+        <NavbarRight style={{ justifyContent: 'flex-end', padding: 5 }}>
+          <NewButton>
+            <i className="iconfont icon-showsidebarhoriz"></i>
+          </NewButton>
+        </NavbarRight>
       </Navbar>
 
       <ContentContainer>
         <Threads threads={threads} activeThread={activeThread} setActiveThread={setActiveThread} />
 
         <Chat activeThread={activeThread} />
-
-        <Settings />
       </ContentContainer>
     </Container>
   )
@@ -74,17 +82,14 @@ const NewButton = styled.div`
   .iconfont {
     font-size: 22px;
   }
+  .icon-showsidebarhoriz {
+    font-size: 18px;
+  }
   &:hover {
     background-color: var(--color-background-soft);
     cursor: pointer;
     color: var(--color-icon-white);
   }
-`
-
-const Settings = styled.div`
-  display: flex;
-  height: 100%;
-  min-width: var(--settings-width);
 `
 
 export default HomePage

@@ -31,5 +31,15 @@
   "[markdown]": {
     "files.trimTrailingWhitespace": false
   },
-  "cSpell.words": ["addchat", "appstore", "cherryai", "iconfont", "INDEXEDDB", "innerhtml", "nutstore", "persistor"]
+  "cSpell.words": [
+    "addchat",
+    "appstore",
+    "cherryai",
+    "iconfont",
+    "INDEXEDDB",
+    "innerhtml",
+    "nutstore",
+    "persistor",
+    "showsidebarhoriz"
+  ]
 }

@@ -50,8 +50,9 @@ const Container = styled.div`
   min-height: 100%;
   border-top: 1px solid #ffffff20;
   border-right: 1px solid #ffffff20;
-  margin-top: 47px;
-  padding-bottom: 52px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  -webkit-app-region: drag !important;
 `
 
 const Avatar = styled.div``
@@ -83,6 +84,7 @@ const Icon = styled.div`
   border-radius: 6px;
   margin-bottom: 5px;
   transition: background-color 0.2s ease;
+  -webkit-app-region: none;
   .iconfont {
     color: var(--color-icon);
     font-size: 22px;
