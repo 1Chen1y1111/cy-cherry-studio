@@ -3,10 +3,10 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import threadReducer from './threads'
+import agentsReducer from './agents'
 
 const rootReducer = combineReducers({
-  threads: threadReducer
+  agents: agentsReducer
 })
 
 const persistConfig = {

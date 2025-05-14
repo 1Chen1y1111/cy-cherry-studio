@@ -1,4 +1,4 @@
-import { Thread } from '@renderer/types'
+import { Agent } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
@@ -7,17 +7,17 @@ import Conversations from './Conversations'
 import InputChat from './InputChat'
 
 interface Props {
-  thread: Thread
+  agent: Agent
 }
 
-const Chat: FC<Props> = ({ thread }) => {
-  const [conversationId] = useState<string>(thread.conversations[0] || uuid())
+const Chat: FC<Props> = ({ agent }) => {
+  const [conversationId] = useState<string>(agent.conversations[0] || uuid())
 
   return (
     <Container>
-      <Conversations thread={thread} conversationId={conversationId} />
+      <Conversations agent={agent} conversationId={conversationId} />
 
-      <InputChat thread={thread} />
+      <InputChat agent={agent} />
     </Container>
   )
 }

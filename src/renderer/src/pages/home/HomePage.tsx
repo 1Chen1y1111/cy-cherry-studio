@@ -1,22 +1,22 @@
 import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
-import useThreads from '@renderer/hooks/useThreads'
-import { Thread } from '@renderer/types'
+import useAgents from '@renderer/hooks/useAgents'
+import { Agent } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 
+import Threads from './components/Agents'
 import Chat from './components/Chat'
-import Threads from './components/Threads'
 
 const HomePage: FC = () => {
-  const { thread, threads, setThread, addThread } = useThreads()
+  const { agent, agents, setAgent, addAgent } = useAgents()
 
   useEffect(() => {
-    !thread && threads[0] && setThread(threads[0])
-  }, [thread, threads, setThread])
+    !agent && agents[0] && setAgent(agents[0])
+  }, [agent, agents, setAgent])
 
   const onCreateThread = () => {
-    const _thread: Thread = {
+    const _agent: Agent = {
       id: uuid(),
       name: 'New Thread',
       avatar: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
@@ -25,8 +25,8 @@ const HomePage: FC = () => {
       conversations: []
     }
 
-    addThread(_thread)
-    setThread(_thread)
+    addAgent(_agent)
+    setAgent(_agent)
   }
 
   return (
@@ -38,7 +38,7 @@ const HomePage: FC = () => {
           </NewButton>
         </NavbarLeft>
 
-        <NavbarCenter style={{ border: 'none' }}>{thread?.name}</NavbarCenter>
+        <NavbarCenter style={{ border: 'none' }}>{agent?.name}</NavbarCenter>
 
         <NavbarRight style={{ justifyContent: 'flex-end', padding: 5 }}>
           <NewButton>
@@ -50,7 +50,7 @@ const HomePage: FC = () => {
       <ContentContainer>
         <Threads />
 
-        {thread && <Chat thread={thread} />}
+        {agent && <Chat agent={agent} />}
       </ContentContainer>
     </Container>
   )
