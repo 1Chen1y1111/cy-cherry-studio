@@ -21,6 +21,7 @@ const threadSlice = createSlice({
     },
     removeThread: (state, action: PayloadAction<{ id: string }>) => {
       state.threads = state.threads.filter((c) => c.id !== action.payload.id)
+      state.activeThread = state.threads[0]
     },
     updateThread: (state, action: PayloadAction<Thread>) => {
       state.threads = state.threads.map((c) => (c.id === action.payload.id ? action.payload : c))

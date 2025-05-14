@@ -17,12 +17,14 @@ const persistConfig = {
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, rootReducer),
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
     })
+  },
+  devTools: true
 })
 
 export type RootState = ReturnType<typeof store.getState>

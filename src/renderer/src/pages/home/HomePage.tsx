@@ -10,9 +10,7 @@ const HomePage: FC = () => {
   const { threads, activeThread, setActiveThread, addThread } = useThreads()
 
   useEffect(() => {
-    if (!activeThread) {
-      setActiveThread(threads[0])
-    }
+    !activeThread && setActiveThread(threads[0])
   }, [activeThread, threads, setActiveThread])
 
   const onCreateThread = () => {
@@ -46,9 +44,9 @@ const HomePage: FC = () => {
       </Navbar>
 
       <ContentContainer>
-        <Threads threads={threads} activeThread={activeThread} setActiveThread={setActiveThread} />
+        <Threads />
 
-        <Chat activeThread={activeThread} />
+        <Chat />
       </ContentContainer>
     </Container>
   )
