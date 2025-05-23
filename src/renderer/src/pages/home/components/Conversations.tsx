@@ -1,12 +1,16 @@
-import { Avatar } from '@douyinfe/semi-ui'
-import useThreads from '@renderer/hooks/useAgents'
+import 'highlight.js/styles/github-dark.css'
+
+import useAgents from '@renderer/hooks/useAgents'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
+import { openaiProvider } from '@renderer/services/provider'
 import { Agent, Conversation, Message } from '@renderer/types'
-import { runAsyncFunction } from '@renderer/utils'
+import { runAsyncFunction, uuid } from '@renderer/utils'
 import localforage from 'localforage'
-import { isEmpty } from 'lodash'
-import { FC, useEffect, useState } from 'react'
+import { reverse } from 'lodash'
+import { FC, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
+import MessageItem from './Message'
 
 interface Props {
   agent: Agent
@@ -15,22 +19,70 @@ interface Props {
 
 const Conversations: FC<Props> = ({ agent, conversationId }) => {
   const [messages, setMessages] = useState<Message[]>([])
+  const [lastMessage, setLastMessage] = useState<Message | null>(null)
+  const { addConversation } = useAgents()
 
-  const { addConversation } = useThreads()
+  const onSendMessage = useCallback(
+    (message: Message) => {
+      const _messages = [...messages, message]
+      setMessages(_messages)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onSendMessage = (message: Message) => {
-    setMessages([...messages, message])
-
-    if (isEmpty(agent?.conversations)) {
       addConversation(agent.id, conversationId)
-    }
 
-    localforage.setItem<Conversation>(`conversation:${conversationId}`, {
-      id: conversationId,
-      messages: [...messages, message]
-    })
-  }
+      localforage.setItem<Conversation>(`conversation:${conversationId}`, {
+        id: conversationId,
+        messages: _messages
+      })
+    },
+    [addConversation, agent.id, conversationId, messages]
+  )
+
+  const fetchChatCompletion = useCallback(
+    async (message: Message) => {
+      const stream = await openaiProvider.chat.completions.create({
+        model: 'Qwen/Qwen2-7B-Instruct',
+        messages: [{ role: 'user', content: message.content }],
+        stream: true
+      })
+
+      const _message: Message = {
+        id: uuid(),
+        content: '',
+        agentId: agent.id,
+        conversationId,
+        createdAt: 'now'
+      }
+
+      let content = ''
+
+      for await (const chunk of stream) {
+        content = content + (chunk.choices[0]?.delta.content || '')
+        setLastMessage({ ..._message, content })
+      }
+
+      _message.content = content
+
+      EventEmitter.emit(EVENT_NAMES.AI_CHAT_COMPLETION, _message)
+
+      return _message
+    },
+    [agent.id, conversationId]
+  )
+
+  useEffect(() => {
+    const unsubscribes = [
+      EventEmitter.on(EVENT_NAMES.SEND_MESSAGE, async (message: Message) => {
+        onSendMessage(message)
+        fetchChatCompletion(message)
+      }),
+
+      EventEmitter.on(EVENT_NAMES.AI_CHAT_COMPLETION, async (message: Message) => {
+        setLastMessage(null)
+        onSendMessage(message)
+      })
+    ]
+    return () => unsubscribes.forEach((unsubscribe) => unsubscribe())
+  }, [fetchChatCompletion, onSendMessage])
 
   useEffect(() => {
     runAsyncFunction(async () => {
@@ -46,15 +98,9 @@ const Conversations: FC<Props> = ({ agent, conversationId }) => {
 
   return (
     <Container>
-      {messages.map((message) => (
-        <ConversationItem key={message.id}>
-          <AvatarWrapper>
-            <Avatar size="small" alt="Alice Swift">
-              Y
-            </Avatar>
-          </AvatarWrapper>
-          <div>{message.content}</div>
-        </ConversationItem>
+      {lastMessage && <MessageItem message={lastMessage} />}
+      {reverse([...messages]).map((message) => (
+        <MessageItem message={message} key={message.id} />
       ))}
     </Container>
   )
@@ -63,26 +109,11 @@ const Conversations: FC<Props> = ({ agent, conversationId }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
   overflow-y: scroll;
+  flex-direction: column-reverse;
   &::-webkit-scrollbar {
     display: none;
   }
-`
-
-const ConversationItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 10px 15px;
-  position: relative;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--color-background-soft);
-  }
-`
-
-const AvatarWrapper = styled.div`
-  margin-right: 10px;
 `
 
 export default Conversations

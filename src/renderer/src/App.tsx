@@ -1,6 +1,7 @@
 import '@fontsource/inter'
 
 import store, { persistor } from '@renderer/store'
+import { ConfigProvider, theme } from 'antd'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -12,19 +13,29 @@ import SettingsPage from './pages/settings/SettingsPage'
 
 function App(): React.JSX.Element {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <Sidebar />
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#00b96b',
+          borderRadius: 5,
+          colorBgContainer: '#f6ffed'
+        },
+        algorithm: [theme.darkAlgorithm, theme.compactAlgorithm]
+      }}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <Sidebar />
 
-          <Routes>
-            <Route path="" element={<HomePage />} />
-            <Route path="/apps" element={<AppsPage />} />
-            <Route path="/settings/*" element={<SettingsPage />} />
-          </Routes>
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
+            <Routes>
+              <Route path="" element={<HomePage />} />
+              <Route path="/apps" element={<AppsPage />} />
+              <Route path="/settings/*" element={<SettingsPage />} />
+            </Routes>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+    </ConfigProvider>
   )
 }
 

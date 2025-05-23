@@ -21,17 +21,20 @@
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "dependencies": {
-    "@douyinfe/semi-ui": "^2.79.0",
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/inter": "^5.2.5",
     "@reduxjs/toolkit": "^2.8.1",
+    "antd": "^5.25.2",
     "electron-updater": "^6.3.9",
     "electron-window-state": "^5.0.3",
+    "highlight.js": "^11.11.1",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
+    "marked": "^15.0.12",
+    "openai": "^4.102.0",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
     "uuid": "^11.1.0"
