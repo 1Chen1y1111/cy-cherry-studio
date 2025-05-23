@@ -47,6 +47,7 @@ const Conversations: FC<Props> = ({ agent, conversationId }) => {
 
       const _message: Message = {
         id: uuid(),
+        role: 'agent',
         content: '',
         agentId: agent.id,
         conversationId,
@@ -91,11 +92,6 @@ const Conversations: FC<Props> = ({ agent, conversationId }) => {
     })
   }, [conversationId])
 
-  useEffect(() => {
-    const unsubscribe = EventEmitter.on(EVENT_NAMES.SEND_MESSAGE, onSendMessage)
-    return () => unsubscribe()
-  }, [onSendMessage])
-
   return (
     <Container>
       {lastMessage && <MessageItem message={lastMessage} />}
@@ -111,6 +107,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow-y: scroll;
   flex-direction: column-reverse;
+  max-height: calc(100vh - var(--input-bar-height) - var(--navbar-height));
   &::-webkit-scrollbar {
     display: none;
   }

@@ -1,8 +1,7 @@
 import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
 import useAgents from '@renderer/hooks/useAgents'
-import { Agent } from '@renderer/types'
+import { getDefaultAgent } from '@renderer/services/agent'
 import { uuid } from '@renderer/utils'
-import { last } from 'lodash'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 
@@ -11,32 +10,22 @@ import Chat from './components/Chat'
 
 const HomePage: FC = () => {
   const { agents, addAgent } = useAgents()
+  console.log('🚀 ~ agents:', agents)
   const [activeAgent, setActiveAgent] = useState(agents[0])
 
-  const onCreateConversation = () => {
-    const _agent: Agent = {
-      id: uuid(),
-      name: 'New Thread',
-      avatar: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-      lastMessage: 'message',
-      lastMessageAt: 'now',
-      conversations: []
-    }
+  const onCreateAgent = () => {
+    const _agent = getDefaultAgent()
+    _agent.id = uuid()
 
     addAgent(_agent)
     setActiveAgent(_agent)
-  }
-
-  const onRemoveAgent = (agent: Agent) => {
-    const _agent = last(agents.filter((a) => a.id !== agent.id))
-    _agent && setActiveAgent(_agent)
   }
 
   return (
     <Container>
       <Navbar>
         <NavbarLeft style={{ justifyContent: 'flex-end', borderRight: 'none' }}>
-          <NewButton onClick={onCreateConversation}>
+          <NewButton onClick={onCreateAgent}>
             <i className="iconfont icon-a-addchat"></i>
           </NewButton>
         </NavbarLeft>
@@ -51,7 +40,7 @@ const HomePage: FC = () => {
       </Navbar>
 
       <ContentContainer>
-        <Agents activeAgent={activeAgent} onActive={setActiveAgent} onRemove={onRemoveAgent} />
+        <Agents activeAgent={activeAgent} onActive={setActiveAgent} />
         <Chat agent={activeAgent} />
       </ContentContainer>
     </Container>

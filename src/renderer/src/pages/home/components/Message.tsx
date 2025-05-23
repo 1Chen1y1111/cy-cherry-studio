@@ -13,7 +13,7 @@ const MessageItem: FC<{ message: Message }> = ({ message }) => {
   return (
     <MessageContainer key={message.id}>
       <AvatarWrapper>
-        <Avatar alt="Alice Swift">Y</Avatar>
+        <Avatar alt="Justin Chen">Y</Avatar>
       </AvatarWrapper>
       <div className="markdown" dangerouslySetInnerHTML={{ __html: marked(message.content) }}></div>
     </MessageContainer>
