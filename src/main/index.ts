@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu, MenuItem, shell } from 'electron'
 import { installExtension, REDUX_DEVTOOLS } from 'electron-devtools-installer'
 import windowStateKeeper from 'electron-window-state'
 import { join } from 'path'
@@ -30,6 +30,15 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
+  })
+
+  mainWindowState.manage(mainWindow)
+
+  mainWindow.webContents.on('context-menu', () => {
+    const menu = new Menu()
+    menu.append(new MenuItem({ label: 'Copy', role: 'copy' }))
+    menu.append(new MenuItem({ label: 'Paste', role: 'paste' }))
+    menu.popup()
   })
 
   mainWindow.on('ready-to-show', () => {

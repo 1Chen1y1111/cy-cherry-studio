@@ -6,7 +6,7 @@ import { FC, useState } from 'react'
 import styled from 'styled-components'
 
 import Agents from './components/Agents'
-import Chat from './components/Chat'
+import Chat from './components/Chat/Chat'
 
 const HomePage: FC = () => {
   const { agents, addAgent } = useAgents()
