@@ -1,10 +1,11 @@
+import { DeleteOutlined } from '@ant-design/icons'
 import PromptPopup from '@renderer/components/Popups/PromptPopup'
 import { useAgent } from '@renderer/hooks/useAgents'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { fetchConversationSummary } from '@renderer/services/api'
-import { getTopicMessage } from '@renderer/services/topic'
+import LocalStorage from '@renderer/services/storage'
 import { Agent, Topic } from '@renderer/types'
-import { Dropdown, MenuProps } from 'antd'
+import { Button, Dropdown, MenuProps, Popconfirm } from 'antd'
 import { FC, useRef } from 'react'
 import styled from 'styled-components'
 
@@ -16,7 +17,7 @@ interface Props {
 
 const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
   const { showRightSidebar } = useShowRightSidebar()
-  const { removeTopic, updateTopic } = useAgent(agent.id)
+  const { removeTopic, updateTopic, removeAllTopics } = useAgent(agent.id)
 
   const currentTopic = useRef<Topic | null>(null)
 
@@ -26,7 +27,7 @@ const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
       key: 'ai-rename',
       async onClick() {
         if (currentTopic.current) {
-          const messages = await getTopicMessage(currentTopic.current.id)
+          const messages = await LocalStorage.getTopicMessages(currentTopic.current.id)
           if (messages.length >= 2) {
             const summaryText = await fetchConversationSummary({ messages })
             if (summaryText) {
@@ -73,7 +74,20 @@ const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
 
   return (
     <Container className={showRightSidebar ? '' : 'collapsed'}>
-      <TopicTitle>Topics ({agent.topics.length})</TopicTitle>
+      <TopicTitle>
+        <span>Topics ({agent.topics.length})</span>
+        <Popconfirm
+          title="Delete all topic?"
+          description="Are you sure to delete all topics?"
+          placement="leftBottom"
+          onConfirm={removeAllTopics}
+          okText="Yes"
+          cancelText="No">
+          <DeleteButton type="text">
+            <DeleteIcon />
+          </DeleteButton>
+        </Popconfirm>
+      </TopicTitle>
       {agent.topics.map((topic) => (
         <Dropdown
           menu={{ items }}
@@ -119,6 +133,26 @@ const TopicTitle = styled.div`
   margin-bottom: 10px;
   font-size: 14px;
   color: var(--color-text-1);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const DeleteButton = styled(Button)`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  padding: 0;
+  &:hover {
+    .anticon {
+      color: #ff4d4f;
+    }
+  }
+`
+
+const DeleteIcon = styled(DeleteOutlined)`
+  font-size: 16px;
 `
 
 export default TopicList

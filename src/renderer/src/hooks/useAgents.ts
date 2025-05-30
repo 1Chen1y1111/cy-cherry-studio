@@ -3,6 +3,7 @@ import {
   addAgent,
   addTopic as _addTopic,
   removeAgent,
+  removeAllTopics as _removeAllTopics,
   removeTopic as _removeTopic,
   updateAgent,
   updateTopic as _updateTopic
@@ -35,13 +36,16 @@ export function useAgent(id: string) {
   return {
     agent,
     addTopic: (topic: Topic) => {
-      dispatch(_addTopic({ agentId: agent?.id, topic }))
+      dispatch(_addTopic({ agentId: agent.id, topic }))
     },
     removeTopic: (topic: Topic) => {
-      dispatch(_removeTopic({ agentId: agent?.id, topic }))
+      dispatch(_removeTopic({ agentId: agent.id, topic }))
     },
     updateTopic: (topic: Topic) => {
-      dispatch(_updateTopic({ agentId: agent?.id, topic }))
+      dispatch(_updateTopic({ agentId: agent.id, topic }))
+    },
+    removeAllTopics: () => {
+      dispatch(_removeAllTopics({ agentId: agent.id }))
     }
   }
 }

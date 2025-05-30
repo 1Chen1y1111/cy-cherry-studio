@@ -4,7 +4,7 @@ import { DEFAULT_TOPIC_NAME } from '@renderer/config/constant'
 import { useAgent } from '@renderer/hooks/useAgents'
 import { fetchChatCompletion, fetchConversationSummary } from '@renderer/services/api'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
-import { getTopicMessage } from '@renderer/services/topic'
+import LocalStorage from '@renderer/services/storage'
 import { Agent, Message, Topic } from '@renderer/types'
 import { runAsyncFunction } from '@renderer/utils'
 import hljs from 'highlight.js'
@@ -69,7 +69,7 @@ const Conversations: FC<Props> = ({ agent, topic }) => {
 
   useEffect(() => {
     runAsyncFunction(async () => {
-      const messages = await getTopicMessage(topic.id)
+      const messages = await LocalStorage.getTopicMessages(topic.id)
       setMessages(messages)
     })
   }, [topic.id])

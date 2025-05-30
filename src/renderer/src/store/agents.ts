@@ -1,6 +1,8 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import { getDefaultAgent } from '@renderer/services/agent'
+import LocalStorage from '@renderer/services/storage'
+import { getDefaultTopic } from '@renderer/services/topic'
 import { Agent, Topic } from '@renderer/types'
 import { uniqBy } from 'lodash'
 
@@ -54,10 +56,24 @@ const agentSlice = createSlice({
             }
           : agent
       })
+    },
+    removeAllTopics: (state, action: PayloadAction<{ agentId: string }>) => {
+      state.agents = state.agents.map((agent) => {
+        if (agent.id === action.payload.agentId) {
+          agent.topics.forEach((topic) => LocalStorage.removeTopic(topic.id))
+          return {
+            ...agent,
+            topics: [getDefaultTopic()]
+          }
+        }
+
+        return agent
+      })
     }
   }
 })
 
-export const { addAgent, removeAgent, updateAgent, addTopic, removeTopic, updateTopic } = agentSlice.actions
+export const { addAgent, removeAgent, updateAgent, addTopic, removeTopic, updateTopic, removeAllTopics } =
+  agentSlice.actions
 
 export default agentSlice.reducer
