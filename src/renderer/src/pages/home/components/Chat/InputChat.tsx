@@ -1,6 +1,8 @@
 import { MoreOutlined } from '@ant-design/icons'
+import { useAgent } from '@renderer/hooks/useAgents'
+import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
-import { Agent, Message } from '@renderer/types'
+import { Agent, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { Tooltip } from 'antd'
 import { FC, useState } from 'react'
@@ -8,21 +10,24 @@ import styled from 'styled-components'
 
 interface Props {
   agent: Agent
+  setActiveTopic: (topic: Topic) => void
 }
 
-const InputChat: FC<Props> = ({ agent }) => {
+const InputChat: FC<Props> = ({ agent, setActiveTopic }) => {
   const [text, setText] = useState('')
+  const { setShowRightSidebar } = useShowRightSidebar()
+  const { addTopic } = useAgent(agent.id)
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter') {
-      const conversationId = agent.conversations[0] ? agent.conversations[0] : uuid()
+      const topicId = agent.topics[0] ? agent.topics[0].id : uuid()
 
       const message: Message = {
         id: uuid(),
         role: 'user',
         content: text,
         agentId: agent.id,
-        conversationId,
+        topicId,
         createdAt: 'now'
       }
 
@@ -33,18 +38,29 @@ const InputChat: FC<Props> = ({ agent }) => {
     }
   }
 
+  const addNewConversation = () => {
+    const topic: Topic = {
+      id: uuid(),
+      name: 'Default Topic',
+      messages: []
+    }
+
+    addTopic(topic)
+    setActiveTopic(topic)
+  }
+
   return (
     <Container>
       <Toolbar>
         <ToolbarMenu>
           <Tooltip placement="top" title=" New Chat " arrow>
-            <ToolbarItem>
-              <i className="iconfont icon-a-new-chat"></i>
+            <ToolbarItem onClick={addNewConversation}>
+              <i className="iconfont icon-a-new-chat" />
             </ToolbarItem>
           </Tooltip>
           <Tooltip placement="top" title=" Topics " arrow>
-            <ToolbarItem>
-              <i className="iconfont icon-textedit_text_topic"></i>
+            <ToolbarItem onClick={setShowRightSidebar}>
+              <i className="iconfont icon-textedit_text_topic" />
             </ToolbarItem>
           </Tooltip>
         </ToolbarMenu>

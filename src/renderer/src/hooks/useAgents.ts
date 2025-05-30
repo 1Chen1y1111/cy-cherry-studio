@@ -1,12 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@renderer/store'
 import {
   addAgent,
-  addConversationToAgent,
+  addTopic as _addTopic,
   removeAgent,
-  removeConversationFromAgent,
-  updateAgent
+  removeTopic as _removeTopic,
+  updateAgent,
+  updateTopic as _updateTopic
 } from '@renderer/store/agents'
-import { Agent } from '@renderer/types'
+import { Agent, Topic } from '@renderer/types'
 import localforage from 'localforage'
 
 export default function useAgents() {
@@ -20,15 +21,27 @@ export default function useAgents() {
       dispatch(removeAgent({ id }))
       const agent: Agent = agents.find((a) => a.id === id)
       if (agent) {
-        agent.conversations.forEach((id) => localforage.removeItem(`conversation:${id}`))
+        agent.topics.forEach((id) => localforage.removeItem(`topic:${id}`))
       }
     },
-    updateAgent: (agent: Agent) => dispatch(updateAgent(agent)),
-    addConversation: (agentId: string, conversationId: string) => {
-      dispatch(addConversationToAgent({ agentId, conversationId }))
+    updateAgent: (agent: Agent) => dispatch(updateAgent(agent))
+  }
+}
+
+export function useAgent(id: string) {
+  const agent = useAppSelector((state) => state.agents.agents.find((a) => a.id === id) as Agent)
+  const dispatch = useAppDispatch()
+
+  return {
+    agent,
+    addTopic: (topic: Topic) => {
+      dispatch(_addTopic({ agentId: agent?.id, topic }))
     },
-    removeConversation: (agentId: string, conversationId: string) => {
-      dispatch(removeConversationFromAgent({ agentId, conversationId }))
+    removeTopic: (topic: Topic) => {
+      dispatch(_removeTopic({ agentId: agent?.id, topic }))
+    },
+    updateTopic: (topic: Topic) => {
+      dispatch(_updateTopic({ agentId: agent?.id, topic }))
     }
   }
 }

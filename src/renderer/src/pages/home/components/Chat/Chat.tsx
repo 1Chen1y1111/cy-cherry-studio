@@ -1,31 +1,35 @@
+import { useAgent } from '@renderer/hooks/useAgents'
+import { useActiveTopic } from '@renderer/hooks/useTopic'
 import { Agent } from '@renderer/types'
-import { uuid } from '@renderer/utils'
-import { FC, useEffect, useState } from 'react'
+import { Flex } from 'antd'
+import { FC } from 'react'
 import styled from 'styled-components'
 
 import Conversations from './Conversations'
 import InputChat from './InputChat'
+import TopicList from './TopicList'
 
 interface Props {
   agent: Agent
 }
 
-const Chat: FC<Props> = ({ agent }) => {
-  const [conversationId, setConversationId] = useState<string>(agent.conversations[0] || uuid())
-
-  useEffect(() => {
-    setConversationId(agent.conversations[0] || uuid())
-  }, [agent])
+const Chat: FC<Props> = (props) => {
+  const { agent } = useAgent(props.agent?.id)
+  const { activeTopic, setActiveTopic } = useActiveTopic(agent)
 
   if (!agent) {
     return null
   }
 
   return (
-    <Container>
-      <Conversations agent={agent} conversationId={conversationId} />
+    <Container id="chat">
+      <Flex vertical flex={1} justify="space-between">
+        <Conversations agent={agent} topic={activeTopic} />
 
-      <InputChat agent={agent} />
+        <InputChat agent={agent} setActiveTopic={setActiveTopic} />
+      </Flex>
+
+      <TopicList agent={agent} activeTopic={activeTopic} setActiveTopic={setActiveTopic} />
     </Container>
   )
 }

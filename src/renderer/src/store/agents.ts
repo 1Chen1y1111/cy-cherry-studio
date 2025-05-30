@@ -1,7 +1,8 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import { getDefaultAgent } from '@renderer/services/agent'
-import { Agent } from '@renderer/types'
+import { Agent, Topic } from '@renderer/types'
+import { uniqBy } from 'lodash'
 
 interface AgentState {
   agents: Agent[]
@@ -24,22 +25,32 @@ const agentSlice = createSlice({
     updateAgent: (state, action: PayloadAction<Agent>) => {
       state.agents = state.agents.map((agent) => (agent.id === action.payload.id ? action.payload : agent))
     },
-    addConversationToAgent: (state, action: PayloadAction<{ agentId: string; conversationId: string }>) => {
+    addTopic: (state, action: PayloadAction<{ agentId: string; topic: Topic }>) => {
       state.agents = state.agents.map((agent) => {
         return agent.id === action.payload.agentId
           ? {
               ...agent,
-              conversations: [...new Set([...agent.conversations, action.payload.conversationId])]
+              topics: uniqBy([action.payload.topic, ...agent.topics], 'id')
             }
           : agent
       })
     },
-    removeConversationFromAgent: (state, action: PayloadAction<{ agentId: string; conversationId: string }>) => {
+    removeTopic: (state, action: PayloadAction<{ agentId: string; topic: Topic }>) => {
       state.agents = state.agents.map((agent) => {
         return agent.id === action.payload.agentId
           ? {
               ...agent,
-              conversations: agent.conversations.filter((id) => id !== action.payload.conversationId)
+              topics: agent.topics.filter(({ id }) => id !== action.payload.topic.id)
+            }
+          : agent
+      })
+    },
+    updateTopic: (state, action: PayloadAction<{ agentId: string; topic: Topic }>) => {
+      state.agents = state.agents.map((agent) => {
+        return agent.id === action.payload.agentId
+          ? {
+              ...agent,
+              topics: agent.topics.map((topic) => (topic.id === action.payload.topic.id ? action.payload.topic : topic))
             }
           : agent
       })
@@ -47,7 +58,6 @@ const agentSlice = createSlice({
   }
 })
 
-export const { addAgent, removeAgent, updateAgent, addConversationToAgent, removeConversationFromAgent } =
-  agentSlice.actions
+export const { addAgent, removeAgent, updateAgent, addTopic, removeTopic, updateTopic } = agentSlice.actions
 
 export default agentSlice.reducer

@@ -4,9 +4,11 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import storage from 'redux-persist/lib/storage'
 
 import agentsReducer from './agents'
+import settingsReducer from './settings'
 
 const rootReducer = combineReducers({
-  agents: agentsReducer
+  agents: agentsReducer,
+  settings: settingsReducer
 })
 
 const persistConfig = {

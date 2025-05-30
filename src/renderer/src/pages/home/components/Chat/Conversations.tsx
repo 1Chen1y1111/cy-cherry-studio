@@ -1,10 +1,13 @@
 import 'highlight.js/styles/github-dark.css'
 
-import useAgents from '@renderer/hooks/useAgents'
+import { DEFAULT_TOPIC_NAME } from '@renderer/config/constant'
+import { useAgent } from '@renderer/hooks/useAgents'
+import { fetchChatCompletion, fetchConversationSummary } from '@renderer/services/api'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
-import { openaiProvider } from '@renderer/services/provider'
-import { Agent, Conversation, Message } from '@renderer/types'
-import { runAsyncFunction, uuid } from '@renderer/utils'
+import { getTopicMessage } from '@renderer/services/topic'
+import { Agent, Message, Topic } from '@renderer/types'
+import { runAsyncFunction } from '@renderer/utils'
+import hljs from 'highlight.js'
 import localforage from 'localforage'
 import { reverse } from 'lodash'
 import { FC, useCallback, useEffect, useState } from 'react'
@@ -14,86 +17,67 @@ import MessageItem from './Message'
 
 interface Props {
   agent: Agent
-  conversationId: string
+  topic: Topic
 }
 
-const Conversations: FC<Props> = ({ agent, conversationId }) => {
+const Conversations: FC<Props> = ({ agent, topic }) => {
   const [messages, setMessages] = useState<Message[]>([])
   const [lastMessage, setLastMessage] = useState<Message | null>(null)
-  const { addConversation } = useAgents()
+  const { updateTopic } = useAgent(agent.id)
 
   const onSendMessage = useCallback(
     (message: Message) => {
       const _messages = [...messages, message]
       setMessages(_messages)
 
-      addConversation(agent.id, conversationId)
-
-      localforage.setItem<Conversation>(`conversation:${conversationId}`, {
-        id: conversationId,
+      localforage.setItem<Topic>(`topic:${topic.id}`, {
+        ...topic,
         messages: _messages
       })
     },
-    [addConversation, agent.id, conversationId, messages]
+    [messages, topic]
   )
 
-  const fetchChatCompletion = useCallback(
-    async (message: Message) => {
-      const stream = await openaiProvider.chat.completions.create({
-        model: 'Qwen/Qwen2-7B-Instruct',
-        messages: [{ role: 'user', content: message.content }],
-        stream: true
-      })
+  const autoRenameTopic = useCallback(async () => {
+    if (topic.name === DEFAULT_TOPIC_NAME && messages.length >= 2) {
+      const summaryText = await fetchConversationSummary({ messages })
 
-      const _message: Message = {
-        id: uuid(),
-        role: 'agent',
-        content: '',
-        agentId: agent.id,
-        conversationId,
-        createdAt: 'now'
+      if (summaryText) {
+        updateTopic({ ...topic, name: summaryText })
       }
-
-      let content = ''
-
-      for await (const chunk of stream) {
-        content = content + (chunk.choices[0]?.delta.content || '')
-        setLastMessage({ ..._message, content })
-      }
-
-      _message.content = content
-
-      EventEmitter.emit(EVENT_NAMES.AI_CHAT_COMPLETION, _message)
-
-      return _message
-    },
-    [agent.id, conversationId]
-  )
+    }
+  }, [messages, topic, updateTopic])
 
   useEffect(() => {
     const unsubscribes = [
       EventEmitter.on(EVENT_NAMES.SEND_MESSAGE, async (message: Message) => {
         onSendMessage(message)
-        fetchChatCompletion(message)
+        fetchChatCompletion({ agent, message, topic, onResponse: setLastMessage })
       }),
 
       EventEmitter.on(EVENT_NAMES.AI_CHAT_COMPLETION, async (message: Message) => {
         setLastMessage(null)
         onSendMessage(message)
+        setTimeout(() => {
+          EventEmitter.emit(EVENT_NAMES.AI_AUTO_RENAME)
+        }, 100)
       })
     ]
+
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe())
-  }, [fetchChatCompletion, onSendMessage])
+  }, [agent, autoRenameTopic, onSendMessage, topic])
 
   useEffect(() => {
     runAsyncFunction(async () => {
-      const conversation = await localforage.getItem<Conversation>(`conversation:${conversationId}`)
-      conversation && setMessages(conversation.messages)
+      const messages = await getTopicMessage(topic.id)
+      setMessages(messages)
     })
-  }, [conversationId])
+  }, [topic.id])
+
+  useEffect(() => hljs.highlightAll())
 
   return (
-    <Container>
+    <Container id="topics">
       {lastMessage && <MessageItem message={lastMessage} />}
       {reverse([...messages]).map((message) => (
         <MessageItem message={message} key={message.id} />

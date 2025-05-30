@@ -1,3 +1,4 @@
+import Logo from '@renderer/assets/images/logo.png'
 import { Message } from '@renderer/types'
 import { Avatar } from 'antd'
 import hljs from 'highlight.js'
@@ -13,7 +14,7 @@ const MessageItem: FC<{ message: Message }> = ({ message }) => {
   return (
     <MessageContainer key={message.id}>
       <AvatarWrapper>
-        <Avatar alt="Justin Chen">Y</Avatar>
+        {message.role === 'agent' ? <Avatar src={Logo} /> : <Avatar alt="Justin Chen">Y</Avatar>}
       </AvatarWrapper>
       <div className="markdown" dangerouslySetInnerHTML={{ __html: marked(message.content) }}></div>
     </MessageContainer>
