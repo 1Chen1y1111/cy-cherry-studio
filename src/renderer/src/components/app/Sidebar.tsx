@@ -48,10 +48,11 @@ const Container = styled.div`
   padding: 16px 0;
   min-width: var(--sidebar-width);
   min-height: 100%;
-  background: #262626;
+  background: #1f1f1f;
   padding-top: 40px;
   padding-bottom: 10px;
   -webkit-app-region: drag !important;
+  border-right: 0.5px solid var(--color-border);
 `
 
 const Avatar = styled.div``
