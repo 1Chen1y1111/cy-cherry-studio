@@ -61,11 +61,19 @@ const Conversations: FC<Props> = ({ agent, topic }) => {
         setTimeout(() => {
           EventEmitter.emit(EVENT_NAMES.AI_AUTO_RENAME)
         }, 100)
+      }),
+
+      EventEmitter.on(EVENT_NAMES.AI_AUTO_RENAME, autoRenameTopic),
+
+      EventEmitter.on(EVENT_NAMES.CLEAR_CONVERSATION, () => {
+        setMessages([])
+        updateTopic({ ...topic, messages: [] })
+        LocalStorage.clearTopicMessages(topic.id)
       })
     ]
 
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe())
-  }, [agent, autoRenameTopic, onSendMessage, topic])
+  }, [agent, autoRenameTopic, onSendMessage, topic, updateTopic])
 
   useEffect(() => {
     runAsyncFunction(async () => {

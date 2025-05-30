@@ -1,10 +1,10 @@
-import { MoreOutlined } from '@ant-design/icons'
+import { ClearOutlined, MoreOutlined } from '@ant-design/icons'
 import { useAgent } from '@renderer/hooks/useAgents'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import { Agent, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
-import { Tooltip } from 'antd'
+import { Button, Popconfirm, Tooltip } from 'antd'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 
@@ -49,26 +49,44 @@ const InputChat: FC<Props> = ({ agent, setActiveTopic }) => {
     setActiveTopic(topic)
   }
 
+  const clearTopic = () => {
+    EventEmitter.emit(EVENT_NAMES.CLEAR_CONVERSATION)
+  }
+
   return (
     <Container>
       <Toolbar>
         <ToolbarMenu>
           <Tooltip placement="top" title=" New Chat " arrow>
-            <ToolbarItem onClick={addNewConversation}>
+            <ToolbarButton onClick={addNewConversation}>
               <i className="iconfont icon-a-new-chat" />
-            </ToolbarItem>
+            </ToolbarButton>
           </Tooltip>
           <Tooltip placement="top" title=" Topics " arrow>
-            <ToolbarItem onClick={setShowRightSidebar}>
+            <ToolbarButton onClick={setShowRightSidebar}>
               <i className="iconfont icon-textedit_text_topic" />
-            </ToolbarItem>
+            </ToolbarButton>
+          </Tooltip>
+          <Tooltip placement="top" title=" Clear " arrow>
+            <Popconfirm
+              icon={false}
+              title="Clear all messages?"
+              description="Are you sure to clear all messages?"
+              placement="top"
+              onConfirm={clearTopic}
+              okText="Clear"
+              cancelText="Cancel">
+              <ToolbarButton type="text">
+                <ClearOutlined />
+              </ToolbarButton>
+            </Popconfirm>
           </Tooltip>
         </ToolbarMenu>
         <ToolbarMenu>
           <Tooltip placement="top" title=" Settings " arrow>
-            <ToolbarItem style={{ marginRight: 0 }}>
+            <ToolbarButton style={{ marginRight: 0 }}>
               <MoreOutlined />
-            </ToolbarItem>
+            </ToolbarButton>
           </Tooltip>
         </ToolbarMenu>
       </Toolbar>
@@ -100,7 +118,8 @@ const Textarea = styled.textarea`
   border: none;
   outline: none;
   resize: none;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 18px;
   color: var(--color-text);
   background-color: transparent;
 `
@@ -109,8 +128,8 @@ const Toolbar = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 5px;
   margin: 0 -5px;
+  margin-bottom: 5px;
 `
 
 const ToolbarMenu = styled.div`
@@ -119,29 +138,21 @@ const ToolbarMenu = styled.div`
   align-items: center;
 `
 
-const ToolbarItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+const ToolbarButton = styled(Button)`
   width: 32px;
   height: 32px;
   font-size: 18px;
   border-radius: 50%;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease;
   margin-right: 6px;
   color: var(--color-icon);
-  .iconfont {
-    font-size: 18px;
-    transition: all 0.2s ease-in-out;
-  }
-  .icon-textedit_text_topic {
-    font-size: 20px;
+  &.anticon {
+    transition: all 0.3s ease;
+    color: var(--color-icon);
   }
   &:hover {
     background-color: var(--color-background-soft);
-    .iconfont {
+    .anticon {
       color: white;
     }
   }
