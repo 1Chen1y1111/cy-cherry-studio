@@ -1,6 +1,6 @@
-import { useAgent } from '@renderer/hooks/useAgents'
+import { useAssistant } from '@renderer/hooks/useAssistants'
 import { useActiveTopic } from '@renderer/hooks/useTopic'
-import { Agent } from '@renderer/types'
+import { Assistant } from '@renderer/types'
 import { Flex } from 'antd'
 import { FC } from 'react'
 import styled from 'styled-components'
@@ -10,26 +10,26 @@ import InputChat from './InputChat'
 import TopicList from './TopicList'
 
 interface Props {
-  agent: Agent
+  assistant: Assistant
 }
 
 const Chat: FC<Props> = (props) => {
-  const { agent } = useAgent(props.agent?.id)
-  const { activeTopic, setActiveTopic } = useActiveTopic(agent)
+  const { assistant } = useAssistant(props.assistant?.id)
+  const { activeTopic, setActiveTopic } = useActiveTopic(assistant)
 
-  if (!agent) {
+  if (!assistant) {
     return null
   }
 
   return (
     <Container id="chat">
       <Flex vertical flex={1} justify="space-between">
-        <Conversations agent={agent} topic={activeTopic} />
+        <Conversations assistant={assistant} topic={activeTopic} />
 
-        <InputChat agent={agent} setActiveTopic={setActiveTopic} />
+        <InputChat assistant={assistant} setActiveTopic={setActiveTopic} />
       </Flex>
 
-      <TopicList agent={agent} activeTopic={activeTopic} setActiveTopic={setActiveTopic} />
+      <TopicList assistant={assistant} activeTopic={activeTopic} setActiveTopic={setActiveTopic} />
     </Container>
   )
 }

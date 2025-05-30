@@ -1,13 +1,13 @@
 import { Navbar, NavbarCenter } from '@renderer/components/app/Navbar'
 import { FC } from 'react'
-import { Link, Route, Routes, useLocation } from 'react-router'
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
-import AboutSetting from './AboutSetting'
-import DefaultAgentSetting from './DefaultAgentSetting'
-import DeveloperSetting from './DeveloperSetting'
-import GeneralSetting from './GeneralSetting'
-import ModelsSetting from './ModelsSetting'
+import AboutSettings from './AboutSettings'
+import CommonSettings from './CommonSettings'
+import DefaultAssistantSetting from './DefaultAssistantSetting'
+import LanguageModelsSettings from './LanguageModelsSettings'
+import SystemAssistantSettings from './SystemAssistantSettings'
 
 const SettingsPage: FC = () => {
   const { pathname } = useLocation()
@@ -19,33 +19,31 @@ const SettingsPage: FC = () => {
       <Navbar>
         <NavbarCenter>Settings</NavbarCenter>
       </Navbar>
-
       <ContentContainer>
         <SettingMenus>
-          <MenuItemLink to="/settings/general">
-            <MenuItem className={isRoute('/settings/general')}>General</MenuItem>
+          <MenuItemLink to="/settings/common">
+            <MenuItem className={isRoute('/settings/common')}>Common Settings</MenuItem>
           </MenuItemLink>
-          <MenuItemLink to="/settings/models">
-            <MenuItem className={isRoute('/settings/models')}>Language Model</MenuItem>
+          <MenuItemLink to="/settings/llm">
+            <MenuItem className={isRoute('/settings/llm')}>Language Model</MenuItem>
           </MenuItemLink>
-          <MenuItemLink to="/settings/default-agent">
-            <MenuItem className={isRoute('/settings/default-agent')}>Default Agent</MenuItem>
+          <MenuItemLink to="/settings/system-assistant">
+            <MenuItem className={isRoute('/settings/system-assistant')}>System Assistant</MenuItem>
+          </MenuItemLink>
+          <MenuItemLink to="/settings/default-assistant">
+            <MenuItem className={isRoute('/settings/default-assistant')}>Default Assistant</MenuItem>
           </MenuItemLink>
           <MenuItemLink to="/settings/about">
             <MenuItem className={isRoute('/settings/about')}>About</MenuItem>
           </MenuItemLink>
-          <MenuItemLink to="/settings/developer">
-            <MenuItem className={isRoute('/settings/developer')}>Developer</MenuItem>
-          </MenuItemLink>
         </SettingMenus>
-
         <SettingContent>
           <Routes>
-            <Route path="general" element={<GeneralSetting />} />
-            <Route path="models" element={<ModelsSetting />} />
-            <Route path="default-agent" element={<DefaultAgentSetting />} />
-            <Route path="about" element={<AboutSetting />} />
-            <Route path="developer" element={<DeveloperSetting />} />
+            <Route path="common" element={<CommonSettings />} />
+            <Route path="system-assistant" element={<SystemAssistantSettings />} />
+            <Route path="default-assistant" element={<DefaultAssistantSetting />} />
+            <Route path="llm" element={<LanguageModelsSettings />} />
+            <Route path="about" element={<AboutSettings />} />
           </Routes>
         </SettingContent>
       </ContentContainer>
@@ -68,7 +66,7 @@ const ContentContainer = styled.div`
 const SettingMenus = styled.ul`
   display: flex;
   flex-direction: column;
-  min-width: var(--agents-width);
+  min-width: var(--assistants-width);
   border-right: 1px solid var(--color-border);
   padding: 10px;
 `
@@ -87,10 +85,11 @@ const MenuItem = styled.li`
   font-size: 14px;
   transition: all 0.2s ease-in-out;
   &:hover {
-    background: #213675;
+    background: #135200;
   }
   &.active {
-    background: #213675;
+    background: #135200;
+    font-weight: bold;
   }
 `
 

@@ -1,23 +1,23 @@
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, SignatureOutlined } from '@ant-design/icons'
 import PromptPopup from '@renderer/components/Popups/PromptPopup'
-import { useAgent } from '@renderer/hooks/useAgents'
+import { useAssistant } from '@renderer/hooks/useAssistants'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { fetchConversationSummary } from '@renderer/services/api'
 import LocalStorage from '@renderer/services/storage'
-import { Agent, Topic } from '@renderer/types'
+import { Assistant, Topic } from '@renderer/types'
 import { Button, Dropdown, MenuProps, Popconfirm } from 'antd'
 import { FC, useRef } from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  agent: Agent
+  assistant: Assistant
   activeTopic: Topic
   setActiveTopic: (topic: Topic) => void
 }
 
-const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
+const TopicList: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
   const { showRightSidebar } = useShowRightSidebar()
-  const { removeTopic, updateTopic, removeAllTopics } = useAgent(agent.id)
+  const { removeTopic, updateTopic, removeAllTopics } = useAssistant(assistant.id)
 
   const currentTopic = useRef<Topic | null>(null)
 
@@ -25,6 +25,7 @@ const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
     {
       label: 'AI Rename',
       key: 'ai-rename',
+      icon: <SignatureOutlined />,
       async onClick() {
         if (currentTopic.current) {
           const messages = await LocalStorage.getTopicMessages(currentTopic.current.id)
@@ -40,6 +41,7 @@ const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
     {
       label: 'Rename',
       key: 'rename',
+      icon: <EditOutlined />,
       async onClick() {
         const name = await PromptPopup.show({
           title: 'Rename Topic',
@@ -53,17 +55,18 @@ const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
     }
   ]
 
-  if (agent.topics.length > 1) {
+  if (assistant.topics.length > 1) {
     items.push({ type: 'divider' })
     items.push({
       label: 'Delete',
       danger: true,
       key: 'delete',
+      icon: <DeleteOutlined />,
       onClick() {
-        if (agent.topics.length === 1) return
+        if (assistant.topics.length === 1) return
         currentTopic.current && removeTopic(currentTopic.current)
         currentTopic.current = null
-        setActiveTopic(agent.topics[0])
+        setActiveTopic(assistant.topics[0])
       }
     })
   }
@@ -75,7 +78,7 @@ const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
   return (
     <Container className={showRightSidebar ? '' : 'collapsed'}>
       <TopicTitle>
-        <span>Topics ({agent.topics.length})</span>
+        <span>Topics ({assistant.topics.length})</span>
         <Popconfirm
           icon={false}
           title="Delete all topic?"
@@ -90,7 +93,7 @@ const TopicList: FC<Props> = ({ agent, activeTopic, setActiveTopic }) => {
           </DeleteButton>
         </Popconfirm>
       </TopicTitle>
-      {agent.topics.map((topic) => (
+      {assistant.topics.map((topic) => (
         <Dropdown
           menu={{ items }}
           trigger={['contextMenu']}

@@ -1,4 +1,4 @@
-import { Agent, Message, Topic } from '@renderer/types'
+import { Assistant, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { ChatCompletionMessageParam, ChatCompletionSystemMessageParam } from 'openai/resources/chat'
 
@@ -7,16 +7,16 @@ import { openaiProvider } from './provider'
 
 interface FetchChatCompletionParams {
   message: Message
-  agent: Agent
+  assistant: Assistant
   topic: Topic
   onResponse: (message: Message) => void
 }
 
-export async function fetchChatCompletion({ message, agent, topic, onResponse }: FetchChatCompletionParams) {
+export async function fetchChatCompletion({ message, assistant, topic, onResponse }: FetchChatCompletionParams) {
   const stream = await openaiProvider.chat.completions.create({
     model: 'Qwen/Qwen2-7B-Instruct',
     messages: [
-      { role: 'system', content: agent.prompt },
+      { role: 'system', content: assistant.prompt },
       { role: 'user', content: message.content }
     ],
     stream: true
@@ -24,9 +24,9 @@ export async function fetchChatCompletion({ message, agent, topic, onResponse }:
 
   const _message: Message = {
     id: uuid(),
-    role: 'agent',
+    role: 'assistant',
     content: '',
-    agentId: agent.id,
+    assistantId: assistant.id,
     topicId: topic.id,
     createdAt: 'now'
   }

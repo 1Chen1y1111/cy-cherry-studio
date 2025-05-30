@@ -1,11 +1,11 @@
 import 'highlight.js/styles/github-dark.css'
 
 import { DEFAULT_TOPIC_NAME } from '@renderer/config/constant'
-import { useAgent } from '@renderer/hooks/useAgents'
+import { useAssistant } from '@renderer/hooks/useAssistants'
 import { fetchChatCompletion, fetchConversationSummary } from '@renderer/services/api'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import LocalStorage from '@renderer/services/storage'
-import { Agent, Message, Topic } from '@renderer/types'
+import { Assistant, Message, Topic } from '@renderer/types'
 import { runAsyncFunction } from '@renderer/utils'
 import hljs from 'highlight.js'
 import localforage from 'localforage'
@@ -16,14 +16,14 @@ import styled from 'styled-components'
 import MessageItem from './Message'
 
 interface Props {
-  agent: Agent
+  assistant: Assistant
   topic: Topic
 }
 
-const Conversations: FC<Props> = ({ agent, topic }) => {
+const Conversations: FC<Props> = ({ assistant, topic }) => {
   const [messages, setMessages] = useState<Message[]>([])
   const [lastMessage, setLastMessage] = useState<Message | null>(null)
-  const { updateTopic } = useAgent(agent.id)
+  const { updateTopic } = useAssistant(assistant.id)
 
   const onSendMessage = useCallback(
     (message: Message) => {
@@ -52,7 +52,7 @@ const Conversations: FC<Props> = ({ agent, topic }) => {
     const unsubscribes = [
       EventEmitter.on(EVENT_NAMES.SEND_MESSAGE, async (message: Message) => {
         onSendMessage(message)
-        fetchChatCompletion({ agent, message, topic, onResponse: setLastMessage })
+        fetchChatCompletion({ assistant, message, topic, onResponse: setLastMessage })
       }),
 
       EventEmitter.on(EVENT_NAMES.AI_CHAT_COMPLETION, async (message: Message) => {
@@ -73,7 +73,7 @@ const Conversations: FC<Props> = ({ agent, topic }) => {
     ]
 
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe())
-  }, [agent, autoRenameTopic, onSendMessage, topic, updateTopic])
+  }, [assistant, autoRenameTopic, onSendMessage, topic, updateTopic])
 
   useEffect(() => {
     runAsyncFunction(async () => {
