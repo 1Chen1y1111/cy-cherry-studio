@@ -1,4 +1,4 @@
-import { EllipsisOutlined } from '@ant-design/icons'
+import { MoreOutlined } from '@ant-design/icons'
 import AgentSettingPopup from '@renderer/components/Popups/AgentSettingPopup'
 import useAgents from '@renderer/hooks/useAgents'
 import { Agent } from '@renderer/types'
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Agents: FC<Props> = ({ activeAgent, onActive }) => {
-  const { agents, removeAgent } = useAgents()
+  const { agents, removeAgent, updateAgent } = useAgents()
   const targetAgent = useRef<Agent | null>(null)
 
   const onDelete = (agent: Agent) => {
@@ -31,18 +31,14 @@ const Agents: FC<Props> = ({ activeAgent, onActive }) => {
       key: 'edit',
       async onClick() {
         if (targetAgent.current) {
-          await AgentSettingPopup.show({
+          const _agent = await AgentSettingPopup.show({
             agent: targetAgent.current
           })
+          updateAgent(_agent)
         }
       }
     },
-    {
-      label: 'Favorite',
-      key: 'favorite'
-    },
     { type: 'divider' },
-
     {
       label: 'Delete',
       key: 'delete',
@@ -59,14 +55,15 @@ const Agents: FC<Props> = ({ activeAgent, onActive }) => {
             key={agent.id}
             className={agent.id === activeAgent?.id ? 'active' : ''}
             onClick={() => onActive(agent)}>
-            <Dropdown menu={{ items }}>
-              <EllipsisOutlined
-                style={{ position: 'absolute', right: 12, top: 12 }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  targetAgent.current = agent
-                }}
-              />
+            <Dropdown
+              menu={{ items }}
+              trigger={['click']}
+              placement="bottom"
+              arrow
+              onOpenChange={() => (targetAgent.current = agent)}>
+              <MenuButton className="menu-button" onClick={(e) => e.stopPropagation()}>
+                <MoreOutlined />
+              </MenuButton>
             </Dropdown>
             <AgentName>{agent.name}</AgentName>
             <AgentLastMessage>{agent.description}</AgentLastMessage>
@@ -103,6 +100,7 @@ const AgentItem = styled.div`
     background-color: var(--color-background-soft);
     .anticon {
       display: block;
+      color: var(--color-text-1);
     }
   }
   &.active {
@@ -127,6 +125,24 @@ const AgentLastMessage = styled.div`
   text-overflow: ellipsis;
   -webkit-line-clamp: 1;
   height: 20px;
+`
+
+const MenuButton = styled.div`
+  padding: 5px;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 10px;
+  top: 10px;
+  font-size: 18px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  &:hover {
+    background-color: #ffffff30;
+    .anticon {
+      color: white;
+    }
+  }
 `
 
 export default Agents
