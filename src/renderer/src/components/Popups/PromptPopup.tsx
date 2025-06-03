@@ -41,7 +41,7 @@ const PromptPopupContainer: React.FC<Props> = ({
 
   return (
     <Modal title={title} open={open} onOk={onOk} onCancel={handleCancel} afterClose={onClose}>
-      <Box mb={8}>{message}</Box>
+      <Box $mb={8}>{message}</Box>
       <Input
         placeholder={inputPlaceholder}
         value={value}
@@ -56,14 +56,17 @@ const PromptPopupContainer: React.FC<Props> = ({
 }
 
 export default class PromptPopup {
-  static topviewId = 0
+  static topViewId = 0
+
   static hide() {
-    TopView.hide(this.topviewId)
+    TopView.hide(this.topViewId)
   }
+
   static show(props: PromptPopupShowParams) {
     return new Promise<string>((resolve) => {
-      this.topviewId = TopView.show(
+      this.topViewId = TopView.show(
         <PromptPopupContainer
+          key={this.topViewId}
           {...props}
           resolve={(v) => {
             resolve(v)

@@ -48,6 +48,9 @@ const TopicList: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
           message: 'Please enter the new name',
           defaultValue: currentTopic.current?.name || ''
         })
+
+        console.log('🚀 ~ onClick ~ name:', currentTopic.current, name)
+
         if (name && currentTopic.current && currentTopic.current?.name !== name) {
           updateTopic({ ...currentTopic.current, name })
         }

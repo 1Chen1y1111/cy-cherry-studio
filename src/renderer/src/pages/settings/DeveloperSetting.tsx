@@ -5,6 +5,8 @@ const DeveloperSetting: FC = () => {
   return <Container>Developer</Container>
 }
 
-const Container = styled.div``
+const Container = styled.div`
+  padding: 20px;
+`
 
 export default DeveloperSetting

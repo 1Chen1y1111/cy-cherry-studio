@@ -34,9 +34,9 @@ const AssistantSettingPopupContainer: React.FC<Props> = ({ assistant, resolve })
 
   return (
     <Modal title={assistant.name} open={open} onOk={onOk} onCancel={handleCancel} afterClose={onClose}>
-      <Box mb={8}>Name</Box>
+      <Box $mb={8}>Name</Box>
       <Input placeholder="Assistant Name" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
-      <Box mt={8} mb={8}>
+      <Box $mt={8} $mb={8}>
         Description
       </Box>
       <TextArea
@@ -46,7 +46,7 @@ const AssistantSettingPopupContainer: React.FC<Props> = ({ assistant, resolve })
         onChange={(e) => setDescription(e.target.value)}
         autoFocus
       />
-      <Box mt={8} mb={8}>
+      <Box $mt={8} $mb={8}>
         Prompt
       </Box>
       <TextArea
@@ -69,6 +69,7 @@ export default class AssistantSettingPopup {
     return new Promise<Assistant>((resolve) => {
       this.topViewId = TopView.show(
         <AssistantSettingPopupContainer
+          key={this.topViewId}
           {...props}
           resolve={(v) => {
             resolve(v)

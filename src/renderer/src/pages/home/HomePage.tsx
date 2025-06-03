@@ -1,5 +1,5 @@
 import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
-import useAssistants from '@renderer/hooks/useAssistants'
+import { useAssistants } from '@renderer/hooks/useAssistants'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { getDefaultAssistant } from '@renderer/services/assistant'
 import { uuid } from '@renderer/utils'
