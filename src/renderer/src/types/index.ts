@@ -4,6 +4,7 @@ export type Assistant = {
   description: string
   prompt: string
   topics: Topic[]
+  model?: Model
 }
 
 export type Message = {
@@ -33,14 +34,13 @@ export type Provider = {
   name: string
   apiKey: string
   apiHost: string
-  apiPath: string
   models: Model[]
   isSystem?: boolean
-  isDefault?: boolean
 }
 
 export type Model = {
   id: string
+  provider: string
   name: string
   group: string
   temperature: number

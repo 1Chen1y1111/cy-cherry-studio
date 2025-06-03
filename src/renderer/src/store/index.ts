@@ -20,7 +20,8 @@ const persistConfig = {
 }
 
 const store = configureStore({
-  reducer: persistReducer(persistConfig, rootReducer),
+  // @ts-ignore store type is unknown
+  reducer: persistReducer(persistConfig, rootReducer) as typeof rootReducer,
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
       serializableCheck: {

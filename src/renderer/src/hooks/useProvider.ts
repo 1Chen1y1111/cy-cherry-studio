@@ -4,10 +4,14 @@ import {
   removeModel as _removeModel,
   updateProvider as _updateProvider
 } from '@renderer/store/llm'
-import { Model, Provider } from '@renderer/types'
+import { Assistant, Model, Provider } from '@renderer/types'
+import { useMemo } from 'react'
+
+import { useDefaultModel } from './useAssistants'
 
 export function useProvider(id: string) {
-  const provider = useAppSelector((state) => state.llm.providers.filter((p) => p.id === id) as Provider)
+  const providers = useAppSelector((state) => state.llm.providers)
+  const provider = useMemo(() => providers.find((p) => p.id === id) as Provider, [providers, id])
   const dispatch = useAppDispatch()
 
   return {
@@ -23,10 +27,14 @@ export function useProviders() {
   return useAppSelector((state) => state.llm.providers)
 }
 
-export function useDefaultProvider() {
-  return useAppSelector((state) => state.llm.providers.find((p) => p.isDefault))
+export function useProviderByAssistant(assistant: Assistant) {
+  const { defaultModel } = useDefaultModel()
+  const model = assistant.model || defaultModel
+  const { provider } = useProvider(model.provider)
+
+  return provider
 }
 
 export function useSystemProviders() {
-  return useAppSelector((state) => state.llm.providers.filter((p) => p.isSystem))
+  return useAppSelector((state) => state.llm.providers.filter((p) => p.isSystem)) as unknown as Provider
 }

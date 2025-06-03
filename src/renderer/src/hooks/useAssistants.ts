@@ -5,10 +5,11 @@ import {
   removeAllTopics as _removeAllTopics,
   removeAssistant,
   removeTopic as _removeTopic,
+  setModel as _setModel,
   updateAssistant,
   updateTopic as _updateTopic
 } from '@renderer/store/assistants'
-import { Assistant, Topic } from '@renderer/types'
+import { Assistant, Model, Topic } from '@renderer/types'
 import localforage from 'localforage'
 
 export function useAssistants() {
@@ -32,9 +33,11 @@ export function useAssistants() {
 export function useAssistant(id: string) {
   const assistant = useAppSelector((state) => state.assistants.assistants.find((a) => a.id === id) as Assistant)
   const dispatch = useAppDispatch()
+  const { defaultModel } = useDefaultModel()
 
   return {
     assistant,
+    model: assistant?.model ?? defaultModel,
     addTopic: (topic: Topic) => {
       dispatch(_addTopic({ assistantId: assistant.id, topic }))
     },
@@ -46,6 +49,14 @@ export function useAssistant(id: string) {
     },
     removeAllTopics: () => {
       dispatch(_removeAllTopics({ assistantId: assistant.id }))
+    },
+    setModel: (model: Model) => {
+      dispatch(_setModel({ assistantId: assistant.id, model }))
     }
   }
+}
+
+export function useDefaultModel() {
+  const defaultModel = useAppSelector((state) => state.llm.defaultModel)
+  return { defaultModel }
 }

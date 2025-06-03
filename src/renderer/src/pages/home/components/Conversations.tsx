@@ -2,6 +2,7 @@ import 'highlight.js/styles/github-dark.css'
 
 import { DEFAULT_TOPIC_NAME } from '@renderer/config/constant'
 import { useAssistant } from '@renderer/hooks/useAssistants'
+import { useProviderByAssistant } from '@renderer/hooks/useProvider'
 import { fetchChatCompletion, fetchConversationSummary } from '@renderer/services/api'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import LocalStorage from '@renderer/services/storage'
@@ -24,6 +25,7 @@ const Conversations: FC<Props> = ({ assistant, topic }) => {
   const [messages, setMessages] = useState<Message[]>([])
   const [lastMessage, setLastMessage] = useState<Message | null>(null)
   const { updateTopic } = useAssistant(assistant.id)
+  const provider = useProviderByAssistant(assistant)
 
   const onSendMessage = useCallback(
     (message: Message) => {
@@ -40,13 +42,10 @@ const Conversations: FC<Props> = ({ assistant, topic }) => {
 
   const autoRenameTopic = useCallback(async () => {
     if (topic.name === DEFAULT_TOPIC_NAME && messages.length >= 2) {
-      const summaryText = await fetchConversationSummary({ messages })
-
-      if (summaryText) {
-        updateTopic({ ...topic, name: summaryText })
-      }
+      const summaryText = await fetchConversationSummary({ messages, assistant })
+      summaryText && updateTopic({ ...topic, name: summaryText })
     }
-  }, [messages, topic, updateTopic])
+  }, [messages, topic, assistant, updateTopic])
 
   useEffect(() => {
     const unsubscribes = [
@@ -73,14 +72,14 @@ const Conversations: FC<Props> = ({ assistant, topic }) => {
     ]
 
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe())
-  }, [assistant, autoRenameTopic, onSendMessage, topic, updateTopic])
+  }, [assistant, provider, autoRenameTopic, onSendMessage, topic, updateTopic])
 
   useEffect(() => {
     runAsyncFunction(async () => {
-      const messages = await LocalStorage.getTopicMessages(topic.id)
-      setMessages(messages)
+      const messages = await LocalStorage.getTopicMessages(topic?.id)
+      setMessages(messages || [])
     })
-  }, [topic.id])
+  }, [topic?.id])
 
   useEffect(() => hljs.highlightAll())
 

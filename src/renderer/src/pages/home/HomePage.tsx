@@ -1,4 +1,4 @@
-import { Navbar, NavbarCenter, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
+import { Navbar, NavbarLeft, NavbarRight } from '@renderer/components/app/Navbar'
 import { useAssistants } from '@renderer/hooks/useAssistants'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { getDefaultAssistant } from '@renderer/services/assistant'
@@ -8,7 +8,8 @@ import { FC, useState } from 'react'
 import styled from 'styled-components'
 
 import Assistants from './components/Assistants'
-import Chat from './components/Chat/Chat'
+import Chat from './components/Chat'
+import Navigation from './components/Navigation'
 
 const HomePage: FC = () => {
   const { assistants, addAssistant } = useAssistants()
@@ -30,7 +31,7 @@ const HomePage: FC = () => {
             <i className="iconfont icon-a-addchat"></i>
           </NewButton>
         </NavbarLeft>
-        <NavbarCenter style={{ border: 'none' }}>{activeAssistant?.name}</NavbarCenter>
+        <Navigation activeAssistant={activeAssistant} />
         <NavbarRight style={{ justifyContent: 'flex-end', padding: 5 }}>
           <Tooltip placement="left" title={showRightSidebar ? 'Hide Topics' : 'Show Topics'} arrow>
             <NewButton onClick={setShowRightSidebar}>
