@@ -5,7 +5,7 @@ import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import { Assistant, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { Button, Popconfirm, Tooltip } from 'antd'
-import { FC, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -17,6 +17,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   const [text, setText] = useState('')
   const { setShowRightSidebar } = useShowRightSidebar()
   const { addTopic } = useAssistant(assistant.id)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter') {
@@ -38,7 +39,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
     }
   }
 
-  const addNewConversation = () => {
+  const addNewTopic = useCallback(() => {
     const topic: Topic = {
       id: uuid(),
       name: 'Default Topic',
@@ -47,18 +48,35 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
 
     addTopic(topic)
     setActiveTopic(topic)
-  }
+  }, [addTopic, setActiveTopic])
 
   const clearTopic = () => {
     EventEmitter.emit(EVENT_NAMES.CLEAR_CONVERSATION)
   }
+
+  // Command or Ctrl + N create new topic
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+        addNewTopic()
+        inputRef.current?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [addNewTopic])
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [assistant])
 
   return (
     <Container>
       <Toolbar>
         <ToolbarMenu>
           <Tooltip placement="top" title=" New Chat " arrow>
-            <ToolbarButton onClick={addNewConversation}>
+            <ToolbarButton onClick={addNewTopic}>
               <i className="iconfont icon-a-new-chat" />
             </ToolbarButton>
           </Tooltip>
@@ -95,9 +113,10 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Type a message..."
+        placeholder="Type your message here..."
         autoFocus
         contextMenu="true"
+        ref={inputRef}
       />
     </Container>
   )
