@@ -36,5 +36,6 @@ export function useProviderByAssistant(assistant: Assistant) {
 }
 
 export function useSystemProviders() {
-  return useAppSelector((state) => state.llm.providers.filter((p) => p.isSystem)) as unknown as Provider
+  const providers = useAppSelector((state) => state.llm.providers)
+  return useMemo(() => providers.filter((p) => p.isSystem), [providers])
 }

@@ -7,93 +7,37 @@ export const SYSTEM_MODELS: Record<string, SystemModel[]> = {
     {
       id: 'gpt-3.5-turbo',
       provider: 'openai',
-      name: 'gpt-3.5-turbo',
+      name: 'GPT-3.5 Turbo',
       group: 'GPT 3.5',
       temperature: 0.7,
       defaultEnabled: true
     },
     {
-      id: 'gpt-3.5-turbo-0301',
+      id: 'gpt-4-turbo',
       provider: 'openai',
-      name: 'gpt-3.5-turbo',
-      group: 'GPT 3.5',
-      temperature: 0.3,
-      defaultEnabled: false
+      name: ' GPT-4 Turbo',
+      group: 'GPT 4',
+      temperature: 0.7,
+      defaultEnabled: true
     },
     {
       id: 'gpt-4',
       provider: 'openai',
-      name: 'gpt-4',
+      name: ' GPT-4',
       group: 'GPT 4',
       temperature: 0.7,
       defaultEnabled: true
     },
     {
-      id: 'gpt-4-0314',
+      id: 'gpt-4o',
       provider: 'openai',
-      name: 'gpt-4',
-      group: 'GPT 4',
-      temperature: 0.3,
-      defaultEnabled: false
-    },
-    {
-      id: 'gpt-4-32k',
-      provider: 'openai',
-      name: 'gpt-4-32k',
-      group: 'GPT 4',
+      name: ' GPT-4o',
+      group: 'GPT 4o',
       temperature: 0.7,
-      defaultEnabled: false
-    },
-    {
-      id: 'gpt-4-32k-0314',
-      provider: 'openai',
-      name: 'gpt-4-32k',
-      group: 'GPT 4',
-      temperature: 0.3,
-      defaultEnabled: false
+      defaultEnabled: true
     }
   ],
   silicon: [
-    {
-      id: 'deepseek-ai/DeepSeek-V2-Chat',
-      provider: 'silicon',
-      name: 'DeepSeek-V2-Chat',
-      group: 'DeepSeek',
-      temperature: 0.7,
-      defaultEnabled: true
-    },
-    {
-      id: 'deepseek-ai/DeepSeek-Coder-V2-Instruct',
-      provider: 'silicon',
-      name: 'DeepSeek-Coder-V2-Instruct',
-      group: 'DeepSeek',
-      temperature: 0.7,
-      defaultEnabled: true
-    },
-    {
-      id: 'deepseek-ai/deepseek-llm-67b-chat',
-      provider: 'silicon',
-      name: 'deepseek-llm-67b-chat',
-      group: 'DeepSeek',
-      temperature: 0.7,
-      defaultEnabled: false
-    },
-    {
-      id: 'google/gemma-2-27b-it',
-      provider: 'silicon',
-      name: 'gemma-2-27b-it',
-      group: 'Gemma',
-      temperature: 0.7,
-      defaultEnabled: false
-    },
-    {
-      id: 'google/gemma-2-9b-it',
-      provider: 'silicon',
-      name: 'gemma-2-9b-it',
-      group: 'Gemma',
-      temperature: 0.7,
-      defaultEnabled: false
-    },
     {
       id: 'Qwen/Qwen2-7B-Instruct',
       provider: 'silicon',
@@ -155,6 +99,46 @@ export const SYSTEM_MODELS: Record<string, SystemModel[]> = {
       provider: 'silicon',
       name: 'Qwen1.5-14B-Chat',
       group: 'Qwen1.5',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'deepseek-ai/DeepSeek-V2-Chat',
+      provider: 'silicon',
+      name: 'DeepSeek-V2-Chat',
+      group: 'DeepSeek',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'deepseek-ai/DeepSeek-Coder-V2-Instruct',
+      provider: 'silicon',
+      name: 'DeepSeek-Coder-V2-Instruct',
+      group: 'DeepSeek',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'deepseek-ai/deepseek-llm-67b-chat',
+      provider: 'silicon',
+      name: 'deepseek-llm-67b-chat',
+      group: 'DeepSeek',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'google/gemma-2-27b-it',
+      provider: 'silicon',
+      name: 'gemma-2-27b-it',
+      group: 'Gemma',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'google/gemma-2-9b-it',
+      provider: 'silicon',
+      name: 'gemma-2-9b-it',
+      group: 'Gemma',
       temperature: 0.7,
       defaultEnabled: false
     },

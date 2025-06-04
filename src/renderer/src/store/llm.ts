@@ -6,10 +6,12 @@ import { unionBy } from 'lodash'
 export interface LlmState {
   defaultModel: Model
   providers: Provider[]
+  topicNamingModel: Model
 }
 
 const initialState: LlmState = {
   defaultModel: SYSTEM_MODELS.openai[0],
+  topicNamingModel: SYSTEM_MODELS.openai[0],
   providers: [
     {
       id: 'openai',
@@ -78,10 +80,24 @@ const settingsSlice = createSlice({
             }
           : p
       })
+    },
+    setDefaultModel: (state, action: PayloadAction<{ model: Model }>) => {
+      state.defaultModel = action.payload.model
+    },
+    setTopicNamingModel: (state, action: PayloadAction<{ model: Model }>) => {
+      state.topicNamingModel = action.payload.model
     }
   }
 })
 
-export const { addProvider, removeProvider, updateProvider, addModel, removeModel } = settingsSlice.actions
+export const {
+  addProvider,
+  removeProvider,
+  updateProvider,
+  addModel,
+  removeModel,
+  setDefaultModel,
+  setTopicNamingModel
+} = settingsSlice.actions
 
 export default settingsSlice.reducer
