@@ -7,6 +7,7 @@ import {
   removeTopic as _removeTopic,
   setModel as _setModel,
   updateAssistant,
+  updateDefaultAssistant as _updateDefaultAssistant,
   updateTopic as _updateTopic
 } from '@renderer/store/assistants'
 import { setDefaultModel as _setDefaultModel, setTopicNamingModel as _setTopicNamingModel } from '@renderer/store/llm'
@@ -54,6 +55,16 @@ export function useAssistant(id: string) {
     setModel: (model: Model) => {
       dispatch(_setModel({ assistantId: assistant.id, model }))
     }
+  }
+}
+
+export function useDefaultAssistant() {
+  const { defaultAssistant } = useAppSelector((state) => state.assistants)
+  const dispatch = useAppDispatch()
+
+  return {
+    defaultAssistant,
+    updateDefaultAssistant: (assistant: Assistant) => dispatch(_updateDefaultAssistant({ assistant }))
   }
 }
 
