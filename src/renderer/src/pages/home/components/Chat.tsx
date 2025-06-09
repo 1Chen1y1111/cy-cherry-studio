@@ -5,8 +5,8 @@ import { Flex } from 'antd'
 import { FC } from 'react'
 import styled from 'styled-components'
 
-import Conversations from './Conversations'
 import InputChat from './InputChat'
+import Messages from './Messages'
 import TopicList from './TopicList'
 
 interface Props {
@@ -24,7 +24,7 @@ const Chat: FC<Props> = (props) => {
   return (
     <Container id="chat">
       <Flex vertical flex={1} justify="space-between">
-        <Conversations assistant={assistant} topic={activeTopic} />
+        <Messages assistant={assistant} topic={activeTopic} />
 
         <InputChat assistant={assistant} setActiveTopic={setActiveTopic} />
       </Flex>

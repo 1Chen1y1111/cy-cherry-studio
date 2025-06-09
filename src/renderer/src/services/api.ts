@@ -59,12 +59,12 @@ export async function fetchChatCompletion({ message, assistant, topic, onRespons
   return _message
 }
 
-interface FetchConversationSummaryParams {
+interface FetchMessagesSummaryParams {
   messages: Message[]
   assistant: Assistant
 }
 
-export async function fetchConversationSummary({ messages, assistant }: FetchConversationSummaryParams) {
+export async function fetchMessagesSummary({ messages, assistant }: FetchMessagesSummaryParams) {
   const provider = getAssistantProvider(assistant)
   const openaiProvider = getOpenAiProvider(provider)
   const defaultModel = getDefaultModel()

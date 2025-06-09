@@ -14,7 +14,7 @@ export function getDefaultAssistant(): Assistant {
   return {
     id: 'default',
     name: 'Default Assistant',
-    description: "Hello, I'm Default Assistant.",
+    description: "Hello, I'm Default Assistant. You can start chatting with me right away",
     prompt: '',
     topics: [getDefaultTopic()]
   }

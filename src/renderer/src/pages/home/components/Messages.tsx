@@ -3,7 +3,7 @@ import 'highlight.js/styles/github-dark.css'
 import { DEFAULT_TOPIC_NAME } from '@renderer/config/constant'
 import { useAssistant } from '@renderer/hooks/useAssistants'
 import { useProviderByAssistant } from '@renderer/hooks/useProvider'
-import { fetchChatCompletion, fetchConversationSummary } from '@renderer/services/api'
+import { fetchChatCompletion, fetchMessagesSummary } from '@renderer/services/api'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import LocalStorage from '@renderer/services/storage'
 import { Assistant, Message, Topic } from '@renderer/types'
@@ -21,7 +21,7 @@ interface Props {
   topic: Topic
 }
 
-const Conversations: FC<Props> = ({ assistant, topic }) => {
+const Messages: FC<Props> = ({ assistant, topic }) => {
   const [messages, setMessages] = useState<Message[]>([])
   const [lastMessage, setLastMessage] = useState<Message | null>(null)
   const { updateTopic } = useAssistant(assistant.id)
@@ -51,7 +51,7 @@ const Conversations: FC<Props> = ({ assistant, topic }) => {
 
   const autoRenameTopic = useCallback(async () => {
     if (topic.name === DEFAULT_TOPIC_NAME && messages.length >= 2) {
-      const summaryText = await fetchConversationSummary({ messages, assistant })
+      const summaryText = await fetchMessagesSummary({ messages, assistant })
       summaryText && updateTopic({ ...topic, name: summaryText })
     }
   }, [messages, topic, assistant, updateTopic])
@@ -73,7 +73,7 @@ const Conversations: FC<Props> = ({ assistant, topic }) => {
 
       EventEmitter.on(EVENT_NAMES.AI_AUTO_RENAME, autoRenameTopic),
 
-      EventEmitter.on(EVENT_NAMES.CLEAR_CONVERSATION, () => {
+      EventEmitter.on(EVENT_NAMES.CLEAR_MESSAGES, () => {
         setMessages([])
         updateTopic({ ...topic, messages: [] })
         LocalStorage.clearTopicMessages(topic.id)
@@ -114,4 +114,4 @@ const Container = styled.div`
   }
 `
 
-export default Conversations
+export default Messages
