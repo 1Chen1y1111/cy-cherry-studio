@@ -14,6 +14,7 @@ interface Props {
 }
 
 const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
+  console.log('🚀 ~ message:', message)
   const { avatar } = useAvatar()
 
   const onCopy = () => {
@@ -41,6 +42,7 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
           <MenusBar className="menubar">
             <CopyOutlined onClick={onCopy} />
             <DeleteOutlined onClick={onDelete} />
+            <ModelName>{message.modelId}</ModelName>
           </MenusBar>
         )}
       </MessageContent>
@@ -87,6 +89,11 @@ const MenusBar = styled.div`
       color: var(--color-text-1);
     }
   }
+`
+
+const ModelName = styled.div`
+  font-size: 12px;
+  color: var(--color-text-2);
 `
 
 export default MessageItem

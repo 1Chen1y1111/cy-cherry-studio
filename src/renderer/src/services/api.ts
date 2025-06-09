@@ -1,5 +1,6 @@
 import { Assistant, Message, Provider, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
+import dayjs from 'dayjs'
 import { takeRight } from 'lodash'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam, ChatCompletionSystemMessageParam } from 'openai/resources/chat'
@@ -43,7 +44,8 @@ export async function fetchChatCompletion({ messages, assistant, topic, onRespon
     content: '',
     assistantId: assistant.id,
     topicId: topic.id,
-    createdAt: 'now'
+    modelId: model.id,
+    createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
   }
 
   let content = ''

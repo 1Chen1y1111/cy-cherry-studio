@@ -6,6 +6,7 @@ import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import { Assistant, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { Button, Popconfirm, Tooltip } from 'antd'
+import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -35,7 +36,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
       content: text,
       assistantId: assistant.id,
       topicId: assistant.topics[0].id || uuid(),
-      createdAt: 'now'
+      createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
 
     EventEmitter.emit(EVENT_NAMES.SEND_MESSAGE, message)
