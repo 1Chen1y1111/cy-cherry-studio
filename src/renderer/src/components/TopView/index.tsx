@@ -1,10 +1,15 @@
 import { findIndex, pullAt } from 'lodash'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 let id = 0
 let onPop = () => {}
-let onShow = ({ element, key }: { element: React.FC | React.ReactNode; key: number }) => {}
-let onHide = ({ key }: { key: number }) => {}
+let onShow = ({ element: _element, key: _key }: { element: React.FC | React.ReactNode; key: number }) => {
+  void _element
+  void _key
+}
+let onHide = ({ key: _key }: { key: number }) => {
+  void _key
+}
 
 interface Props {
   children?: React.ReactNode

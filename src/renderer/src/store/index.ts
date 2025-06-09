@@ -16,10 +16,10 @@ const rootReducer = combineReducers({
 })
 
 const persistConfig = {
-  key: 'cherry-ai',
+  key: 'cherry-studio',
   storage,
   version: 1,
-  whiteList: ['runtime']
+  blacklist: ['runtime']
 }
 
 const store = configureStore({

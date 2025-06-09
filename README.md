@@ -1,6 +1,6 @@
 # cy-cherry-studio-clone
 
-An Electron application with React and TypeScript
+Cherry Studio is a desktop client for multiple cutting-edge LLM models, available on Windows, Mac and Linux.
 
 ## Recommended IDE Setup
 

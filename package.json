@@ -21,27 +21,10 @@
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "dependencies": {
-    "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@fontsource/inter": "^5.2.5",
-    "@reduxjs/toolkit": "^2.8.1",
-    "ahooks": "^3.8.5",
-    "antd": "^5.25.2",
-    "browser-image-compression": "^2.0.2",
-    "dayjs": "^1.11.13",
     "electron-updater": "^6.3.9",
-    "electron-window-state": "^5.0.3",
-    "highlight.js": "^11.11.1",
-    "localforage": "^1.10.0",
-    "lodash": "^4.17.21",
-    "marked": "^15.0.12",
-    "openai": "^4.102.0",
-    "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0",
-    "uuid": "^11.1.0"
+    "electron-window-state": "^5.0.3"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
@@ -71,7 +54,24 @@
     "sass": "^1.88.0",
     "styled-components": "^6.1.18",
     "typescript": "^5.8.3",
-    "vite": "^6.2.6"
+    "vite": "^6.2.6",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/inter": "^5.2.5",
+    "@reduxjs/toolkit": "^2.8.1",
+    "ahooks": "^3.8.5",
+    "antd": "^5.25.2",
+    "browser-image-compression": "^2.0.2",
+    "dayjs": "^1.11.13",
+    "highlight.js": "^11.11.1",
+    "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
+    "marked": "^15.0.12",
+    "openai": "^4.102.0",
+    "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0",
+    "uuid": "^11.1.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

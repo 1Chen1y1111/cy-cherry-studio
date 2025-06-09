@@ -3,7 +3,7 @@ import '@fontsource/inter'
 import store, { persistor } from '@renderer/store'
 import { ConfigProvider } from 'antd'
 import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import Sidebar from './components/app/Sidebar'
@@ -19,15 +19,15 @@ function App(): React.JSX.Element {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <TopViewContainer>
-            <BrowserRouter>
+            <HashRouter>
               <Sidebar />
 
               <Routes>
-                <Route path="" element={<HomePage />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/apps" element={<AppsPage />} />
                 <Route path="/settings/*" element={<SettingsPage />} />
               </Routes>
-            </BrowserRouter>
+            </HashRouter>
           </TopViewContainer>
         </PersistGate>
       </Provider>

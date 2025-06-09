@@ -6,7 +6,7 @@ function init(): void {
     name: 'CherryAI',
     version: 1.0,
     storeName: 'cherryai',
-    description: 'Cherry AI storage'
+    description: 'Cherry Studio storage'
   })
 }
 
