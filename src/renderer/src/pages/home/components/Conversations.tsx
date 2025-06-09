@@ -27,6 +27,15 @@ const Conversations: FC<Props> = ({ assistant, topic }) => {
   const { updateTopic } = useAssistant(assistant.id)
   const provider = useProviderByAssistant(assistant)
 
+  const assistantDefaultMessage: Message = {
+    id: 'assistant',
+    role: 'assistant',
+    content: assistant.description,
+    assistantId: assistant.id,
+    topicId: topic.id,
+    createdAt: new Date().toISOString()
+  }
+
   const onSendMessage = useCallback(
     (message: Message) => {
       const _messages = [...messages, message]
@@ -89,6 +98,7 @@ const Conversations: FC<Props> = ({ assistant, topic }) => {
       {reverse([...messages]).map((message) => (
         <MessageItem message={message} key={message.id} />
       ))}
+      <MessageItem message={assistantDefaultMessage} />
     </Container>
   )
 }

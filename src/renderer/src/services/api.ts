@@ -3,7 +3,7 @@ import { uuid } from '@renderer/utils'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam, ChatCompletionSystemMessageParam } from 'openai/resources/chat'
 
-import { getAssistantProvider } from './assistant'
+import { getAssistantProvider, getDefaultModel } from './assistant'
 import { EVENT_NAMES, EventEmitter } from './event'
 
 interface FetchChatCompletionParams {
@@ -24,9 +24,11 @@ const getOpenAiProvider = (provider: Provider) => {
 export async function fetchChatCompletion({ message, assistant, topic, onResponse }: FetchChatCompletionParams) {
   const provider = getAssistantProvider(assistant)
   const openaiProvider = getOpenAiProvider(provider)
+  const defaultModel = getDefaultModel()
+  const model = assistant.model || defaultModel
 
   const stream = await openaiProvider.chat.completions.create({
-    model: assistant.model?.id || '',
+    model: model.id,
     messages: [
       { role: 'system', content: assistant.prompt },
       { role: 'user', content: message.content }
@@ -65,6 +67,8 @@ interface FetchConversationSummaryParams {
 export async function fetchConversationSummary({ messages, assistant }: FetchConversationSummaryParams) {
   const provider = getAssistantProvider(assistant)
   const openaiProvider = getOpenAiProvider(provider)
+  const defaultModel = getDefaultModel()
+  const model = assistant.model || defaultModel
 
   const userMessages: ChatCompletionMessageParam[] = messages.map((message) => ({
     role: 'user',
@@ -78,7 +82,7 @@ export async function fetchConversationSummary({ messages, assistant }: FetchCon
   }
 
   const stream = await openaiProvider.chat.completions.create({
-    model: assistant.model?.id || '',
+    model: model.id,
     messages: [systemMessage, ...userMessages],
     stream: false
   })
