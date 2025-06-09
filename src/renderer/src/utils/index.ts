@@ -1,3 +1,4 @@
+import imageCompression from 'browser-image-compression'
 import { v4 as uuidv4 } from 'uuid'
 
 /**
@@ -61,3 +62,25 @@ export const waitAsyncFunction = (fn: () => Promise<any>, interval = 200, stopTi
  * @returns uuid
  */
 export const uuid = (): string => uuidv4()
+
+/**
+ * 将文件转换为 Base64 格式
+ * @param file 要转换的文件对象
+ * @returns Promise<string | ArrayBuffer | null> 返回 Base64 字符串或 null
+ */
+export const convertToBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result)
+    reader.onerror = () => reject
+    reader.readAsDataURL(file)
+  })
+}
+
+export const compressImage = async (file: File) => {
+  return await imageCompression(file, {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 300,
+    useWebWorker: false
+  })
+}

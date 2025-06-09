@@ -5,18 +5,21 @@ import storage from 'redux-persist/lib/storage'
 
 import assistantsReducer from './assistants'
 import llmReducer from './llm'
+import runtimeReducer from './runtime'
 import settingsReducer from './settings'
 
 const rootReducer = combineReducers({
   assistants: assistantsReducer,
   settings: settingsReducer,
-  llm: llmReducer
+  llm: llmReducer,
+  runtime: runtimeReducer
 })
 
 const persistConfig = {
   key: 'cherry-ai',
   storage,
-  version: 1
+  version: 1,
+  whiteList: ['runtime']
 }
 
 const store = configureStore({
