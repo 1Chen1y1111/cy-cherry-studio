@@ -1,12 +1,16 @@
 import { ClearOutlined, MoreOutlined } from '@ant-design/icons'
 import { useAssistant } from '@renderer/hooks/useAssistants'
+import { useSettings } from '@renderer/hooks/useSettings'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import { Assistant, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { Button, Popconfirm, Tooltip } from 'antd'
+import { isEmpty } from 'lodash'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+
+import SendMessageSetting from './SendMessageSetting'
 
 interface Props {
   assistant: Assistant
@@ -17,25 +21,41 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   const [text, setText] = useState('')
   const { setShowRightSidebar } = useShowRightSidebar()
   const { addTopic } = useAssistant(assistant.id)
+  const { sendMessageShortcut } = useSettings()
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    if (e.key === 'Enter') {
-      const topicId = assistant.topics[0] ? assistant.topics[0].id : uuid()
+  const sendMessage = () => {
+    if (isEmpty(text.trim())) {
+      return
+    }
 
-      const message: Message = {
-        id: uuid(),
-        role: 'user',
-        content: text,
-        assistantId: assistant.id,
-        topicId,
-        createdAt: 'now'
+    const message: Message = {
+      id: uuid(),
+      role: 'user',
+      content: text,
+      assistantId: assistant.id,
+      topicId: assistant.topics[0].id || uuid(),
+      createdAt: 'now'
+    }
+
+    EventEmitter.emit(EVENT_NAMES.SEND_MESSAGE, message)
+
+    setText('')
+  }
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
+    if (sendMessageShortcut === 'Enter' && event.key === 'Enter') {
+      if (event.shiftKey) {
+        return
       }
 
-      EventEmitter.emit(EVENT_NAMES.SEND_MESSAGE, message)
+      sendMessage()
+      return event.preventDefault()
+    }
 
-      setText('')
-      e.preventDefault()
+    if (sendMessageShortcut === 'Shift+Enter' && event.key === 'Enter' && event.shiftKey) {
+      sendMessage()
+      return event.preventDefault()
     }
   }
 
@@ -101,11 +121,11 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
           </Tooltip>
         </ToolbarMenu>
         <ToolbarMenu>
-          <Tooltip placement="top" title=" Settings " arrow>
+          <SendMessageSetting>
             <ToolbarButton style={{ marginRight: 0 }}>
               <MoreOutlined />
             </ToolbarButton>
-          </Tooltip>
+          </SendMessageSetting>
         </ToolbarMenu>
       </Toolbar>
 
