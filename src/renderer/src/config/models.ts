@@ -181,46 +181,6 @@ export const SYSTEM_MODELS: Record<string, SystemModel[]> = {
       group: 'Yi',
       temperature: 0.7,
       defaultEnabled: false
-    },
-    {
-      id: 'OpenAI/GPT-4o',
-      provider: 'silicon',
-      name: 'GPT-4o',
-      group: 'OpenAI',
-      temperature: 0.7,
-      defaultEnabled: false
-    },
-    {
-      id: 'OpenAI/GPT-3.5 Turbo',
-      provider: 'silicon',
-      name: 'GPT-3.5 Turbo',
-      group: 'OpenAI',
-      temperature: 0.7,
-      defaultEnabled: false
-    },
-    {
-      id: 'Anthropic/claude-3-5-sonnet',
-      provider: 'silicon',
-      name: 'claude-3-5-sonnet',
-      group: 'Claude',
-      temperature: 0.7,
-      defaultEnabled: false
-    },
-    {
-      id: 'meta-llama/Meta-Llama-3-8B-Instruct',
-      provider: 'silicon',
-      name: 'Meta-Llama-3-8B-Instruct',
-      group: 'Meta Llama',
-      temperature: 0.7,
-      defaultEnabled: false
-    },
-    {
-      id: 'meta-llama/Meta-Llama-3-70B-Instruct',
-      provider: 'silicon',
-      name: 'Meta-Llama-3-70B-Instruct',
-      group: 'Meta Llama',
-      temperature: 0.7,
-      defaultEnabled: false
     }
   ],
   deepseek: [
@@ -239,6 +199,56 @@ export const SYSTEM_MODELS: Record<string, SystemModel[]> = {
       group: 'Deepseek Coder',
       temperature: 1.0,
       defaultEnabled: true
+    }
+  ],
+  yi: [
+    {
+      id: 'yi-large',
+      provider: 'yi',
+      name: 'yi-large',
+      group: 'Yi',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'yi-large-turbo',
+      provider: 'yi',
+      name: 'yi-large-turbo',
+      group: 'Yi',
+      temperature: 0.7,
+      defaultEnabled: true
+    },
+    {
+      id: 'yi-large-rag',
+      provider: 'yi',
+      name: 'yi-large-rag',
+      group: 'Yi',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'yi-medium',
+      provider: 'yi',
+      name: 'yi-medium',
+      group: 'Yi',
+      temperature: 0.7,
+      defaultEnabled: true
+    },
+    {
+      id: 'yi-medium-200k',
+      provider: 'yi',
+      name: 'yi-medium-200k',
+      group: 'Yi',
+      temperature: 0.7,
+      defaultEnabled: false
+    },
+    {
+      id: 'yi-spark',
+      provider: 'yi',
+      name: 'yi-spark',
+      group: 'Yi',
+      temperature: 0.7,
+      defaultEnabled: false
     }
   ],
   groq: [

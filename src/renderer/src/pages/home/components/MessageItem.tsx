@@ -14,7 +14,6 @@ interface Props {
 }
 
 const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
-  console.log('🚀 ~ message:', message)
   const { avatar } = useAvatar()
 
   const onCopy = () => {
@@ -24,6 +23,7 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
 
   const onDelete = async () => {
     const confirmed = await window.modal.confirm({
+      icon: null,
       title: 'Delete Message',
       content: 'Are you sure you want to delete this message?',
       okText: 'Delete',

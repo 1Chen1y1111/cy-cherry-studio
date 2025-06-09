@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 
 import assistantsReducer from './assistants'
 import llmReducer from './llm'
+import migrate from './migrate'
 import runtimeReducer from './runtime'
 import settingsReducer from './settings'
 
@@ -19,7 +20,8 @@ const persistConfig = {
   key: 'cherry-studio',
   storage,
   version: 1,
-  blacklist: ['runtime']
+  blacklist: ['runtime'],
+  migrate
 }
 
 const store = configureStore({
