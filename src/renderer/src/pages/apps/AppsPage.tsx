@@ -4,7 +4,7 @@ import { SYSTEM_ASSISTANTS } from '@renderer/config/assistant'
 import { useAssistants } from '@renderer/hooks/useAssistants'
 import { getDefaultAssistant } from '@renderer/services/assistant'
 import { SystemAssistant } from '@renderer/types'
-import { Button, Col, message, Row, Tooltip, Typography } from 'antd'
+import { Button, Col, Row, Tooltip, Typography } from 'antd'
 import { find, groupBy } from 'lodash'
 import { FC } from 'react'
 import styled from 'styled-components'
@@ -14,8 +14,6 @@ const { Title } = Typography
 const AppsPage: FC = () => {
   const { assistants, addAssistant } = useAssistants()
 
-  const [messageApi, contextHolder] = message.useMessage()
-
   const assistantGroups = groupBy(SYSTEM_ASSISTANTS, 'group')
 
   const onAddAssistant = (assistant: SystemAssistant) => {
@@ -24,19 +22,15 @@ const AppsPage: FC = () => {
       ...assistant
     })
 
-    messageApi.destroy()
-    messageApi.open({
-      type: 'success',
+    window.message.success({
       content: 'Assistant added successfully',
-      style: {
-        marginTop: '5vh'
-      }
+      key: 'assistant-added',
+      style: { marginTop: '5vh' }
     })
   }
 
   return (
     <Container>
-      {contextHolder}
       <Navbar>
         <NavbarCenter>Assistant Market</NavbarCenter>
       </Navbar>

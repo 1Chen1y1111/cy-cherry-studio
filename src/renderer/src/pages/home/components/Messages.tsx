@@ -14,7 +14,7 @@ import { reverse } from 'lodash'
 import { FC, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import MessageItem from './Message'
+import MessageItem from './MessageItem'
 
 interface Props {
   assistant: Assistant
@@ -56,6 +56,15 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
     }
   }, [messages, topic, assistant, updateTopic])
 
+  const onDeleteMessage = (message: Message) => {
+    const _messages = messages.filter((m) => m.id !== message.id)
+    setMessages(_messages)
+    localforage.setItem(`topic:${topic.id}`, {
+      ...topic,
+      messages: _messages
+    })
+  }
+
   useEffect(() => {
     const unsubscribes = [
       EventEmitter.on(EVENT_NAMES.SEND_MESSAGE, async (message: Message) => {
@@ -96,7 +105,7 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
     <Container id="topics">
       {lastMessage && <MessageItem message={lastMessage} />}
       {reverse([...messages]).map((message) => (
-        <MessageItem message={message} key={message.id} />
+        <MessageItem message={message} key={message.id} showMenu onDeleteMessage={onDeleteMessage} />
       ))}
       <MessageItem message={assistantDefaultMessage} />
     </Container>
