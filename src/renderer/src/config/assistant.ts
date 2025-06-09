@@ -1,6 +1,7 @@
 import { SystemAssistant } from '@renderer/types'
 
 export const SYSTEM_ASSISTANTS: SystemAssistant[] = [
+  // Software Engineer
   {
     id: '43CEDACF-C9EB-431B-848C-4D08EC26EB90',
     name: '软件工程师',

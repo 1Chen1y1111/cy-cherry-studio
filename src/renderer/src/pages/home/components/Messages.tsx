@@ -60,7 +60,7 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
     const unsubscribes = [
       EventEmitter.on(EVENT_NAMES.SEND_MESSAGE, async (message: Message) => {
         onSendMessage(message)
-        fetchChatCompletion({ assistant, message, topic, onResponse: setLastMessage })
+        fetchChatCompletion({ assistant, messages: [...messages, message], topic, onResponse: setLastMessage })
       }),
 
       EventEmitter.on(EVENT_NAMES.AI_CHAT_COMPLETION, async (message: Message) => {
@@ -81,7 +81,7 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
     ]
 
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe())
-  }, [assistant, provider, autoRenameTopic, onSendMessage, topic, updateTopic])
+  }, [assistant, provider, autoRenameTopic, messages, onSendMessage, topic, updateTopic])
 
   useEffect(() => {
     runAsyncFunction(async () => {
