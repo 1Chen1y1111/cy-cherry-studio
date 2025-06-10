@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import InputChat from './InputChat'
 import Messages from './Messages'
-import TopicList from './TopicList'
+import Topics from './Topics'
 
 interface Props {
   assistant: Assistant
@@ -29,7 +29,7 @@ const Chat: FC<Props> = (props) => {
         <InputChat assistant={assistant} setActiveTopic={setActiveTopic} />
       </Flex>
 
-      <TopicList assistant={assistant} activeTopic={activeTopic} setActiveTopic={setActiveTopic} />
+      <Topics assistant={assistant} activeTopic={activeTopic} setActiveTopic={setActiveTopic} />
     </Container>
   )
 }

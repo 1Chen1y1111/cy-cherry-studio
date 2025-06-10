@@ -1,11 +1,14 @@
-import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
+import { CopyOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import Logo from '@renderer/assets/images/logo.png'
 import useAvatar from '@renderer/hooks/useAvatar'
+import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import { Message } from '@renderer/types'
-import { Avatar } from 'antd'
-import { marked } from 'marked'
+import { Avatar, Tooltip } from 'antd'
 import { FC } from 'react'
+import Markdown from 'react-markdown'
 import styled from 'styled-components'
+
+import CodeBlock from './CodeBlock'
 
 interface Props {
   message: Message
@@ -33,15 +36,28 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
     confirmed && onDeleteMessage?.(message)
   }
 
+  const onEdit = () => {
+    EventEmitter.emit(EVENT_NAMES.EDIT_MESSAGE, message)
+  }
+
   return (
     <MessageContainer key={message.id}>
       <AvatarWrapper>{message.role === 'assistant' ? <Avatar src={Logo} /> : <Avatar src={avatar} />}</AvatarWrapper>
-      <MessageContent>
-        <div className="markdown" dangerouslySetInnerHTML={{ __html: marked(message.content) }} />
+      <MessageContent className="markdown">
+        <Markdown children={message.content} components={{ code: CodeBlock as any }} />
         {showMenu && (
           <MenusBar className="menubar">
-            <CopyOutlined onClick={onCopy} />
-            <DeleteOutlined onClick={onDelete} />
+            {message.role === 'user' && (
+              <Tooltip title="Edit" mouseEnterDelay={1}>
+                <EditOutlined onClick={onEdit} />
+              </Tooltip>
+            )}
+            <Tooltip title="Copy" mouseEnterDelay={1}>
+              <CopyOutlined onClick={onCopy} />
+            </Tooltip>
+            <Tooltip title="Delete" mouseEnterDelay={1}>
+              <DeleteOutlined onClick={onDelete} />
+            </Tooltip>
             <ModelName>{message.modelId}</ModelName>
           </MenusBar>
         )}

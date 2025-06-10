@@ -1,11 +1,8 @@
 import Logo from '@renderer/assets/images/logo.png'
 import { runAsyncFunction } from '@renderer/utils'
 import { Avatar } from 'antd'
-import { marked } from 'marked'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-
-const changeLog = ``
 
 const AboutSettings: FC = () => {
   const [version, setVersion] = useState('')
@@ -24,13 +21,6 @@ const AboutSettings: FC = () => {
         Cherry Studio <Version>(v{version})</Version>
       </Title>
       <Description>A powerful AI assistant for producer.</Description>
-      <div
-        className="markdown"
-        style={{ width: '80%' }}
-        dangerouslySetInnerHTML={{
-          __html: marked(changeLog)
-        }}
-      />
     </Container>
   )
 }

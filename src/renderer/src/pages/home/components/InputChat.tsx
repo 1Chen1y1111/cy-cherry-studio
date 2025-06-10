@@ -6,6 +6,7 @@ import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import { Assistant, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { Button, Popconfirm, Tooltip } from 'antd'
+import TextArea, { TextAreaRef } from 'antd/es/input/TextArea'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
@@ -23,7 +24,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   const { setShowRightSidebar } = useShowRightSidebar()
   const { addTopic } = useAssistant(assistant.id)
   const { sendMessageShortcut } = useSettings()
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<TextAreaRef>(null)
 
   const sendMessage = () => {
     if (isEmpty(text.trim())) {
@@ -36,7 +37,8 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
       content: text,
       assistantId: assistant.id,
       topicId: assistant.topics[0].id || uuid(),
-      createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      status: 'success'
     }
 
     EventEmitter.emit(EVENT_NAMES.SEND_MESSAGE, message)
@@ -71,9 +73,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
     setActiveTopic(topic)
   }, [addTopic, setActiveTopic])
 
-  const clearTopic = () => {
-    EventEmitter.emit(EVENT_NAMES.CLEAR_MESSAGES)
-  }
+  const clearTopic = () => EventEmitter.emit(EVENT_NAMES.CLEAR_MESSAGES)
 
   // Command or Ctrl + N create new topic
   useEffect(() => {
@@ -87,6 +87,17 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [addNewTopic])
+
+  useEffect(() => {
+    const unsubscribes = [
+      EventEmitter.on(EVENT_NAMES.EDIT_MESSAGE, (message: Message) => {
+        setText(message.content)
+        inputRef.current?.focus()
+      })
+    ]
+
+    return () => unsubscribes.forEach((unsubscribe) => unsubscribe())
+  }, [])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -136,7 +147,9 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
         onKeyDown={handleKeyDown}
         placeholder="Type your message here..."
         autoFocus
-        contextMenu="true"
+        variant="borderless"
+        styles={{ textarea: { resize: 'none', paddingLeft: 0 } }}
+        allowClear
         ref={inputRef}
       />
     </Container>
@@ -152,16 +165,11 @@ const Container = styled.div`
   padding: 5px 15px;
 `
 
-const Textarea = styled.textarea`
+const Textarea = styled(TextArea)`
+  padding: 0;
+  border-radius: 0;
   display: flex;
   flex: 1;
-  border: none;
-  outline: none;
-  resize: none;
-  font-size: 13px;
-  line-height: 18px;
-  color: var(--color-text);
-  background-color: transparent;
 `
 
 const Toolbar = styled.div`

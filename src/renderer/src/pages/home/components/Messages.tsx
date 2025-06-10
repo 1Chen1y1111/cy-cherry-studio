@@ -1,5 +1,3 @@
-import 'highlight.js/styles/github-dark.css'
-
 import { DEFAULT_TOPIC_NAME } from '@renderer/config/constant'
 import { useAssistant } from '@renderer/hooks/useAssistants'
 import { useProviderByAssistant } from '@renderer/hooks/useProvider'
@@ -8,7 +6,6 @@ import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import LocalStorage from '@renderer/services/storage'
 import { Assistant, Message, Topic } from '@renderer/types'
 import { runAsyncFunction } from '@renderer/utils'
-import hljs from 'highlight.js'
 import localforage from 'localforage'
 import { reverse } from 'lodash'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
@@ -34,7 +31,8 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
     content: assistant.description,
     assistantId: assistant.id,
     topicId: topic.id,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    status: 'success'
   }
 
   const onSendMessage = useCallback(
@@ -99,8 +97,6 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
       setMessages(messages || [])
     })
   }, [topic?.id])
-
-  useEffect(() => hljs.highlightAll())
 
   useEffect(() => {
     messagesRef.current?.scrollTo({ top: 100000, behavior: 'auto' })
