@@ -23,8 +23,8 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
   const { provider, models, addModel, removeModel } = useProvider(_provider.id)
 
   const systemModels = SYSTEM_MODELS[_provider.id]
-  const allModels = uniqBy([...systemModels, ...models], 'id')
   const systemModelGroups = groupBy(systemModels, 'group')
+  const allModels = uniqBy([...systemModels, ...models], 'id')
 
   const onOk = () => {
     setOpen(false)

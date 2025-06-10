@@ -18,7 +18,7 @@ function createWindow(): void {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 1080,
+    minWidth: 680,
     minHeight: 500,
     show: true,
     autoHideMenuBar: true,

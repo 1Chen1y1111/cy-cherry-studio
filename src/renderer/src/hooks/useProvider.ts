@@ -24,7 +24,7 @@ export function useProvider(id: string) {
 }
 
 export function useProviders() {
-  return useAppSelector((state) => state.llm.providers)
+  return useAppSelector((state) => state.llm.providers.filter((p) => p.enabled))
 }
 
 export function useProviderByAssistant(assistant: Assistant) {

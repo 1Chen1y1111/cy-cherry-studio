@@ -12,7 +12,7 @@ const Sidebar: FC = () => {
 
   return (
     <Container>
-      <StyledLink to="/settings/general">
+      <StyledLink to="/">
         <AvatarImg src={avatar || Logo} />
       </StyledLink>
 
@@ -33,7 +33,7 @@ const Sidebar: FC = () => {
       </MainMenus>
 
       <Menus>
-        <StyledLink to="/settings/general">
+        <StyledLink to="/settings/provider">
           <Icon className={pathname.startsWith('/settings') ? 'active' : ''}>
             <i className="iconfont icon-setting"></i>
           </Icon>
