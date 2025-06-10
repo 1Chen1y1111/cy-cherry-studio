@@ -28,13 +28,20 @@ export function getDefaultProvider() {
   return getProviderByModel(getDefaultModel())
 }
 
-export function getProviderByModel(model: Model) {
+export function getProviderByModel(model?: Model) {
   const providers = store.getState().llm.providers
-  return providers.find((p) => p.id === model.provider) as Provider
+  const providerId = model ? model.provider : getDefaultProvider()
+  return providers.find((p) => p.id === providerId) as Provider
 }
 
 export function getAssistantProvider(assistant: Assistant) {
   const providers = store.getState().llm.providers
   const provider = providers.find((p) => p.id === assistant.id)
   return provider || getDefaultProvider()
+}
+
+export function getProviderByModelId(modelId?: string) {
+  const providers = store.getState().llm.providers
+  const _modelId = modelId || getDefaultModel().id
+  return providers.find((p) => p.models.find((m) => m.id === _modelId)) as Provider
 }

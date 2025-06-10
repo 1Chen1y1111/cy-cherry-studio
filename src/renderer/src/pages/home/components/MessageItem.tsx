@@ -2,6 +2,7 @@ import { CopyOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import Logo from '@renderer/assets/images/logo.png'
 import useAvatar from '@renderer/hooks/useAvatar'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
+import { getModelLogo } from '@renderer/services/provider'
 import { Message } from '@renderer/types'
 import { Avatar, Tooltip } from 'antd'
 import { FC } from 'react'
@@ -42,7 +43,13 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
 
   return (
     <MessageContainer key={message.id}>
-      <AvatarWrapper>{message.role === 'assistant' ? <Avatar src={Logo} /> : <Avatar src={avatar} />}</AvatarWrapper>
+      <AvatarWrapper>
+        {message.role === 'assistant' ? (
+          <Avatar src={message.modelId ? getModelLogo(message.modelId) : Logo} />
+        ) : (
+          <Avatar src={avatar} />
+        )}
+      </AvatarWrapper>
       <MessageContent className="markdown">
         <Markdown children={message.content} components={{ code: CodeBlock as any }} />
         {showMenu && (

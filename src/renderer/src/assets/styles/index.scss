@@ -89,3 +89,7 @@ body,
   flex-direction: row;
   flex: 1;
 }
+
+#inputChat .ant-input {
+  resize: none;
+}

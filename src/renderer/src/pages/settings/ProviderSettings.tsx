@@ -1,5 +1,7 @@
 import { useSystemProviders } from '@renderer/hooks/useProvider'
+import { getProviderLogo } from '@renderer/services/provider'
 import { Provider } from '@renderer/types'
+import { Avatar } from 'antd'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 
@@ -17,7 +19,8 @@ const ProviderSettings: FC = () => {
             key={JSON.stringify(provider)}
             className={provider.id === selectedProvider?.id ? 'active' : ''}
             onClick={() => setSelectedProvider(provider)}>
-            {provider.name}
+            <Avatar src={getProviderLogo(provider.id)} size={22} />
+            <ProviderItemName>{provider.name}</ProviderItemName>
           </ProviderListItem>
         ))}
       </ProviderListContainer>
@@ -25,6 +28,7 @@ const ProviderSettings: FC = () => {
     </Container>
   )
 }
+
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -58,6 +62,11 @@ const ProviderListItem = styled.div`
     background: #135200;
     font-weight: bold;
   }
+`
+
+const ProviderItemName = styled.div`
+  margin-left: 10px;
+  font-weight: bold;
 `
 
 export default ProviderSettings

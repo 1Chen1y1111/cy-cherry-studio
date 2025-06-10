@@ -104,7 +104,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   }, [assistant])
 
   return (
-    <Container>
+    <Container id="inputChat">
       <Toolbar>
         <ToolbarMenu>
           <Tooltip placement="top" title=" New Chat " arrow>
@@ -148,7 +148,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
         placeholder="Type your message here..."
         autoFocus
         variant="borderless"
-        styles={{ textarea: { resize: 'none', paddingLeft: 0 } }}
+        styles={{ textarea: { paddingLeft: 0 } }}
         allowClear
         ref={inputRef}
       />
