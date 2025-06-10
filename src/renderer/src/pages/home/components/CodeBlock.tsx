@@ -21,7 +21,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ children, className, ...rest }) =
   return match ? (
     <div>
       <CodeHeader>
-        <CodeLanguage>{match[1]}</CodeLanguage>
+        <CodeLanguage>{'<' + match[1].toUpperCase() + '>'}</CodeLanguage>
         <CopyOutlined className="copy" onClick={onCopy} />
       </CodeHeader>
       <SyntaxHighlighter
@@ -31,6 +31,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ children, className, ...rest }) =
         language={match[1]}
         customStyle={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, marginTop: 0 }}
         style={atomDark}
+        wrapLongLines={true}
       />
     </div>
   ) : (

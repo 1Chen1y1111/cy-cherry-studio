@@ -1,13 +1,14 @@
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import { SYSTEM_MODELS } from '@renderer/config/models'
 import { useProvider } from '@renderer/hooks/useProvider'
+import { getModelLogo } from '@renderer/services/provider'
 import { Model, Provider } from '@renderer/types'
-import { Button, Modal } from 'antd'
-import { groupBy } from 'lodash'
+import { Avatar, Button, Empty, Modal } from 'antd'
+import { groupBy, isEmpty, uniqBy } from 'lodash'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 
-import { TopView } from '../TopView'
+import { TopView } from '../../../components/TopView'
 
 interface ShowParams {
   provider: Provider
@@ -19,9 +20,10 @@ interface Props extends ShowParams {
 
 const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
   const [open, setOpen] = useState(true)
-  const { provider, addModel, removeModel } = useProvider(_provider.id)
+  const { provider, models, addModel, removeModel } = useProvider(_provider.id)
 
   const systemModels = SYSTEM_MODELS[_provider.id]
+  const allModels = uniqBy([...systemModels, ...models], 'id')
   const systemModelGroups = groupBy(systemModels, 'group')
 
   const onOk = () => {
@@ -65,7 +67,10 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
               const hasModel = provider.models.find((m) => m.id === model.id)
               return (
                 <ListItem key={model.id}>
-                  <ListItemName>{model.id}</ListItemName>
+                  <ListItemHeader>
+                    <Avatar src={getModelLogo(model.id)} size={24} />
+                    <ListItemName>{model.name}</ListItemName>
+                  </ListItemHeader>
                   {hasModel ? (
                     <Button type="default" onClick={() => onRemoveModel(model)} icon={<MinusOutlined />} />
                   ) : (
@@ -76,6 +81,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
             })}
           </div>
         ))}
+        {isEmpty(allModels) && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No models" />}
       </ListContainer>
     </Modal>
   )
@@ -105,10 +111,20 @@ const ListItem = styled.div`
   padding: 10px 22px;
 `
 
+const ListItemHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 10px;
+  height: 22px;
+`
+
 const ListItemName = styled.div`
   color: #fff;
   font-size: 14px;
   font-weight: 600;
+  margin-left: 6px;
 `
 
 export default class ModelListPopup {

@@ -5,7 +5,7 @@ import { Avatar } from 'antd'
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 
-import ModalProviderSetting from './components/ModalProviderSetting'
+import ProviderModels from './components/ProviderModels'
 
 const ProviderSettings: FC = () => {
   const providers = useSystemProviders()
@@ -24,7 +24,7 @@ const ProviderSettings: FC = () => {
           </ProviderListItem>
         ))}
       </ProviderListContainer>
-      <ModalProviderSetting provider={selectedProvider} />
+      <ProviderModels provider={selectedProvider} />
     </Container>
   )
 }

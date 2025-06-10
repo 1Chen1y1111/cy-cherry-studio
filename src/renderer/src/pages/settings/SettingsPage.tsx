@@ -19,7 +19,7 @@ const SettingsPage: FC = () => {
   return (
     <Container>
       <Navbar>
-        <NavbarCenter>{t('settings.title')}</NavbarCenter>
+        <NavbarCenter style={{ borderRight: 'none' }}>{t('settings.title')}</NavbarCenter>
       </Navbar>
       <ContentContainer>
         <SettingMenus>

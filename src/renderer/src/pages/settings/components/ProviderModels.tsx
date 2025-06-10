@@ -1,19 +1,21 @@
-import ModalListPopup from '@renderer/components/Popups/ModalListPopup'
+import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { useProvider } from '@renderer/hooks/useProvider'
 import { getModelLogo } from '@renderer/services/provider'
 import { Provider } from '@renderer/types'
-import { Avatar, Button, Card, Divider, Input } from 'antd'
+import { Avatar, Button, Card, Divider, Flex, Input } from 'antd'
 import { groupBy } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import ModelAddPopup from './ModelAddPopup'
+import ModelListPopup from './ModelListPopup'
 import { SettingContainer, SettingSubtitle, SettingTitle } from './SettingComponent'
 
 interface Props {
   provider: Provider
 }
 
-const ModalProviderSetting: FC<Props> = ({ provider }) => {
+const ProviderModels: FC<Props> = ({ provider }) => {
   const [apiKey, setApiKey] = useState(provider.apiKey)
   const [apiHost, setApiHost] = useState(provider.apiHost)
   const { models, updateProvider } = useProvider(provider.id)
@@ -33,8 +35,12 @@ const ModalProviderSetting: FC<Props> = ({ provider }) => {
     updateProvider({ ...provider, apiHost })
   }
 
-  const onAddModal = () => {
-    ModalListPopup.show({ provider })
+  const onManageModel = () => {
+    ModelListPopup.show({ provider })
+  }
+
+  const onAddModel = () => {
+    ModelAddPopup.show({ title: 'Add Model', provider })
   }
 
   return (
@@ -62,14 +68,19 @@ const ModalProviderSetting: FC<Props> = ({ provider }) => {
           {modelGroups[group].map((model) => (
             <ModelListItem key={model.id}>
               <Avatar src={getModelLogo(model.id)} size={22} style={{ marginRight: '8px' }} />
-              {model.id}
+              {model.name}
             </ModelListItem>
           ))}
         </Card>
       ))}
-      <Button type="primary" style={{ width: '100px', marginTop: '10px' }} onClick={onAddModal}>
-        Edit Models
-      </Button>
+      <Flex gap={10} style={{ marginTop: '10px' }}>
+        <Button type="primary" onClick={onManageModel} icon={<EditOutlined />}>
+          Manage
+        </Button>
+        <Button type="default" onClick={onAddModel} icon={<PlusOutlined />}>
+          Add
+        </Button>
+      </Flex>
     </SettingContainer>
   )
 }
@@ -82,4 +93,4 @@ const ModelListItem = styled.div`
   padding: 5px 0;
 `
 
-export default ModalProviderSetting
+export default ProviderModels

@@ -84,3 +84,23 @@ export const compressImage = async (file: File) => {
     useWebWorker: false
   })
 }
+
+/**
+ * 根据 ID 生成默认的分组名称
+ * @param id 模型或提供商的 ID
+ * @returns 格式化的分组名称（大写）
+ * 'gpt-3.5-turbo-16k-0613' to 'GPT-3.5-Turbo'
+ * 'qwen2:1.5b' to 'QWEN2'
+ */
+export const getDefaultGroupName = (id: string) => {
+  if (id.includes(':')) {
+    return id.split(':')[0].toUpperCase()
+  }
+
+  if (id.includes('-')) {
+    const parts = id.split('-')
+    return parts[0].toUpperCase() + '-' + parts[1].toUpperCase()
+  }
+
+  return id.toUpperCase()
+}

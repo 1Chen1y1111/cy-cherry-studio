@@ -8,7 +8,7 @@ import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
   const mainWindowState = windowStateKeeper({
-    defaultWidth: 900,
+    defaultWidth: 1080,
     defaultHeight: 670
   })
 
@@ -20,9 +20,8 @@ function createWindow(): void {
     height: mainWindowState.height,
     minWidth: 1080,
     minHeight: 500,
-    show: false,
+    show: true,
     autoHideMenuBar: true,
-    transparent: true,
     titleBarStyle: 'hiddenInset',
     trafficLightPosition: { x: 8, y: 8 },
     ...(process.platform === 'linux' ? { icon } : {}),

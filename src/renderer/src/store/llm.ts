@@ -52,6 +52,22 @@ const initialState: LlmState = {
       apiHost: 'https://api.groq.com/openai',
       isSystem: true,
       models: SYSTEM_MODELS.groq.filter((m) => m.defaultEnabled)
+    },
+    {
+      id: 'zhipu',
+      name: 'ZhiPu',
+      apiKey: '',
+      apiHost: 'https://open.bigmodel.cn/api/paas/v4/',
+      isSystem: true,
+      models: SYSTEM_MODELS.zhipu.filter((m) => m.defaultEnabled)
+    },
+    {
+      id: 'ollama',
+      name: 'Ollama',
+      apiKey: '',
+      apiHost: 'http://localhost:11434/v1/',
+      isSystem: true,
+      models: []
     }
   ]
 }
