@@ -1,4 +1,4 @@
-import { CopyOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { CopyOutlined, DeleteOutlined, EditOutlined, SyncOutlined } from '@ant-design/icons'
 import Logo from '@renderer/assets/images/logo.png'
 import useAvatar from '@renderer/hooks/useAvatar'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
@@ -51,7 +51,13 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
         )}
       </AvatarWrapper>
       <MessageContent className="markdown">
-        <Markdown children={message.content} components={{ code: CodeBlock as any }} />
+        {message.status === 'sending' ? (
+          <MessageContentLoading>
+            <SyncOutlined spin size={24} />
+          </MessageContentLoading>
+        ) : (
+          <Markdown children={message.content} components={{ code: CodeBlock as any }} />
+        )}
         {showMenu && (
           <MenusBar className="menubar">
             {message.role === 'user' && (
@@ -86,6 +92,7 @@ const AvatarWrapper = styled.div`
 
 const MessageContent = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
   .menubar {
@@ -96,6 +103,13 @@ const MessageContent = styled.div`
       opacity: 1;
     }
   }
+`
+
+const MessageContentLoading = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 32px;
 `
 
 const MenusBar = styled.div`

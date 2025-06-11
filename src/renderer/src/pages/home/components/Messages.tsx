@@ -50,10 +50,10 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
 
   const autoRenameTopic = useCallback(async () => {
     if (topic.name === DEFAULT_TOPIC_NAME && messages.length >= 2) {
-      const summaryText = await fetchMessagesSummary({ messages, assistant })
+      const summaryText = await fetchMessagesSummary({ messages })
       summaryText && updateTopic({ ...topic, name: summaryText })
     }
-  }, [messages, topic, assistant, updateTopic])
+  }, [messages, topic, updateTopic])
 
   const onDeleteMessage = (message: Message) => {
     const _messages = messages.filter((m) => m.id !== message.id)

@@ -5,7 +5,7 @@ import { takeRight } from 'lodash'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam, ChatCompletionSystemMessageParam } from 'openai/resources/chat'
 
-import { getAssistantProvider, getDefaultModel } from './assistant'
+import { getAssistantProvider, getDefaultModel, getProviderByModel, getTopNamingModel } from './assistant'
 import { EVENT_NAMES, EventEmitter } from './event'
 
 interface FetchChatCompletionParams {
@@ -38,8 +38,10 @@ export async function fetchChatCompletion({ messages, assistant, topic, onRespon
     topicId: topic.id,
     modelId: model.id,
     createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    status: 'pending'
+    status: 'sending'
   }
+
+  onResponse({ ..._message })
 
   try {
     const stream = await openaiProvider.chat.completions.create({
@@ -55,7 +57,7 @@ export async function fetchChatCompletion({ messages, assistant, topic, onRespon
 
     for await (const chunk of stream) {
       content = content + (chunk.choices[0]?.delta?.content || '')
-      onResponse({ ..._message, content })
+      onResponse({ ..._message, content, status: 'pending' })
     }
 
     _message.content = content
@@ -72,14 +74,12 @@ export async function fetchChatCompletion({ messages, assistant, topic, onRespon
 
 interface FetchMessagesSummaryParams {
   messages: Message[]
-  assistant: Assistant
 }
 
-export async function fetchMessagesSummary({ messages, assistant }: FetchMessagesSummaryParams) {
-  const provider = getAssistantProvider(assistant)
+export async function fetchMessagesSummary({ messages }: FetchMessagesSummaryParams) {
+  const model = getTopNamingModel() || getDefaultModel()
+  const provider = getProviderByModel(model)
   const openaiProvider = getOpenAiProvider(provider)
-  const defaultModel = getDefaultModel()
-  const model = assistant.model || defaultModel
 
   const userMessages: ChatCompletionMessageParam[] = takeRight(messages, 5).map((message) => ({
     role: 'user',

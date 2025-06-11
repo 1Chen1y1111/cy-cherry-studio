@@ -24,7 +24,8 @@ export function useProvider(id: string) {
 }
 
 export function useProviders() {
-  return useAppSelector((state) => state.llm.providers.filter((p) => p.enabled))
+  const providers = useAppSelector((state) => state.llm.providers)
+  return useMemo(() => providers.filter((p) => p.enabled), [providers])
 }
 
 export function useProviderByAssistant(assistant: Assistant) {

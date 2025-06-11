@@ -34,6 +34,10 @@ export function getProviderByModel(model?: Model) {
   return providers.find((p) => p.id === providerId) as Provider
 }
 
+export function getTopNamingModel() {
+  return store.getState().llm.topicNamingModel
+}
+
 export function getAssistantProvider(assistant: Assistant) {
   const providers = store.getState().llm.providers
   const provider = providers.find((p) => p.id === assistant.id)

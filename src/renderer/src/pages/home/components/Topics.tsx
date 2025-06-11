@@ -30,7 +30,7 @@ const Topics: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
         if (currentTopic.current) {
           const messages = await LocalStorage.getTopicMessages(currentTopic.current.id)
           if (messages.length >= 2) {
-            const summaryText = await fetchMessagesSummary({ messages, assistant })
+            const summaryText = await fetchMessagesSummary({ messages })
             if (summaryText) {
               updateTopic({ ...currentTopic.current, name: summaryText })
             }
@@ -48,8 +48,6 @@ const Topics: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
           message: 'Please enter the new name',
           defaultValue: currentTopic.current?.name || ''
         })
-
-        console.log('🚀 ~ onClick ~ name:', currentTopic.current, name)
 
         if (name && currentTopic.current && currentTopic.current?.name !== name) {
           updateTopic({ ...currentTopic.current, name })

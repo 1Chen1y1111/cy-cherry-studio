@@ -15,7 +15,7 @@ export type Message = {
   topicId: string
   modelId?: string
   createdAt: string
-  status: 'pending' | 'success' | 'error'
+  status: 'sending' | 'pending' | 'success' | 'error'
 }
 
 export type Topic = {
