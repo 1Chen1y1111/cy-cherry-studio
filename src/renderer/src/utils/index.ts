@@ -105,9 +105,26 @@ export const getDefaultGroupName = (id: string) => {
   return id.toUpperCase()
 }
 
+/**
+ * 重新排序拖拽项目的工具函数
+ * @param list 要重新排序的数组
+ * @param startIndex 拖拽项目的起始索引
+ * @param endIndex 拖拽项目的目标索引
+ * @param len 要移动的项目数量，默认为1
+ * @returns 重新排序后的新数组
+ */
 export const droppableReorder = <T>(list: T[], startIndex: number, endIndex: number, len = 1): T[] => {
   const result = Array.from(list)
   const removed = result.splice(startIndex, len)
   result.splice(endIndex, 0, ...removed)
   return result
+}
+
+/**
+ * 获取字符串的第一个字符
+ * @param str 输入字符串，可选参数
+ * @returns 返回字符串的第一个字符，如果字符串为空或未定义则返回空字符串
+ */
+export const firstLetter = (str?: string) => {
+  return str ? str[0] : ''
 }

@@ -4,6 +4,7 @@ import useAvatar from '@renderer/hooks/useAvatar'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
 import { getModelLogo } from '@renderer/services/provider'
 import { Message } from '@renderer/types'
+import { firstLetter } from '@renderer/utils'
 import { Avatar, Tooltip } from 'antd'
 import { FC } from 'react'
 import Markdown from 'react-markdown'
@@ -45,7 +46,9 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
     <MessageContainer key={message.id}>
       <AvatarWrapper>
         {message.role === 'assistant' ? (
-          <Avatar src={message.modelId ? getModelLogo(message.modelId) : Logo} />
+          <Avatar src={message.modelId ? getModelLogo(message.modelId) : Logo}>
+            {firstLetter(message.modelId).toUpperCase()}
+          </Avatar>
         ) : (
           <Avatar src={avatar} />
         )}

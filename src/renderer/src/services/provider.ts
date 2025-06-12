@@ -31,7 +31,7 @@ export function getProviderLogo(providerId: string) {
     case 'ollama':
       return OllamaProviderLogo
     default:
-      return ''
+      return undefined
   }
 }
 
