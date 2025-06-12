@@ -1,10 +1,10 @@
 {
   "name": "cy-cherry-studio",
   "version": "0.1.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "A powerful AI assistant for producer.",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "fun20001016@163.com",
+  "homepage": "https://github.com/1Chen1y1111/cy-cherry-studio",
   "scripts": {
     "format": "prettier --write .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
@@ -14,10 +14,10 @@
     "dev": "electron-vite dev",
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
-    "build:mac": "electron-vite build && electron-builder --mac",
-    "build:linux": "electron-vite build && electron-builder --linux",
+    "build:unpack": "dotenv npm run build && electron-builder --dir",
+    "build:win": "dotenv npm run build && electron-builder --win",
+    "build:mac": "dotenv electron-vite build && electron-builder --mac",
+    "build:linux": "dotenv electron-vite build && electron-builder --linux",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "antd": "^5.25.2",
     "browser-image-compression": "^2.0.2",
     "dayjs": "^1.11.13",
+    "dotenv-cli": "^8.0.0",
     "electron": "^35.1.5",
     "electron-builder": "^25.1.8",
     "electron-devtools-installer": "^4.0.0",

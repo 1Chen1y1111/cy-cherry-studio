@@ -1,4 +1,4 @@
-appId: com.cy-cherry-studio.app
+appId: com.kangfenmao.CherryStudio
 productName: Cy Cherry Studio
 directories:
   buildResources: build
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: cy-cherry-studio
+  executableName: CyCherryStudio
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
