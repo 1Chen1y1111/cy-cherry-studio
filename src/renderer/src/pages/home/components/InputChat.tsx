@@ -1,4 +1,4 @@
-import { ClearOutlined, MoreOutlined } from '@ant-design/icons'
+import { ClearOutlined, FullscreenExitOutlined, FullscreenOutlined, MoreOutlined } from '@ant-design/icons'
 import { useAssistant } from '@renderer/hooks/useAssistants'
 import { useSettings } from '@renderer/hooks/useSettings'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
@@ -24,6 +24,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   const { setShowRightSidebar } = useShowRightSidebar()
   const { addTopic } = useAssistant(assistant.id)
   const { sendMessageShortcut } = useSettings()
+  const [expended, setExpend] = useState(false)
   const inputRef = useRef<TextAreaRef>(null)
 
   const sendMessage = () => {
@@ -104,7 +105,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   }, [assistant])
 
   return (
-    <Container id="inputChat">
+    <Container id="inputChat" style={{ minHeight: expended ? '35%' : 'var(--input-bar-height)' }}>
       <Toolbar>
         <ToolbarMenu>
           <Tooltip placement="top" title=" New Chat " arrow>
@@ -130,6 +131,11 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
                 <ClearOutlined />
               </ToolbarButton>
             </Popconfirm>
+          </Tooltip>
+          <Tooltip placement="top" title=" Expand " arrow>
+            <ToolbarButton type="text" onClick={() => setExpend(!expended)}>
+              {expended ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
+            </ToolbarButton>
           </Tooltip>
         </ToolbarMenu>
         <ToolbarMenu>
@@ -163,6 +169,7 @@ const Container = styled.div`
   height: var(--input-bar-height);
   border-top: 0.5px solid var(--color-border);
   padding: 5px 15px;
+  transition: all 0.3s ease;
 `
 
 const Textarea = styled(TextArea)`

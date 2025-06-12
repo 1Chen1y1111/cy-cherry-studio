@@ -8,8 +8,10 @@ import {
   removeTopic as _removeTopic,
   setModel as _setModel,
   updateAssistant,
+  updateAssistants as _updateAssistants,
   updateDefaultAssistant as _updateDefaultAssistant,
-  updateTopic as _updateTopic
+  updateTopic as _updateTopic,
+  updateTopics as _updateTopics
 } from '@renderer/store/assistants'
 import { setDefaultModel as _setDefaultModel, setTopicNamingModel as _setTopicNamingModel } from '@renderer/store/llm'
 import { Assistant, Model, Topic } from '@renderer/types'
@@ -29,7 +31,8 @@ export function useAssistants() {
         assistant.topics.forEach((id) => localforage.removeItem(`topic:${id}`))
       }
     },
-    updateAssistant: (assistant: Assistant) => dispatch(updateAssistant(assistant))
+    updateAssistant: (assistant: Assistant) => dispatch(updateAssistant(assistant)),
+    updateAssistants: (assistants: Assistant[]) => dispatch(_updateAssistants(assistants))
   }
 }
 
@@ -49,6 +52,9 @@ export function useAssistant(id: string) {
     },
     updateTopic: (topic: Topic) => {
       dispatch(_updateTopic({ assistantId: assistant.id, topic }))
+    },
+    updateTopics: (topics: Topic[]) => {
+      dispatch(_updateTopics({ assistantId: assistant.id, topics: topics }))
     },
     removeAllTopics: () => {
       dispatch(_removeAllTopics({ assistantId: assistant.id }))
