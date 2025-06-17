@@ -8,6 +8,7 @@ import QwenModelLogo from '@renderer/assets/images/models/qwen.jpeg'
 import YiModelLogo from '@renderer/assets/images/models/yi.svg'
 import DeepSeekProviderLogo from '@renderer/assets/images/providers/deepseek.png'
 import GroqProviderLogo from '@renderer/assets/images/providers/groq.png'
+import MoonshotProviderLogo from '@renderer/assets/images/providers/moonshot.jpeg'
 import OllamaProviderLogo from '@renderer/assets/images/providers/ollama.png'
 import OpenAiProviderLogo from '@renderer/assets/images/providers/openai.jpeg'
 import SiliconFlowProviderLogo from '@renderer/assets/images/providers/silicon.png'
@@ -30,6 +31,8 @@ export function getProviderLogo(providerId: string) {
       return ZhipuProviderLogo
     case 'ollama':
       return OllamaProviderLogo
+    case 'moonshot':
+      return MoonshotProviderLogo
     default:
       return undefined
   }
