@@ -9,7 +9,7 @@ import { SettingContainer, SettingDivider, SettingTitle } from './components/Set
 
 const ModelSettings: FC = () => {
   const { defaultModel, topicNamingModel, setDefaultModel, setTopicNamingModel } = useDefaultModel()
-  const providers = useProviders()
+  const { providers } = useProviders()
   const allModels = providers.map((p) => p.models).flat()
 
   const selectOptions = providers

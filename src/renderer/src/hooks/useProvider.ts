@@ -2,7 +2,8 @@ import { useAppDispatch, useAppSelector } from '@renderer/store'
 import {
   addModel as _addModel,
   removeModel as _removeModel,
-  updateProvider as _updateProvider
+  updateProvider as _updateProvider,
+  updateProviders as _updateProviders
 } from '@renderer/store/llm'
 import { Assistant, Model, Provider } from '@renderer/types'
 import { useMemo } from 'react'
@@ -10,8 +11,7 @@ import { useMemo } from 'react'
 import { useDefaultModel } from './useAssistants'
 
 export function useProvider(id: string) {
-  const providers = useAppSelector((state) => state.llm.providers)
-  const provider = useMemo(() => providers.find((p) => p.id === id) as Provider, [providers, id])
+  const provider = useAppSelector((state) => state.llm.providers.find((p) => p.id === id) as Provider)
   const dispatch = useAppDispatch()
 
   return {
@@ -25,7 +25,17 @@ export function useProvider(id: string) {
 
 export function useProviders() {
   const providers = useAppSelector((state) => state.llm.providers)
-  return useMemo(() => providers.filter((p) => p.enabled), [providers])
+  const dispatch = useAppDispatch()
+
+  const enabledProviders = useMemo(() => providers.filter((p) => p.enabled), [providers])
+
+  return useMemo(
+    () => ({
+      providers: enabledProviders,
+      updateProviders: (providers: Provider[]) => dispatch(_updateProviders(providers))
+    }),
+    [enabledProviders, dispatch]
+  )
 }
 
 export function useProviderByAssistant(assistant: Assistant) {

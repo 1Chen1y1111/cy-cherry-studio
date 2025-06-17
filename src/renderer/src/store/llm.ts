@@ -101,6 +101,9 @@ const settingsSlice = createSlice({
     updateProvider: (state, action: PayloadAction<Provider>) => {
       state.providers = state.providers.map((p) => (p.id === action.payload.id ? { ...p, ...action.payload } : p))
     },
+    updateProviders: (state, action: PayloadAction<Provider[]>) => {
+      state.providers = action.payload
+    },
     addModel: (state, action: PayloadAction<{ providerId: string; model: Model }>) => {
       state.providers = state.providers.map((p) => {
         return p.id === action.payload.providerId
@@ -134,6 +137,7 @@ export const {
   addProvider,
   removeProvider,
   updateProvider,
+  updateProviders,
   addModel,
   removeModel,
   setDefaultModel,
