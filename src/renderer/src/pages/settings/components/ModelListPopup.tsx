@@ -69,7 +69,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
                 <ListItem key={model.id}>
                   <ListItemHeader>
                     <Avatar src={getModelLogo(model.id)} size={24} />
-                    <ListItemName>{model.name}</ListItemName>
+                    <ListItemName>{model.name.toUpperCase()}</ListItemName>
                   </ListItemHeader>
                   {hasModel ? (
                     <Button type="default" onClick={() => onRemoveModel(model)} icon={<MinusOutlined />} />

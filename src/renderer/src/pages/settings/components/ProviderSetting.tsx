@@ -75,7 +75,7 @@ const ProviderSetting: FC<Props> = ({ provider }) => {
           {modelGroups[group].map((model) => (
             <ModelListItem key={model.id}>
               <Avatar src={getModelLogo(model.id) || null} size={22} style={{ marginRight: '8px' }}>
-                {model.name[0]}
+                {model.name[0].toUpperCase()}
               </Avatar>
               {model.name}
             </ModelListItem>
