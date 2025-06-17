@@ -7,13 +7,7 @@ import { Avatar, message, Upload } from 'antd'
 import { FC } from 'react'
 import styled from 'styled-components'
 
-import {
-  SettingContainer,
-  SettingDivider,
-  SettingRow,
-  SettingRowTitle,
-  SettingTitle
-} from './components/SettingComponent'
+import { SettingContainer, SettingDivider, SettingRow, SettingRowTitle, SettingTitle } from './components'
 
 const GeneralSettings: FC = () => {
   const { avatar } = useAvatar()

@@ -49,7 +49,8 @@ const PopupContainer: FC<Props> = ({ title, provider, resolve }) => {
       id: values.id,
       provider: provider.id,
       name: values.name ? values.name : values.id.toUpperCase(),
-      group: getDefaultGroupName(values.group || values.id)
+      group: getDefaultGroupName(values.group || values.id),
+      description: ''
     }
 
     addModel(model)
@@ -102,7 +103,7 @@ const PopupContainer: FC<Props> = ({ title, provider, resolve }) => {
   )
 }
 
-export default class ModelListPopup {
+export default class AddModelPopup {
   static topViewId = 0
 
   static hide() {

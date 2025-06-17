@@ -3,7 +3,7 @@ import { Input } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { FC } from 'react'
 
-import { SettingContainer, SettingDivider, SettingSubtitle, SettingTitle } from './components/SettingComponent'
+import { SettingContainer, SettingDivider, SettingSubtitle, SettingTitle } from './components'
 
 const AssistantSettings: FC = () => {
   const { defaultAssistant, updateDefaultAssistant } = useDefaultAssistant()

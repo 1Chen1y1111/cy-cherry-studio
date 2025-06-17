@@ -25,12 +25,13 @@ export const SettingTitle = styled.div`
 export const SettingSubtitle = styled.div`
   font-size: 12px;
   color: var(--color-text-3);
-  margin: 10px 0;
+  margin: 15px 0 10px 0;
 `
 
 export const SettingDivider = styled(Divider)`
   margin: 10px 0;
 `
+
 export const SettingRow = styled.div`
   display: flex;
   flex-direction: row;

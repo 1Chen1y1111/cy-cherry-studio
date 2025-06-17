@@ -5,7 +5,7 @@ import { Select } from 'antd'
 import { find } from 'lodash'
 import { FC } from 'react'
 
-import { SettingContainer, SettingDivider, SettingTitle } from './components/SettingComponent'
+import { SettingContainer, SettingDivider, SettingTitle } from './components'
 
 const ModelSettings: FC = () => {
   const { defaultModel, topicNamingModel, setDefaultModel, setTopicNamingModel } = useDefaultModel()
