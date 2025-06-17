@@ -1,3 +1,4 @@
+import { Model } from '@renderer/types'
 import imageCompression from 'browser-image-compression'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -127,4 +128,13 @@ export const droppableReorder = <T>(list: T[], startIndex: number, endIndex: num
  */
 export const firstLetter = (str?: string) => {
   return str ? str[0] : ''
+}
+
+/**
+ * 判断模型是否是免费模型
+ * @param model 模型
+ * @returns 是否是免费模型
+ */
+export function isFreeModel(model: Model) {
+  return (model.id + model.name).toLocaleLowerCase().includes('free')
 }
