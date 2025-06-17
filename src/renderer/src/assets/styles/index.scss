@@ -75,6 +75,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  -webkit-user-drag: none;
+}
+
 html,
 body,
 #root {

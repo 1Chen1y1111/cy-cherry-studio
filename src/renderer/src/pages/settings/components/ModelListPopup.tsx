@@ -147,7 +147,9 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
 const onShowModelInfo = (model: Model) => {
   window.modal.info({
     title: model.name,
-    content: model.description
+    content: model.description,
+    icon: null,
+    maskClosable: true
   })
 }
 
