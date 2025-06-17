@@ -79,6 +79,10 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
         }, 100)
       }),
 
+      EventEmitter.on(EVENT_NAMES.REGENERATE_MESSAGE, async () => {
+        fetchChatCompletion({ assistant, messages, topic, onResponse: setLastMessage })
+      }),
+
       EventEmitter.on(EVENT_NAMES.AI_AUTO_RENAME, autoRenameTopic),
 
       EventEmitter.on(EVENT_NAMES.CLEAR_MESSAGES, () => {
@@ -105,8 +109,8 @@ const Messages: FC<Props> = ({ assistant, topic }) => {
   return (
     <Container id="messages" key={assistant.id} ref={messagesRef}>
       {lastMessage && <MessageItem message={lastMessage} />}
-      {reverse([...messages]).map((message) => (
-        <MessageItem message={message} key={message.id} showMenu onDeleteMessage={onDeleteMessage} />
+      {reverse([...messages]).map((message, index) => (
+        <MessageItem message={message} key={message.id} showMenu index={index} onDeleteMessage={onDeleteMessage} />
       ))}
       <MessageItem message={assistantDefaultMessage} />
     </Container>

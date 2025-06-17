@@ -14,12 +14,16 @@ import CodeBlock from './CodeBlock'
 
 interface Props {
   message: Message
+  index?: number
+  total?: number
   showMenu?: boolean
   onDeleteMessage?: (message: Message) => void
 }
 
-const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
+const MessageItem: FC<Props> = ({ message, index, showMenu, onDeleteMessage }) => {
   const { avatar } = useAvatar()
+
+  const isLastMessage = index === 0
 
   const onCopy = () => {
     navigator.clipboard.writeText(message.content)
@@ -42,6 +46,13 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
     EventEmitter.emit(EVENT_NAMES.EDIT_MESSAGE, message)
   }
 
+  const onRegenerate = () => {
+    onDeleteMessage?.(message)
+    setTimeout(() => {
+      EventEmitter.emit(EVENT_NAMES.REGENERATE_MESSAGE)
+    }, 100)
+  }
+
   return (
     <MessageContainer key={message.id}>
       <AvatarWrapper>
@@ -62,19 +73,32 @@ const MessageItem: FC<Props> = ({ message, showMenu, onDeleteMessage }) => {
           <Markdown children={message.content} components={{ code: CodeBlock as any }} />
         )}
         {showMenu && (
-          <MenusBar className="menubar">
+          <MenusBar className={`menubar ${isLastMessage && 'show'}`}>
             {message.role === 'user' && (
-              <Tooltip title="Edit" mouseEnterDelay={1}>
+              <Tooltip title="Edit" mouseEnterDelay={0.8}>
                 <EditOutlined onClick={onEdit} />
               </Tooltip>
             )}
-            <Tooltip title="Copy" mouseEnterDelay={1}>
+            <Tooltip title="Copy" mouseEnterDelay={0.8}>
               <CopyOutlined onClick={onCopy} />
             </Tooltip>
-            <Tooltip title="Delete" mouseEnterDelay={1}>
+            <Tooltip title="Delete" mouseEnterDelay={0.8}>
               <DeleteOutlined onClick={onDelete} />
             </Tooltip>
-            <ModelName>{message.modelId}</ModelName>
+            {isLastMessage && (
+              <Tooltip title="Regenerate" mouseEnterDelay={0.8}>
+                <SyncOutlined onClick={onRegenerate} />
+              </Tooltip>
+            )}
+            <MessageMetadata>{message.modelId}</MessageMetadata>
+            {message.usage && (
+              <>
+                <MessageMetadata style={{ textTransform: 'uppercase' }}>
+                  tokens used: {message.usage.total_tokens} (IN:{message.usage.prompt_tokens}/OUT:
+                  {message.usage.completion_tokens})
+                </MessageMetadata>
+              </>
+            )}
           </MenusBar>
         )}
       </MessageContent>
@@ -131,9 +155,10 @@ const MenusBar = styled.div`
   }
 `
 
-const ModelName = styled.div`
+const MessageMetadata = styled.div`
   font-size: 12px;
   color: var(--color-text-2);
+  user-select: text;
 `
 
 export default MessageItem
