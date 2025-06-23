@@ -3,6 +3,7 @@ import { useAssistant } from '@renderer/hooks/useAssistants'
 import { useSettings } from '@renderer/hooks/useSettings'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
+import { useAppSelector } from '@renderer/store'
 import { Assistant, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { Button, Popconfirm, Tooltip } from 'antd'
@@ -25,9 +26,14 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   const { addTopic } = useAssistant(assistant.id)
   const { sendMessageShortcut } = useSettings()
   const [expended, setExpend] = useState(false)
+  const generating = useAppSelector((state) => state.runtime.generating)
   const inputRef = useRef<TextAreaRef>(null)
 
   const sendMessage = () => {
+    if (generating) {
+      return
+    }
+
     if (isEmpty(text.trim())) {
       return
     }

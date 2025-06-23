@@ -1,3 +1,5 @@
+import store from '@renderer/store'
+import { setGenerating } from '@renderer/store/runtime'
 import { Assistant, Message, Provider, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import dayjs from 'dayjs'
@@ -29,6 +31,8 @@ export async function fetchChatCompletion({ messages, assistant, topic, onRespon
   const openaiProvider = getOpenAiProvider(provider)
   const defaultModel = getDefaultModel()
   const model = assistant.model || defaultModel
+
+  store.dispatch(setGenerating(true))
 
   const _message: Message = {
     id: uuid(),
@@ -77,6 +81,8 @@ export async function fetchChatCompletion({ messages, assistant, topic, onRespon
   _message.status = 'success'
 
   EventEmitter.emit(EVENT_NAMES.AI_CHAT_COMPLETION, _message)
+
+  store.dispatch(setGenerating(false))
 
   return _message
 }
