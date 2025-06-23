@@ -1,6 +1,7 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, Menu, MenuItem, shell } from 'electron'
 import { installExtension, REDUX_DEVTOOLS } from 'electron-devtools-installer'
+import { autoUpdater } from 'electron-updater'
 import windowStateKeeper from 'electron-window-state'
 import { join } from 'path'
 
@@ -27,7 +28,8 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      devTools: !app.isPackaged
     }
   })
 
@@ -101,6 +103,8 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+autoUpdater.checkForUpdatesAndNotify()
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

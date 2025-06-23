@@ -62,7 +62,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  height: 100%;
+  height: calc(100vh - var(---navbar-height));
 `
 
 const NewButton = styled.div`
