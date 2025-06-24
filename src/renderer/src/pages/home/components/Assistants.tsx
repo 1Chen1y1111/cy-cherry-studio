@@ -8,6 +8,7 @@ import { droppableReorder, uuid } from '@renderer/utils'
 import { Dropdown, MenuProps } from 'antd'
 import { last } from 'lodash'
 import { FC, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
 const Assistants: FC<Props> = ({ activeAssistant, setActiveAssistant, onCreateAssistant }) => {
   const { assistants, removeAssistant, updateAssistant, addAssistant, updateAssistants } = useAssistants()
   const targetAssistant = useRef<Assistant | null>(null)
+  const { t } = useTranslation()
 
   const onDelete = (assistant: Assistant) => {
     removeAssistant(assistant.id)
@@ -30,7 +32,7 @@ const Assistants: FC<Props> = ({ activeAssistant, setActiveAssistant, onCreateAs
 
   const items: MenuProps['items'] = [
     {
-      label: 'Edit',
+      label: t('common.edit'),
       key: 'edit',
       icon: <EditOutlined />,
       async onClick() {
@@ -41,7 +43,7 @@ const Assistants: FC<Props> = ({ activeAssistant, setActiveAssistant, onCreateAs
       }
     },
     {
-      label: 'Duplicate',
+      label: t('common.duplicate'),
       key: 'duplicate',
       icon: <CopyOutlined />,
       async onClick() {
@@ -52,7 +54,7 @@ const Assistants: FC<Props> = ({ activeAssistant, setActiveAssistant, onCreateAs
     },
     { type: 'divider' },
     {
-      label: 'Delete',
+      label: t('common.delete'),
       key: 'delete',
       icon: <DeleteOutlined />,
       danger: true,

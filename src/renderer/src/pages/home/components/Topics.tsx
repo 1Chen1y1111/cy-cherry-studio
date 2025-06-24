@@ -9,6 +9,7 @@ import { Assistant, Topic } from '@renderer/types'
 import { droppableReorder } from '@renderer/utils'
 import { Button, Dropdown, MenuProps, Popconfirm } from 'antd'
 import { FC, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 interface Props {
@@ -22,10 +23,11 @@ const Topics: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
   const { removeTopic, updateTopic, removeAllTopics, updateTopics } = useAssistant(assistant.id)
 
   const currentTopic = useRef<Topic | null>(null)
+  const { t } = useTranslation()
 
   const items: MenuProps['items'] = [
     {
-      label: 'AI Rename',
+      label: t('assistant.topics.auto_rename'),
       key: 'ai-rename',
       icon: <SignatureOutlined />,
       async onClick() {
@@ -41,13 +43,13 @@ const Topics: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
       }
     },
     {
-      label: 'Rename',
+      label: t('common.rename'),
       key: 'rename',
       icon: <EditOutlined />,
       async onClick() {
         const name = await PromptPopup.show({
-          title: 'Rename Topic',
-          message: 'Please enter the new name',
+          title: t('assistant.topics.edit.title'),
+          message: t('assistant.topics.edit.placeholder'),
           defaultValue: currentTopic.current?.name || ''
         })
 
@@ -61,7 +63,7 @@ const Topics: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
   if (assistant.topics.length > 1) {
     items.push({ type: 'divider' })
     items.push({
-      label: 'Delete',
+      label: t('common.delete'),
       danger: true,
       key: 'delete',
       icon: <DeleteOutlined />,
@@ -89,11 +91,13 @@ const Topics: FC<Props> = ({ assistant, activeTopic, setActiveTopic }) => {
   return (
     <Container className={showRightSidebar ? '' : 'collapsed'}>
       <TopicTitle>
-        <span>Topics ({assistant.topics.length})</span>
+        <span>
+          {t('assistant.topics.title')} ({assistant.topics.length})
+        </span>
         <Popconfirm
           icon={false}
-          title="Delete all topic?"
-          description="Are you sure to delete all topics?"
+          title={t('assistant.topics.delete.all.title')}
+          description={t('assistant.topics.delete.all.content')}
           placement="leftBottom"
           onConfirm={removeAllTopics}
           okText="Delete All"

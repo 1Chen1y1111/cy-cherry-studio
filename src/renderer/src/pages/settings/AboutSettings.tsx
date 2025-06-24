@@ -2,10 +2,12 @@ import Logo from '@renderer/assets/images/logo.png'
 import { runAsyncFunction } from '@renderer/utils'
 import { Avatar } from 'antd'
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const AboutSettings: FC = () => {
   const [version, setVersion] = useState('')
+  const { t } = useTranslation()
 
   useEffect(() => {
     runAsyncFunction(async () => {
@@ -20,7 +22,7 @@ const AboutSettings: FC = () => {
       <Title>
         Cherry Studio <Version>(v{version})</Version>
       </Title>
-      <Description>A powerful AI assistant for producer.</Description>
+      <Description>{t('settings.about.description')}</Description>
     </Container>
   )
 }

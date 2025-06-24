@@ -103,6 +103,16 @@ const migrate = createMigrate({
         ]
       }
     }
+  },
+  // @ts-ignore store type is unknown
+  '7': (state: RootState) => {
+    return {
+      ...state,
+      settings: {
+        ...state.settings,
+        language: navigator.language
+      }
+    }
   }
 })
 

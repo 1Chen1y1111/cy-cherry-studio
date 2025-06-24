@@ -11,6 +11,7 @@ import TextArea, { TextAreaRef } from 'antd/es/input/TextArea'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import SendMessageSetting from './SendMessageSetting'
@@ -28,6 +29,8 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   const [expended, setExpend] = useState(false)
   const generating = useAppSelector((state) => state.runtime.generating)
   const inputRef = useRef<TextAreaRef>(null)
+
+  const { t } = useTranslation()
 
   const sendMessage = () => {
     if (generating) {
@@ -114,21 +117,21 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
     <Container id="inputChat" style={{ minHeight: expended ? '35%' : 'var(--input-bar-height)' }}>
       <Toolbar>
         <ToolbarMenu>
-          <Tooltip placement="top" title=" New Chat " arrow>
+          <Tooltip placement="top" title={t('assistant.input.new_chat')} arrow>
             <ToolbarButton onClick={addNewTopic}>
               <i className="iconfont icon-a-new-chat" />
             </ToolbarButton>
           </Tooltip>
-          <Tooltip placement="top" title=" Topics " arrow>
+          <Tooltip placement="top" title={t('assistant.input.topics')} arrow>
             <ToolbarButton onClick={setShowRightSidebar}>
               <i className="iconfont icon-textedit_text_topic" />
             </ToolbarButton>
           </Tooltip>
-          <Tooltip placement="top" title=" Clear " arrow>
+          <Tooltip placement="top" title={t('assistant.input.clear')} arrow>
             <Popconfirm
               icon={false}
-              title="Clear all messages?"
-              description="Are you sure to clear all messages?"
+              title={t('assistant.input.clear.title')}
+              description={t('assistant.input.clear.content')}
               placement="top"
               onConfirm={clearTopic}
               okText="Clear"
@@ -138,7 +141,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
               </ToolbarButton>
             </Popconfirm>
           </Tooltip>
-          <Tooltip placement="top" title=" Expand " arrow>
+          <Tooltip placement="top" title={expended ? t('assistant.input.collapse') : t('assistant.input.expand')} arrow>
             <ToolbarButton type="text" onClick={() => setExpend(!expended)}>
               {expended ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
             </ToolbarButton>
@@ -157,7 +160,7 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Type your message here..."
+        placeholder={t('assistant.input.placeholder')}
         autoFocus
         variant="borderless"
         styles={{ textarea: { paddingLeft: 0 } }}

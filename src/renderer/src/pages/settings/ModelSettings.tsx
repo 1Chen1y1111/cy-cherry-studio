@@ -4,6 +4,7 @@ import { Model } from '@renderer/types'
 import { Select } from 'antd'
 import { find } from 'lodash'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { SettingContainer, SettingDivider, SettingTitle } from './components'
 
@@ -11,11 +12,12 @@ const ModelSettings: FC = () => {
   const { defaultModel, topicNamingModel, setDefaultModel, setTopicNamingModel } = useDefaultModel()
   const { providers } = useProviders()
   const allModels = providers.map((p) => p.models).flat()
+  const { t } = useTranslation()
 
   const selectOptions = providers
     .filter((p) => p.models.length > 0)
     .map((p) => ({
-      label: p.name,
+      label: t(`provider.${p.id}`),
       title: p.name,
       options: p.models.map((m) => ({
         label: m.name,
@@ -25,7 +27,7 @@ const ModelSettings: FC = () => {
 
   return (
     <SettingContainer>
-      <SettingTitle>Default Assistant Model</SettingTitle>
+      <SettingTitle>{t('settings.models.default_assistant_model')}</SettingTitle>
       <SettingDivider />
       <Select
         defaultValue={topicNamingModel.id}
@@ -34,7 +36,7 @@ const ModelSettings: FC = () => {
         options={selectOptions}
       />
       <div style={{ height: 30 }} />
-      <SettingTitle>Topic Naming Model</SettingTitle>
+      <SettingTitle>{t('settings.models.topic_naming_model')}</SettingTitle>
       <SettingDivider />
       <Select
         defaultValue={defaultModel.id}

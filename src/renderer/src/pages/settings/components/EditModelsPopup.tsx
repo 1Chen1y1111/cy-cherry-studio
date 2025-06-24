@@ -9,6 +9,7 @@ import { Avatar, Button, Empty, Flex, Modal, Tag } from 'antd'
 import Search from 'antd/es/input/Search'
 import { groupBy, isEmpty, uniqBy } from 'lodash'
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { TopView } from '../../../components/TopView'
@@ -27,6 +28,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
   const [listModels, setListModels] = useState<Model[]>([])
   const [loading, setLoading] = useState(false)
   const [searchText, setSearchText] = useState('')
+  const { t } = useTranslation()
 
   const systemModels = SYSTEM_MODELS[_provider.id]
   const allModels = uniqBy([...systemModels, ...listModels, ...models], 'id')
@@ -84,7 +86,9 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
   const ModalHeader = () => {
     return (
       <Flex>
-        <ModelHeaderTitle>{provider.name} Models</ModelHeaderTitle>
+        <ModelHeaderTitle>
+          {provider.name} {t('common.models')}
+        </ModelHeaderTitle>
         {loading && <LoadingOutlined size={20} />}
       </Flex>
     )
@@ -104,7 +108,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
         header: { padding: 22, paddingBottom: 15 }
       }}>
       <SearchContainer>
-        <Search placeholder="Search model id or name" allowClear onSearch={setSearchText} />
+        <Search placeholder={t('settings.provider.search_placeholder')} allowClear onSearch={setSearchText} />
       </SearchContainer>
       <ListContainer>
         {Object.keys(modelGroups).map((group) => (

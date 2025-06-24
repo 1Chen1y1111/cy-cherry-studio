@@ -4,6 +4,7 @@ import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { uuid } from '@renderer/utils'
 import { Tooltip } from 'antd'
 import { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import Assistants from './components/Assistants'
@@ -15,6 +16,7 @@ const HomePage: FC = () => {
   const [activeAssistant, setActiveAssistant] = useState(assistants[0])
   const { showRightSidebar, setShowRightSidebar } = useShowRightSidebar()
   const { defaultAssistant } = useDefaultAssistant()
+  const { t } = useTranslation()
 
   const onCreateAssistant = () => {
     const assistant = { ...defaultAssistant, id: uuid() }
@@ -32,7 +34,10 @@ const HomePage: FC = () => {
         </NavbarLeft>
         <Navigation activeAssistant={activeAssistant} />
         <NavbarRight style={{ justifyContent: 'flex-end', padding: 5 }}>
-          <Tooltip placement="left" title={showRightSidebar ? 'Hide Topics' : 'Show Topics'} arrow>
+          <Tooltip
+            placement="left"
+            title={showRightSidebar ? t('assistant.topics.hide_topics') : t('assistant.topics.show_topics')}
+            arrow>
             <NewButton onClick={setShowRightSidebar}>
               <i className={`iconfont ${showRightSidebar ? 'icon-showsidebarhoriz' : 'icon-hidesidebarhoriz'}`} />
             </NewButton>

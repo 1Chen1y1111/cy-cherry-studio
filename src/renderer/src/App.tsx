@@ -1,5 +1,6 @@
 import '@fontsource/inter'
 import './i18n'
+import './i18n'
 
 import store, { persistor } from '@renderer/store'
 import { ConfigProvider } from 'antd'
@@ -9,14 +10,14 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import Sidebar from './components/app/Sidebar'
 import TopViewContainer from './components/TopView'
-import { AntdThemeConfig } from './config/antd'
+import { AntdThemeConfig, getAntdLocale } from './config/antd'
 import AppsPage from './pages/apps/AppsPage'
 import HomePage from './pages/home/HomePage'
 import SettingsPage from './pages/settings/SettingsPage'
 
 function App(): React.JSX.Element {
   return (
-    <ConfigProvider theme={AntdThemeConfig}>
+    <ConfigProvider theme={AntdThemeConfig} locale={getAntdLocale()}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <TopViewContainer>

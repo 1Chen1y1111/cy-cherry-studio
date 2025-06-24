@@ -2,33 +2,35 @@ import { useDefaultAssistant } from '@renderer/hooks/useAssistants'
 import { Input } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { SettingContainer, SettingDivider, SettingSubtitle, SettingTitle } from './components'
 
 const AssistantSettings: FC = () => {
   const { defaultAssistant, updateDefaultAssistant } = useDefaultAssistant()
+  const { t } = useTranslation()
 
   return (
     <SettingContainer>
-      <SettingTitle>Default Assistant</SettingTitle>
+      <SettingTitle>{t('settings.assistant.title')}</SettingTitle>
       <SettingDivider />
-      <SettingSubtitle style={{ marginTop: 0 }}>Name</SettingSubtitle>
+      <SettingSubtitle style={{ marginTop: 0 }}>{t('common.name')}</SettingSubtitle>
       <Input
-        placeholder="Assistant Name"
+        placeholder={t('common.assistant') + t('common.name')}
         value={defaultAssistant.name}
         onChange={(e) => updateDefaultAssistant({ ...defaultAssistant, name: e.target.value })}
       />
-      <SettingSubtitle>Description</SettingSubtitle>
+      <SettingSubtitle>{t('common.description')}</SettingSubtitle>
       <TextArea
         rows={2}
-        placeholder="Assistant Description"
+        placeholder={t('common.assistant') + t('common.description')}
         value={defaultAssistant.description}
         onChange={(e) => updateDefaultAssistant({ ...defaultAssistant, description: e.target.value })}
       />
-      <SettingSubtitle>Prompt</SettingSubtitle>
+      <SettingSubtitle>{t('common.prompt')}</SettingSubtitle>
       <TextArea
         rows={4}
-        placeholder="Assistant Prompt"
+        placeholder={t('common.assistant') + t('common.prompt')}
         value={defaultAssistant.prompt}
         onChange={(e) => updateDefaultAssistant({ ...defaultAssistant, prompt: e.target.value })}
       />

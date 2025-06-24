@@ -8,12 +8,14 @@ import { SystemAssistant } from '@renderer/types'
 import { Button, Col, Row, Tooltip, Typography } from 'antd'
 import { find, groupBy } from 'lodash'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const { Title } = Typography
 
 const AppsPage: FC = () => {
   const { assistants, addAssistant } = useAssistants()
+  const { t } = useTranslation()
 
   const assistantGroups = groupBy(SYSTEM_ASSISTANTS, 'group')
 
@@ -24,7 +26,7 @@ const AppsPage: FC = () => {
     })
 
     window.message.success({
-      content: 'Assistant added successfully',
+      content: t('message.assistant.added.content'),
       key: 'assistant-added',
       style: { marginTop: '5vh' }
     })
@@ -33,7 +35,7 @@ const AppsPage: FC = () => {
   return (
     <Container>
       <Navbar>
-        <NavbarCenter style={{ borderRight: 'none' }}>Assistant Market</NavbarCenter>
+        <NavbarCenter style={{ borderRight: 'none' }}>{t('apps.title')}</NavbarCenter>
       </Navbar>
       <ContentContainer>
         {Object.keys(assistantGroups).map((group) => (
