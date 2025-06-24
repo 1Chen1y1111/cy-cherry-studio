@@ -47,7 +47,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 0;
+  padding: 12px 0;
   min-width: var(--sidebar-width);
   min-height: 100%;
   background: #1f1f1f;
@@ -55,12 +55,14 @@ const Container = styled.div`
   padding-bottom: 10px;
   -webkit-app-region: drag !important;
   border-right: 0.5px solid var(--color-border);
+  margin-top: var(--navbar-height);
+  padding-bottom: calc(var(--navbar-height) + 6px);
 `
 
 const AvatarImg = styled.img`
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   background-color: var(--color-background-soft);
   margin: 5px 0;
 `
@@ -76,8 +78,8 @@ const Menus = styled.div`
 `
 
 const Icon = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,7 +89,7 @@ const Icon = styled.div`
   -webkit-app-region: none;
   .iconfont {
     color: var(--color-icon);
-    font-size: 22px;
+    font-size: 20px;
     transition: color 0.2s ease;
     text-decoration: none;
   }
