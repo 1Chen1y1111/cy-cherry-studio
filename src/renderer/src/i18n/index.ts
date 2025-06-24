@@ -43,6 +43,7 @@ const resources = {
       },
       assistant: {
         'default.name': 'Default Assistant',
+        'default.description': "Hello, I'm Default Assistant. You can start chatting with me right away",
         'default.topic.name': 'Default Topic',
         'topics.title': 'Topics',
         'topics.hide_topics': 'Hide Topics',
@@ -63,7 +64,8 @@ const resources = {
         'input.send': 'Send'
       },
       apps: {
-        title: 'Agents'
+        title: 'Agents',
+        'assistant.added.tooltip': ' Add to assistant list'
       },
       provider: {
         openai: 'OpenAI',
@@ -150,6 +152,8 @@ const resources = {
       },
       assistant: {
         'default.name': '默认助手',
+        'default.description':
+          '你好，我是你的 AI 助手。我可以帮助你完成各种任务，比如回答问题、提供建议、生成内容等。请告诉我你需要什么帮助。',
         'default.topic.name': '默认话题',
         'topics.title': '话题',
         'topics.hide_topics': '隐藏话题',
@@ -170,7 +174,8 @@ const resources = {
         'input.send': '发送'
       },
       apps: {
-        title: '智能体'
+        title: '智能体',
+        'assistant.added.tooltip': ' 添加到智能体列表'
       },
       provider: {
         openai: 'OpenAI',

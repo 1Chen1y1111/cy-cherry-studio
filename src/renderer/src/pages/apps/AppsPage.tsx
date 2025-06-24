@@ -58,11 +58,12 @@ const AppsPage: FC = () => {
                             type="primary"
                             shape="circle"
                             size="small"
+                            ghost
                             icon={<CheckOutlined style={{ fontSize: 12 }} />}
                           />
                         )}
                         {!added && (
-                          <Tooltip placement="top" title=" Add to assistant list " arrow>
+                          <Tooltip placement="top" title={t('apps.assistant.added.tooltip')} arrow>
                             <Button
                               type="default"
                               shape="circle"
