@@ -30,7 +30,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
   const [searchText, setSearchText] = useState('')
   const { t } = useTranslation()
 
-  const systemModels = SYSTEM_MODELS[_provider.id]
+  const systemModels = SYSTEM_MODELS[_provider.id] || []
   const allModels = uniqBy([...systemModels, ...listModels, ...models], 'id')
 
   const list = searchText
@@ -142,7 +142,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
             })}
           </div>
         ))}
-        {isEmpty(allModels) && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No models" />}
+        {isEmpty(list) && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('settings.models.empty')} />}
       </ListContainer>
     </Modal>
   )
@@ -151,7 +151,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
 const onShowModelInfo = (model: Model) => {
   window.modal.info({
     title: model.name,
-    content: model.description,
+    content: model?.description,
     icon: null,
     maskClosable: true
   })

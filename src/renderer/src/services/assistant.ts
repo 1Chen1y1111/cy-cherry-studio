@@ -15,7 +15,6 @@ export function getDefaultAssistant(): Assistant {
   return {
     id: 'default',
     name: i18next.t('assistant.default.name'),
-    description: i18next.t('assistant.default.description'),
     prompt: '',
     topics: [getDefaultTopic()]
   }
