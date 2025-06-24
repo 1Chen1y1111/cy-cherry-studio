@@ -88,15 +88,17 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
   // Command or Ctrl + N create new topic
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
-        addNewTopic()
-        inputRef.current?.focus()
+      if (!generating) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+          addNewTopic()
+          inputRef.current?.focus()
+        }
       }
     }
 
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
-  }, [addNewTopic])
+  }, [addNewTopic, generating])
 
   useEffect(() => {
     const unsubscribes = [
