@@ -33,17 +33,20 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: build-linux
+      - name: Build Linux
         if: matrix.os == 'ubuntu-latest'
         run: yarn build:linux
 
-      - name: build-mac
+      - name: Build Mac
         if: matrix.os == 'macos-latest'
         run: yarn build:mac
 
-      - name: build-win
+      - name: Build Windows
         if: matrix.os == 'windows-latest'
         run: yarn build:win
+
+      - name: Replace spaces in filenames
+        run: node scripts/replaceSpaces.js
 
       - name: release
         uses: softprops/action-gh-release@v2
@@ -58,7 +61,6 @@ jobs:
             dist/*.deb
             dist/*.rpm
             dist/*.tar.gz
-            dist/*.yml
-            dist/*.blockmap
+            dist/latest*.yml
         env:
           GITHUB_TOKEN: ${{ secrets.CHERRY_STUDIO_TOKEN }}

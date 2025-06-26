@@ -1,6 +1,6 @@
 {
   "name": "cy-cherry-studio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A powerful AI assistant for producer.",
   "main": "./out/main/index.js",
   "author": "fun20001016@163.com",
@@ -15,9 +15,9 @@
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "dotenv npm run build && electron-builder --dir",
-    "build:win": "dotenv npm run build && electron-builder --win",
-    "build:mac": "dotenv electron-vite build && electron-builder --mac",
-    "build:linux": "dotenv electron-vite build && electron-builder --linux",
+    "build:win": "dotenv npm run build && electron-builder --win --publish never",
+    "build:mac": "dotenv electron-vite build && electron-builder --mac --publish never",
+    "build:linux": "dotenv electron-vite build && electron-builder --linux --publish never",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "dependencies": {
