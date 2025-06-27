@@ -29,6 +29,11 @@ mac:
   target:
     - target: dmg
       arch:
+        - arm64
+        - x64
+    - target: zip
+      arch:
+        - arm64
         - x64
 dmg:
   artifactName: ${productName}-${version}-${arch}.${ext}
@@ -48,3 +53,8 @@ publish:
   owner: 1Chen1y1111
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/
+releaseInfo:
+  releaseNotes: |
+    - 【功能】新增消息暂停发送功能
+    - 【修复】修复多语言切换不彻底问题
+    - 【构建】支持 macOS Intel 架构

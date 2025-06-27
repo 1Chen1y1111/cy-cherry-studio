@@ -1,11 +1,11 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, Menu, MenuItem, shell } from 'electron'
 import { installExtension, REDUX_DEVTOOLS } from 'electron-devtools-installer'
-import { autoUpdater } from 'electron-updater'
 import windowStateKeeper from 'electron-window-state'
 import { join } from 'path'
 
 import icon from '../../resources/icon.png?asset'
+import AppUpdater from './updater'
 
 function createWindow(): void {
   const mainWindowState = windowStateKeeper({
@@ -94,7 +94,9 @@ app.whenReady().then(() => {
     .then((ext) => console.log(`Added Extension:  ${ext.name}`))
     .catch((err) => console.log('An error occurred: ', err))
 
-  autoUpdater.checkForUpdatesAndNotify()
+  setTimeout(() => {
+    new AppUpdater()
+  }, 3000)
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
