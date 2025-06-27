@@ -5,7 +5,7 @@ import { useAppDispatch } from '@renderer/store'
 import { setAvatar } from '@renderer/store/runtime'
 import { setLanguage } from '@renderer/store/settings'
 import { compressImage } from '@renderer/utils'
-import { Avatar, message, Select, Upload } from 'antd'
+import { Avatar, Select, Upload } from 'antd'
 import i18next from 'i18next'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,7 +15,6 @@ import { SettingContainer, SettingDivider, SettingRow, SettingRowTitle, SettingT
 
 const GeneralSettings: FC = () => {
   const { avatar } = useAvatar()
-  const [messageApi, contextHolder] = message.useMessage()
   const dispatch = useAppDispatch()
   const { language } = useSettings()
   const { t } = useTranslation()
@@ -27,21 +26,20 @@ const GeneralSettings: FC = () => {
       await LocalStorage.storeImage('avatar', compressFile)
       dispatch(setAvatar(await LocalStorage.getImage('avatar')))
     } catch (error: any) {
-      messageApi.open({
-        type: 'error',
-        content: error.message
-      })
+      window.message.error(error.message)
     }
   }
 
   const onSelectLanguage = async (value: string) => {
     dispatch(setLanguage(value))
     i18next.changeLanguage(value)
+    setTimeout(() => {
+      window.location.reload()
+    }, 500)
   }
 
   return (
     <SettingContainer>
-      {contextHolder}
       <SettingTitle>{t('settings.general.title')}</SettingTitle>
       <SettingDivider />
       <SettingRow>

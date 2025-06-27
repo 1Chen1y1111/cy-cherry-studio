@@ -6,6 +6,7 @@ import { getModelLogo } from '@renderer/services/provider'
 import { Message } from '@renderer/types'
 import { firstLetter } from '@renderer/utils'
 import { Avatar, Tooltip } from 'antd'
+import { isEmpty } from 'lodash'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import Markdown from 'react-markdown'
@@ -56,6 +57,13 @@ const MessageItem: FC<Props> = ({ message, index, showMenu, onDeleteMessage }) =
     }, 100)
   }
 
+  const getMessageContent = (message: Message) => {
+    if (isEmpty(message.content) && message.status === 'paused') {
+      return t('message.chat.completion.paused')
+    }
+    return message.content
+  }
+
   return (
     <MessageContainer key={message.id}>
       <AvatarWrapper>
@@ -73,7 +81,7 @@ const MessageItem: FC<Props> = ({ message, index, showMenu, onDeleteMessage }) =
             <SyncOutlined spin size={24} />
           </MessageContentLoading>
         ) : (
-          <Markdown children={message.content} components={{ code: CodeBlock as any }} />
+          <Markdown children={getMessageContent(message)} components={{ code: CodeBlock as any }} />
         )}
         {showMenu && (
           <MenusBar className={`menubar ${isLastMessage && 'show'}`}>

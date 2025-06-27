@@ -1,9 +1,16 @@
-import { ClearOutlined, FullscreenExitOutlined, FullscreenOutlined, MoreOutlined } from '@ant-design/icons'
+import {
+  ClearOutlined,
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+  MoreOutlined,
+  PauseCircleOutlined
+} from '@ant-design/icons'
 import { useAssistant } from '@renderer/hooks/useAssistants'
 import { useSettings } from '@renderer/hooks/useSettings'
 import { useShowRightSidebar } from '@renderer/hooks/useStore'
 import { EVENT_NAMES, EventEmitter } from '@renderer/services/event'
-import { useAppSelector } from '@renderer/store'
+import store, { useAppSelector } from '@renderer/store'
+import { setGenerating } from '@renderer/store/runtime'
 import { Assistant, Message, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import { Button, Popconfirm, Tooltip } from 'antd'
@@ -85,6 +92,11 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
 
   const clearTopic = () => EventEmitter.emit(EVENT_NAMES.CLEAR_MESSAGES)
 
+  const onPause = () => {
+    window.keyv.set(EVENT_NAMES.CHAT_COMPLETION_PAUSED, true)
+    store.dispatch(setGenerating(false))
+  }
+
   // Command or Ctrl + N create new topic
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -149,6 +161,13 @@ const InputChat: FC<Props> = ({ assistant, setActiveTopic }) => {
           </Tooltip>
         </ToolbarMenu>
         <ToolbarMenu>
+          {generating && (
+            <Tooltip placement="top" title={t('assistant.input.pause')} arrow>
+              <ToolbarButton type="text" onClick={onPause}>
+                <PauseCircleOutlined />
+              </ToolbarButton>
+            </Tooltip>
+          )}
           <SendMessageSetting>
             <ToolbarButton style={{ marginRight: 0 }}>
               <MoreOutlined />
