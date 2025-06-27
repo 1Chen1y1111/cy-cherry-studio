@@ -38,6 +38,7 @@
     "@eslint/js": "^9.26.0",
     "@fontsource/inter": "^5.2.5",
     "@hello-pangea/dnd": "^18.0.1",
+    "@kangfenmao/keyv-storage": "^0.1.0",
     "@reduxjs/toolkit": "^2.8.1",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.1",

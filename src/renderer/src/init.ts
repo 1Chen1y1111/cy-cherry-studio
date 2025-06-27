@@ -1,3 +1,4 @@
+import KeyvStorage from '@kangfenmao/keyv-storage'
 import localforage from 'localforage'
 
 function init(): void {
@@ -8,6 +9,9 @@ function init(): void {
     storeName: 'cherryai',
     description: 'Cherry Studio Storage'
   })
+
+  window.keyv = new KeyvStorage()
+  window.keyv.init()
 }
 
 init()
