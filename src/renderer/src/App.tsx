@@ -1,6 +1,4 @@
 import '@fontsource/inter'
-import './i18n'
-import './i18n'
 
 import store, { persistor } from '@renderer/store'
 import { ConfigProvider } from 'antd'

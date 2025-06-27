@@ -5,6 +5,8 @@ import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
+import Changelog from './components/Changelog'
+
 const AboutSettings: FC = () => {
   const [version, setVersion] = useState('')
   const { t } = useTranslation()
@@ -23,6 +25,7 @@ const AboutSettings: FC = () => {
         Cherry Studio <Version>(v{version})</Version>
       </Title>
       <Description>{t('settings.about.description')}</Description>
+      <Changelog />
     </Container>
   )
 }
