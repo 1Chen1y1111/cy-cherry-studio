@@ -230,7 +230,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: localStorage.getItem('language') || 'en-US',
+  lng: localStorage.getItem('language') || navigator.language || 'en-US',
   fallbackLng: 'en-US',
   interpolation: {
     escapeValue: false

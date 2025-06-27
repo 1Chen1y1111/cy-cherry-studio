@@ -1,4 +1,7 @@
 import { SYSTEM_MODELS } from '@renderer/config/models'
+import i18n from '@renderer/i18n'
+import { Assistant } from '@renderer/types'
+import { isEmpty } from 'lodash'
 import { createMigrate } from 'redux-persist'
 
 import { RootState } from '.'
@@ -111,6 +114,33 @@ const migrate = createMigrate({
       settings: {
         ...state.settings,
         language: navigator.language
+      }
+    }
+  },
+  // @ts-ignore store type is unknown
+  '8': (state: RootState) => {
+    const fixAssistantName = (assistant: Assistant) => {
+      if (isEmpty(assistant.name)) {
+        assistant.name = i18n.t(`assistant.${assistant.id}.name`)
+      }
+
+      assistant.topics = assistant.topics.map((topic) => {
+        if (isEmpty(topic.name)) {
+          topic.name = i18n.t(`assistant.${assistant.id}.topic.name`)
+        }
+
+        return topic
+      })
+
+      return assistant
+    }
+
+    return {
+      ...state,
+      assistants: {
+        ...state.assistants,
+        defaultAssistant: fixAssistantName(state.assistants.defaultAssistant),
+        assistants: state.assistants.assistants.map((assistant) => fixAssistantName(assistant))
       }
     }
   }

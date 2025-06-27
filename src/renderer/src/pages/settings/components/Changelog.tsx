@@ -1,13 +1,13 @@
 import changelogEn from '@renderer/assets/changelog/CHANGELOG.en.md?raw'
 import changelogZh from '@renderer/assets/changelog/CHANGELOG.zh.md?raw'
 import styles from '@renderer/assets/styles/changelog.module.scss'
-import i18next from 'i18next'
+import i18n from '@renderer/i18n'
 import { FC } from 'react'
 import Markdown from 'react-markdown'
 import styled from 'styled-components'
 
 const Changelog: FC = () => {
-  const language = i18next.language
+  const language = i18n.language
   const changelog = language === 'zh-CN' ? changelogZh : changelogEn
 
   return (

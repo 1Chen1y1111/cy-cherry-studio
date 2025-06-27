@@ -25,7 +25,7 @@ function createWindow(): void {
     autoHideMenuBar: true,
     titleBarStyle: 'hiddenInset',
     trafficLightPosition: { x: 8, y: 12 },
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
@@ -94,9 +94,9 @@ app.whenReady().then(() => {
     .then((ext) => console.log(`Added Extension:  ${ext.name}`))
     .catch((err) => console.log('An error occurred: ', err))
 
-  setTimeout(() => {
-    new AppUpdater()
-  }, 3000)
+  if (app.isPackaged) {
+    setTimeout(() => new AppUpdater(), 3000)
+  }
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
