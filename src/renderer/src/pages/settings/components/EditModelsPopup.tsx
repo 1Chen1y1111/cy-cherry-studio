@@ -87,7 +87,7 @@ const PopupContainer: FC<Props> = ({ provider: _provider, resolve }) => {
     return (
       <Flex>
         <ModelHeaderTitle>
-          {provider.name} {t('common.models')}
+          {t(`provider.${provider.name}`)} {t('common.models')}
         </ModelHeaderTitle>
         {loading && <LoadingOutlined size={20} />}
       </Flex>
