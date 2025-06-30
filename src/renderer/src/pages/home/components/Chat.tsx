@@ -36,7 +36,7 @@ const Chat: FC<Props> = (props) => {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: 100%;
   flex: 1;
   justify-content: space-between;
