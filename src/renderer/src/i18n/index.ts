@@ -75,8 +75,8 @@ const resources = {
         moonshot: 'Moonshot',
         silicon: 'SiliconFlow',
         openrouter: 'OpenRouter',
-        yi: 'Lingyiwanwu',
-        zhipu: 'BigModel',
+        yi: 'Yi',
+        zhipu: 'ZHIPU AI',
         groq: 'Groq',
         ollama: 'Ollama'
       },
