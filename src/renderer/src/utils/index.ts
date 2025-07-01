@@ -138,3 +138,20 @@ export const firstLetter = (str?: string) => {
 export function isFreeModel(model: Model) {
   return (model.id + model.name).toLocaleLowerCase().includes('free')
 }
+
+/**
+ * @returns 是否是生产环境
+ */
+export async function isProduction() {
+  const { isPackaged } = await window.api.getAppInfo()
+
+  return isPackaged
+}
+
+/**
+ * @returns 是否是开发环境
+ */
+export async function isDev() {
+  const isProd = await isProduction()
+  return !isProd
+}

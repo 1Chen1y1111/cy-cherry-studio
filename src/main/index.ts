@@ -8,7 +8,7 @@ import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
 import AppUpdater from './updater'
 
-function createWindow(): void {
+function createWindow() {
   const mainWindowState = windowStateKeeper({
     defaultWidth: 1080,
     defaultHeight: 670
@@ -62,6 +62,8 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  return mainWindow
 }
 
 // This method will be called when Electron has finished
@@ -69,7 +71,7 @@ function createWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.1Chen1y1111.CyCherryStudio')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -78,26 +80,33 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC
-  ipcMain.handle('get-app-info', () => {
-    return { version: app.getVersion() }
-  })
-
-  createWindow()
-
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 
+  const mainWindow = createWindow()
+
+  const { autoUpdater } = new AppUpdater(mainWindow)
+
+  // IPC
+  ipcMain.handle('get-app-info', () => {
+    return { version: app.getVersion(), isPackaged: app.isPackaged }
+  })
+
+  // 触发检查更新(此方法用于被渲染线程调用，例如页面点击检查更新按钮来调用此方法)
+  ipcMain.handle('check-for-update', async () => {
+    autoUpdater.logger?.info('触发检查更新')
+    return {
+      currentVersion: autoUpdater.currentVersion,
+      update: await autoUpdater.checkForUpdates()
+    }
+  })
+
   installExtension(REDUX_DEVTOOLS)
     .then((ext) => console.log(`Added Extension:  ${ext.name}`))
     .catch((err) => console.log('An error occurred: ', err))
-
-  if (app.isPackaged) {
-    setTimeout(() => new AppUpdater(), 3000)
-  }
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

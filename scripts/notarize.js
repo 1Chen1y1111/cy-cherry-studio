@@ -6,17 +6,20 @@ exports.default = async function notarizing(context) {
     return
   }
 
+  if (!process.env.APPLE_ID || !process.env.APPLE_APP_SPECIFIC_PASSWORD || !process.env.APPLE_TEAM_ID) {
+    console.log('Skipping notarization')
+    return
+  }
+
   const appName = context.packager.appInfo.productFilename
 
-  const notarized = await notarize({
+  await notarize({
     appPath: `${context.appOutDir}/${appName}.app`,
-    appBundleId: 'com.kangfenmao.CherryStudio',
+    appBundleId: 'com.1Chen1y1111.CyCherryStudio',
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
     teamId: process.env.APPLE_TEAM_ID
   })
 
-  console.log('Notarized:', notarized)
-
-  return notarized
+  console.log('Notarized app:', appName)
 }
