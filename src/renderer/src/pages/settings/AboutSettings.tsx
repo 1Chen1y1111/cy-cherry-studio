@@ -20,7 +20,7 @@ const AboutSettings: FC = () => {
 
   return (
     <Container>
-      <Avatar src={Logo} size={100} style={{ marginTop: 50 }} />
+      <Avatar src={Logo} size={100} style={{ marginTop: 50, minHeight: 100 }} />
       <Title>
         Cherry Studio <Version>(v{version})</Version>
       </Title>
@@ -33,9 +33,12 @@ const AboutSettings: FC = () => {
 const Container = styled.div`
   padding: 20px;
   display: flex;
-  width: 100%;
+  flex: 1;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  height: calc(100vh - var(--navbar-height));
+  overflow-y: scroll;
 `
 
 const Title = styled.div`
