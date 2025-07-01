@@ -1,9 +1,9 @@
+import i18n from '@renderer/i18n'
 import store from '@renderer/store'
 import { setGenerating } from '@renderer/store/runtime'
 import { Assistant, Message, Provider, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
 import dayjs from 'dayjs'
-import { t } from 'i18next'
 import { takeRight } from 'lodash'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam, ChatCompletionSystemMessageParam } from 'openai/resources/chat'
@@ -129,17 +129,17 @@ export async function checkApi(provider: Provider) {
   const style = { marginTop: '3vh' }
 
   if (!provider.apiKey) {
-    window.message.error({ content: t('message.error.enter.api.key'), key, style })
+    window.message.error({ content: i18n.t('message.error.enter.api.key'), key, style })
     return false
   }
 
   if (!provider.apiHost) {
-    window.message.error({ content: t('message.error.enter.api.host'), key, style })
+    window.message.error({ content: i18n.t('message.error.enter.api.host'), key, style })
     return false
   }
 
   if (!model) {
-    window.message.error({ content: t('message.error.enter.model'), key, style })
+    window.message.error({ content: i18n.t('message.error.enter.model'), key, style })
     return false
   }
 
@@ -163,7 +163,9 @@ export async function checkApi(provider: Provider) {
     key: 'api-check',
     style: { marginTop: '3vh' },
     duration: valid ? 2 : 8,
-    content: valid ? t('message.api.connection.successful') : t('message.api.connection.failed') + ' ' + errorMessage
+    content: valid
+      ? i18n.t('message.api.connection.successful')
+      : i18n.t('message.api.connection.failed') + ' ' + errorMessage
   })
 
   return valid

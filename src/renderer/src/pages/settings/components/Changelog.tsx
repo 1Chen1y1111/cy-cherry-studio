@@ -1,6 +1,6 @@
-import changelogEn from '@renderer/assets/changelog/CHANGELOG.en.md?raw'
-import changelogZh from '@renderer/assets/changelog/CHANGELOG.zh.md?raw'
 import styles from '@renderer/assets/styles/changelog.module.scss'
+import changelogEn from '@renderer/CHANGELOG.en.md?raw'
+import changelogZh from '@renderer/CHANGELOG.zh.md?raw'
 import i18n from '@renderer/i18n'
 import { FC } from 'react'
 import Markdown from 'react-markdown'
