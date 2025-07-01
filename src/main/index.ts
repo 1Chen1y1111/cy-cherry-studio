@@ -1,4 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import * as Sentry from '@sentry/electron/main'
 import { app, BrowserWindow, ipcMain, Menu, MenuItem, shell } from 'electron'
 import { installExtension, REDUX_DEVTOOLS } from 'electron-devtools-installer'
 import windowStateKeeper from 'electron-window-state'
@@ -110,3 +111,6 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+Sentry.init({
+  dsn: 'https://7acb55c9ae62ac2cea7b3746cdaa24e3@o4506517126643712.ingest.us.sentry.io/4509590843424768'
+})
