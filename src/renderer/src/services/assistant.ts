@@ -1,12 +1,11 @@
 import store from '@renderer/store'
 import { Assistant, Model, Provider, Topic } from '@renderer/types'
 import { uuid } from '@renderer/utils'
-import i18next from 'i18next'
 
 export function getDefaultTopic(): Topic {
   return {
     id: uuid(),
-    name: i18next.t('assistant.default.topic.name'),
+    name: 'Default Topic',
     messages: []
   }
 }
@@ -14,7 +13,7 @@ export function getDefaultTopic(): Topic {
 export function getDefaultAssistant(): Assistant {
   return {
     id: 'default',
-    name: i18next.t('assistant.default.name'),
+    name: 'Default Assistant',
     prompt: '',
     topics: [getDefaultTopic()]
   }
