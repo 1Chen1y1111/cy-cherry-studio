@@ -1,5 +1,11 @@
 # CHANGES LOG
 
+### v0.2.5 - 2025-07-2
+
+- 🆕 Baichuan AI Service Providers
+- 📢 New Intelligent Agent Page with Multiple Professional Assistants
+- 🌐 Multilingual Issue Fixes and Detailed Optimizations
+
 ### v0.2.4 - 2025-07-1
 
 - Fixed the issue of the update log page cannot be scrolled
