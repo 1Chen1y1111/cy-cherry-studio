@@ -81,7 +81,8 @@ const resources = {
         groq: 'Groq',
         ollama: 'Ollama',
         baichuan: 'Baichuan',
-        dashscope: 'DashScope'
+        dashscope: 'DashScope',
+        anthropic: 'Anthropic'
       },
       settings: {
         title: 'Settings',
@@ -201,7 +202,8 @@ const resources = {
         groq: 'Groq',
         ollama: 'Ollama',
         baichuan: '百川',
-        dashscope: '阿里云灵积'
+        dashscope: '阿里云灵积',
+        anthropic: 'Anthropic'
       },
       settings: {
         title: '设置',

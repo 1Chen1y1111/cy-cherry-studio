@@ -1,6 +1,7 @@
 import BaichuanModelLogo from '@renderer/assets/images/models/baichuan.png'
 import ChatGLMModelLogo from '@renderer/assets/images/models/chatglm.jpeg'
 import ChatGPTModelLogo from '@renderer/assets/images/models/chatgpt.jpeg'
+import ClaudeModelLogo from '@renderer/assets/images/models/claude.png'
 import DeepSeekModelLogo from '@renderer/assets/images/models/deepseek.png'
 import GemmaModelLogo from '@renderer/assets/images/models/gemma.jpeg'
 import LlamaModelLogo from '@renderer/assets/images/models/llama.jpeg'
@@ -8,6 +9,7 @@ import MicrosoftModelLogo from '@renderer/assets/images/models/microsoft.png'
 import MixtralModelLogo from '@renderer/assets/images/models/mixtral.jpeg'
 import QwenModelLogo from '@renderer/assets/images/models/qwen.jpeg'
 import YiModelLogo from '@renderer/assets/images/models/yi.svg'
+import AnthropicProviderLogo from '@renderer/assets/images/providers/anthropic.jpeg'
 import BaichuanProviderLogo from '@renderer/assets/images/providers/baichuan.png'
 import DashScopeProviderLogo from '@renderer/assets/images/providers/dashscope.png'
 import DeepSeekProviderLogo from '@renderer/assets/images/providers/deepseek.png'
@@ -45,6 +47,8 @@ export function getProviderLogo(providerId: string) {
       return BaichuanProviderLogo
     case 'dashscope':
       return DashScopeProviderLogo
+    case 'anthropic':
+      return AnthropicProviderLogo
     default:
       return undefined
   }
@@ -63,7 +67,8 @@ export function getModelLogo(modelId: string) {
     mistral: MixtralModelLogo,
     moonshot: MoonshotModelLogo,
     phi: MicrosoftModelLogo,
-    baichuan: BaichuanModelLogo
+    baichuan: BaichuanModelLogo,
+    claude: ClaudeModelLogo
   }
 
   for (const key in logoMap) {
@@ -161,6 +166,14 @@ export const PROVIDER_CONFIG = {
       official: 'https://ollama.com/',
       docs: 'https://github.com/ollama/ollama/tree/main/docs',
       models: 'https://ollama.com/library'
+    }
+  },
+  anthropic: {
+    websites: {
+      official: 'https://anthropic.com/',
+      apiKey: 'https://console.anthropic.com/settings/keys',
+      docs: 'https://docs.anthropic.com/en/docs',
+      models: 'https://docs.anthropic.com/en/docs/about-claude/models'
     }
   }
 }
