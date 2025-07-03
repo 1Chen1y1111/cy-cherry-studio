@@ -1,5 +1,10 @@
 # CHANGES LOG
 
+### v0.2.7 - 2025-07-3
+
+- 📢 Add DashScope Provider
+- 📢 Add Anthropic Provider
+
 ### v0.2.6 - 2025-07-2
 
 - 🆕 Fixed the issue of the BaiChuan API KEY not displaying when clicking to obtain the URL
