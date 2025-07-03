@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'cherry-studio',
   storage,
-  version: 10,
+  version: 11,
   blacklist: ['runtime'],
   migrate
 }

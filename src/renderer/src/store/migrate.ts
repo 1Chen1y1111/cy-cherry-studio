@@ -172,7 +172,28 @@ const migrate = createMigrate({
             name: 'BAICHUAN AI',
             apiKey: '',
             apiHost: 'https://api.baichuan-ai.com',
-            models: SYSTEM_MODELS.baichuan.filter((m) => m.defaultEnabled),
+            models: SYSTEM_MODELS.baichuan.filter((m) => m.enabled),
+            isSystem: true,
+            enabled: false
+          }
+        ]
+      }
+    }
+  },
+  // @ts-ignore store type is unknown
+  '11': (state: RootState) => {
+    return {
+      ...state,
+      llm: {
+        ...state.llm,
+        providers: [
+          ...state.llm.providers,
+          {
+            id: 'dashscope',
+            name: 'DashScope',
+            apiKey: '',
+            apiHost: 'https://dashscope.aliyuncs.com/compatible-mode/v1/',
+            models: SYSTEM_MODELS.dashscope.filter((m) => m.enabled),
             isSystem: true,
             enabled: false
           }
