@@ -21,7 +21,7 @@ const migrate = createMigrate({
             apiKey: '',
             apiHost: 'https://api.lingyiwanwu.com',
             isSystem: true,
-            models: SYSTEM_MODELS.yi.filter((m) => m.defaultEnabled)
+            models: SYSTEM_MODELS.yi.filter((m) => m.enabled)
           }
         ]
       }
@@ -41,7 +41,7 @@ const migrate = createMigrate({
             apiKey: '',
             apiHost: 'https://open.bigmodel.cn/api/paas/v4/',
             isSystem: true,
-            models: SYSTEM_MODELS.zhipu.filter((m) => m.defaultEnabled)
+            models: SYSTEM_MODELS.zhipu.filter((m) => m.enabled)
           }
         ]
       }
@@ -81,7 +81,7 @@ const migrate = createMigrate({
             apiKey: '',
             apiHost: 'https://api.moonshot.cn',
             isSystem: true,
-            models: SYSTEM_MODELS.moonshot.filter((m) => m.defaultEnabled)
+            models: SYSTEM_MODELS.moonshot.filter((m) => m.enabled)
           }
         ]
       }
@@ -100,7 +100,7 @@ const migrate = createMigrate({
             name: 'OpenRouter',
             apiKey: '',
             apiHost: 'https://openrouter.ai/api/v1/',
-            models: SYSTEM_MODELS.openrouter.filter((m) => m.defaultEnabled),
+            models: SYSTEM_MODELS.openrouter.filter((m) => m.enabled),
             isSystem: true
           }
         ]
@@ -152,7 +152,7 @@ const migrate = createMigrate({
         ...state.llm,
         providers: state.llm.providers.map((provider) => {
           if (provider.id === 'zhipu' && provider.models[0] && provider.models[0].id === 'llama3-70b-8192') {
-            provider.models = SYSTEM_MODELS.zhipu.filter((m) => m.defaultEnabled)
+            provider.models = SYSTEM_MODELS.zhipu.filter((m) => m.enabled)
           }
           return provider
         })
